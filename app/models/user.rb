@@ -5,5 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_and_belongs_to_many :roles
-  belongs_to :community, :polymorphic => true
+  belongs_to :community, :polymorphic => true, optional: true
 end

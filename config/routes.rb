@@ -5,5 +5,10 @@ Rails.application.routes.draw do
   # get 'users/index' => 'users#index'
   resources :users
 
-  root 'users#index'
+  devise_scope :user do
+    root to: 'devise/sessions#new'
+  end
+
+  # root 'users#index'
+  # root 'user#login'
 end
