@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: roles
+# Table name: departments
 #
 #  id         :integer          not null, primary key
 #  alias      :string
@@ -9,6 +9,6 @@
 #  updated_at :datetime         not null
 #
 
-class Role < ApplicationRecord
-  has_and_belongs_to_many :users
+class Department < ApplicationRecord
+  has_many :users, :as => :community
 end

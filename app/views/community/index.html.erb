@@ -1,0 +1,40 @@
+<div class="main_wrapper">
+  <div class="groups_wrapper communities_wrapper">
+    <div class="title_wrapper">
+      <h4 class="community_title">Groups</h4>
+    </div>
+
+    <%= link_to "Groups", groups_path %> <br/>
+
+    <%= link_to "Add group", new_group_path %> <br/>
+
+    <div>
+      <% @groups.each do |group| %>
+          <div class="community_item">
+            <%= group.title %>
+            <%= link_to 'Edit', edit_group_path(group) %>
+            <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="department_wrapper communities_wrapper">
+    <div class="title_wrapper">
+      <h4 class="community_title">Departments</h4>
+    </div>
+
+    <%= link_to "Departments", departments_path %> <br/>
+
+    <%= link_to "Add department", new_department_path %> <br/>
+
+    <div>
+      <% @departments.each do |department| %>
+          <div class="community_item">
+            <%= department.title %>
+            <%= link_to 'Edit', edit_department_path(department) %>
+            <%= link_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
