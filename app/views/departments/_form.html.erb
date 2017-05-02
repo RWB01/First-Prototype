@@ -1,0 +1,5 @@
+<%= form_for @department do |f| %>
+    <p>Title: <br/><%= f.text_field :title %></p>
+    <p>Alias: <br/><%= f.text_field :alias %></p>
+    <p><%= f.submit "Submit" %></p>
+<% end %>
