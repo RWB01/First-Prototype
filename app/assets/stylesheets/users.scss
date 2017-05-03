@@ -1,0 +1,28 @@
+.roles_wrapper {
+  display: inline-block;
+
+  .user_roles {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    width: 350px;
+  }
+
+  .unassigned_roles {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+    width: 350px;
+  }
+
+  .title {
+    text-align: center;
+    border-bottom: solid;
+    border-width: 2px;
+    background-color: #e6ffff;
+  }
+
+  a {
+    float: right;
+  }
+}

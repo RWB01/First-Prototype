@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422125420) do
+ActiveRecord::Schema.define(version: 20170503083406) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "alias"
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "disciplines", force: :cascade do |t|
+    t.string   "alias"
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_disciplines_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -31,13 +40,6 @@ ActiveRecord::Schema.define(version: 20170422125420) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "user_role_ref_tables", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
-    t.index ["role_id"], name: "index_user_role_ref_tables_on_role_id"
-    t.index ["user_id"], name: "index_user_role_ref_tables_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -58,6 +60,13 @@ ActiveRecord::Schema.define(version: 20170422125420) do
     t.index ["community_type", "community_id"], name: "index_users_on_community_type_and_community_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+    t.index ["role_id"], name: "index_users_roles_on_role_id"
+    t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
 end

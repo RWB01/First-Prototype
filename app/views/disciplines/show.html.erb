@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Alias:</strong>
+  <%= @discipline.alias %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @discipline.title %>
+</p>
+
+<%= link_to 'Edit', edit_discipline_path(@discipline) %> |
+<%= link_to 'Back', disciplines_path %>

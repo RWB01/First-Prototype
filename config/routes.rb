@@ -6,7 +6,14 @@ Rails.application.routes.draw do
 
   resources :dashboard
 
-  resources :users
+  resources :users do
+    get :add_role, on: :member
+    get :remove_role, on: :member
+  end
+
+  resources :roles
+
+  resources :disciplines
 
   resources :community
 
