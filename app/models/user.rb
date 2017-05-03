@@ -25,6 +25,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_and_belongs_to_many :roles
+  has_and_belongs_to_many :roles, :join_table => 'users_roles'
   belongs_to :community, :polymorphic => true, optional: true
+  has_many :disciplines
 end

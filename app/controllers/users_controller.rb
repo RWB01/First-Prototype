@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :add_role, :remove_role]
   # Helpful filter to access
   # before_filter :authenticate_user!, :except => [:show, :index]
   before_filter :authenticate_user!
@@ -13,6 +13,11 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    roles = Role.all
+    ids = @user.roles.map{|x| x.id}
+    filtered_roles = roles.reject{|x| ids.include? x.id}
+
+    render :show, :locals => {:roles => filtered_roles}
   end
 
   # GET /users/new
@@ -54,6 +59,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_role
+    if !(id = user_role_param).nil?
+      role = Role.find(id)
+      @user.roles << role
+    end
+    redirect_to action: :show, id: @user.id
+  end
+
+  def remove_role
+    if !(id = user_role_param).nil?
+      role = Role.find(id)
+      @user.roles.delete(role)
+    end
+    redirect_to action: :show, id: @user.id
+  end
+
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
@@ -73,5 +94,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.fetch(:user, {})
+    end
+
+    def user_role_param
+      params.fetch(:role, nil)
     end
 end

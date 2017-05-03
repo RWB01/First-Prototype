@@ -1,4 +1,31 @@
 <p id="notice"><%= notice %></p>
-
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+
+<div>
+  <div class="user_info">
+    <%= @user.email %>
+  </div>
+  <div class="roles_wrapper">
+    <div class="user_roles">
+      <h4 class="title">User's roles</h4>
+      <% @user.roles.each do |user_role| %>
+          <div class="role_item">
+            <%= user_role.title %>
+            <%= link_to 'Remove role', action: 'remove_role', role: user_role %>
+          </div>
+      <% end %>
+    </div>
+    <div class="unassigned_roles">
+      <h4 class="title">Unassigned roles</h4>
+      <% roles.each do |role| %>
+          <div class="role_item">
+            <%= role.title %>
+            <%= link_to 'Add role', action: 'add_role', role: role %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
