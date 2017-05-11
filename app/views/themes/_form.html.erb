@@ -1,0 +1,30 @@
+<%= form_for @theme, url: discipline_themes_path(@discipline) do |f| %>
+  <% if theme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(theme.errors.count, "error") %> prohibited this theme from being saved:</h2>
+
+      <ul>
+      <% theme.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.text_field :discipline_id, :type => "hidden" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+
+
