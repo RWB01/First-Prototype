@@ -16,6 +16,7 @@
       <tr>
         <td><%= discipline.alias %></td>
         <td><%= discipline.title %></td>
+        <td><%= link_to 'Themes', discipline_themes_path(discipline) %></td>
         <td><%= link_to 'Show', discipline %></td>
         <td><%= link_to 'Edit', edit_discipline_path(discipline) %></td>
         <td><%= link_to 'Destroy', discipline, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -27,3 +28,5 @@
 <br>
 
 <%= link_to 'New Discipline', new_discipline_path %>
+<br>
+<%= link_to 'Dashboard', dashboard_index_path %>
