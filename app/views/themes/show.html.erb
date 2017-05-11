@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @theme.title %>
+</p>
+
+<p>
+  <strong>Discipline:</strong>
+  <%= @theme.discipline.title %>
+</p>
+
+<%= link_to 'Edit', edit_theme_path(@theme) %> |
+<%= link_to 'Back', discipline_themes_path(@theme.discipline.id) %>

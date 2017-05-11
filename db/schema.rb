@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503083406) do
+ActiveRecord::Schema.define(version: 20170511132117) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "alias"
@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(version: 20170503083406) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "themes", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "discipline_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "alias"
+    t.index ["discipline_id"], name: "index_themes_on_discipline_id"
   end
 
   create_table "users", force: :cascade do |t|

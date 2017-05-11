@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Themes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Discipline</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @themes.each do |theme| %>
+      <tr>
+        <td><%= theme.title %></td>
+        <td><%= theme.discipline.title %></td>
+        <td><%= link_to 'Show', theme %></td>
+        <td><%= link_to 'Edit', edit_theme_path(theme) %></td>
+        <td><%= link_to 'Destroy', theme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Theme', new_discipline_theme_url %>
+<%= link_to 'Back', disciplines_path %>
