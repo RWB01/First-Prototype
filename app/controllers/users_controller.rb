@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :add_role, :remove_role]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :add_role, :remove_role, :add_discipline, :remove_discipline]
   # Helpful filter to access
   # before_filter :authenticate_user!, :except => [:show, :index]
   before_filter :authenticate_user!
@@ -17,7 +17,11 @@ class UsersController < ApplicationController
     ids = @user.roles.map{|x| x.id}
     filtered_roles = roles.reject{|x| ids.include? x.id}
 
-    render :show, :locals => {:roles => filtered_roles}
+    disciplines = Discipline.all
+    discipline_ids = @user.disciplines.map{|x| x.id}
+    filtered_disciplines = disciplines.reject{|x| discipline_ids.include? x.id}
+
+    render :show, :locals => {:roles => filtered_roles, :disciplines => filtered_disciplines}
   end
 
   # GET /users/new
@@ -75,6 +79,22 @@ class UsersController < ApplicationController
     redirect_to action: :show, id: @user.id
   end
 
+  def add_discipline
+    if !(id = user_discipline_param).nil?
+      discipline = Discipline.find(id)
+      @user.disciplines << discipline
+    end
+    redirect_to action: :show, id: @user.id
+  end
+
+  def remove_discipline
+    if !(id = user_discipline_param).nil?
+      discipline = Discipline.find(id)
+      @user.disciplines.delete(discipline)
+    end
+    redirect_to action: :show, id: @user.id
+  end
+
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
@@ -98,5 +118,9 @@ class UsersController < ApplicationController
 
     def user_role_param
       params.fetch(:role, nil)
+    end
+
+    def user_discipline_param
+      params.fetch(:discipline, nil)
     end
 end
