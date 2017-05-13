@@ -27,5 +27,6 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :roles, :join_table => 'users_roles'
   belongs_to :community, :polymorphic => true, optional: true
-  has_many :disciplines
+  has_and_belongs_to_many :disciplines, :join_table => 'disciplines_users'
+  
 end

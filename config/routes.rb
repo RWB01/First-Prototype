@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :users do
     get :add_role, on: :member
     get :remove_role, on: :member
+    get :add_discipline, on: :member
+    get :remove_discipline, on: :member
   end
 
   resources :roles

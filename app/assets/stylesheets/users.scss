@@ -26,3 +26,32 @@
     float: right;
   }
 }
+
+.disciplines_wrapper {
+  display: inline-block;
+
+  .user_disciplines {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    width: 350px;
+  }
+
+  .unassigned_disciplines {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+    width: 350px;
+  }
+
+  .title {
+    text-align: center;
+    border-bottom: solid;
+    border-width: 2px;
+    background-color: #e6ffff;
+  }
+
+  a {
+    float: right;
+  }
+}

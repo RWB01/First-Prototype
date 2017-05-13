@@ -28,4 +28,27 @@
   </div>
 </div>
 
+<div>
+  <div class="disciplines_wrapper">
+    <div class="user_disciplines">
+      <h4 class="title">User's disciplines</h4>
+      <% @user.disciplines.each do |user_discipline| %>
+          <div class="discipline_item">
+            <%= user_discipline.title %>
+            <%= link_to 'Remove discipline', action: 'remove_discipline', discipline: user_discipline %>
+          </div>
+      <% end %>
+    </div>
+    <div class="unassigned_disciplines">
+      <h4 class="title">Unassigned disciplines</h4>
+      <% disciplines.each do |discipline| %>
+          <div class="discipline_item">
+            <%= discipline.title %>
+            <%= link_to 'Add discipline', action: 'add_discipline', discipline: discipline %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 
