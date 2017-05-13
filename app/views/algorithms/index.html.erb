@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Algorithms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Theme</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @algorithms.each do |algorithm| %>
+      <tr>
+        <td><%= algorithm.title %></td>
+        <td><%= algorithm.description %></td>
+        <td><%= algorithm.theme.title %></td>
+        <td><%= link_to 'Show', algorithm %></td>
+        <td><%= link_to 'Edit', edit_algorithm_path(algorithm) %></td>
+        <td><%= link_to 'Destroy', algorithm, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Algorithm', new_theme_algorithm_path %>
+<%= link_to 'Back', discipline_themes_path(@theme.discipline) %>

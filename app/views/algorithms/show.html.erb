@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @algorithm.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @algorithm.description %>
+</p>
+
+<p>
+  <strong>Theme:</strong>
+  <%= @algorithm.theme.title %>
+</p>
+
+<%= link_to 'Edit', edit_algorithm_path(@algorithm) %> |
+<%= link_to 'Back', theme_algorithms_path(@algorithm.theme) %>
