@@ -1,3 +1,161 @@
 // Place all the styles related to the Algorithms controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: "Arial", sans-serif;
+    font-size: 10px;
+    color: black;
+}
+
+.header {
+    background-color: #34495e;   
+    padding: 10px;
+}
+
+.header-block {
+    height: 30px;
+    background-color:#c0392b;
+    padding-top: 5px;   
+    padding-left: 5px;
+}
+
+
+.layout-positioner {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.layout-positioner::after {
+    display: table;
+    content: "";
+    clear: both;
+}
+
+.menu {
+    background-color: #3498DB; 
+}
+
+.menu-block {
+    padding-top: 5px;
+    padding-left: 5px;
+    height: 30px;
+}
+
+.algorithm-edit {  
+    padding: 10px;
+}
+
+.algorithm-edit-column {
+    background-color: #3498DB;
+    padding: 5px;
+    min-height: 50px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.algorithm-text-column {
+    float:left;
+	display: table;
+	font-family: "Tahoma";
+	font-size: 14px;
+	vertical-align: middle;
+	width: 60%;
+	border-radius: 5px;
+}
+
+.algorithm-steps-column {
+    float:right;
+	width: 30%;
+	
+}
+
+.algorithm-text-row {
+	display: table-row;
+	height: 2em;
+	background-color: #edeef9;
+}
+
+.algorithm-text-row:nth-child(2n) {
+	background-color: #fdfbf2;
+}
+
+.algorithm-text-string-button {
+	display: table-cell;
+	width: 10%;
+	background: #c0392b;
+	
+	
+}
+
+.algorithm-text-string-number {
+	display: table-cell;
+
+	width: 4%;
+	text-align: center;
+	background-color: #dadaee;
+}
+
+.algorithm-text-string-data {
+	display: table-cell;
+
+	padding-top: 5px;
+	padding-left: 5px;
+	
+}
+
+
+
+
+
+
+.content {
+    padding: 10px;
+}
+
+.content-column {
+    padding-top: 5px;
+    padding-left: 5px;
+    background-color: #3498DB;
+    height: 105px;
+    margin-right: 10px;
+    width: 65px;
+}
+
+.content-column-1 {
+    float: left;
+}
+
+.content-column-2 {
+    float: left;
+    width: 185px;
+}
+
+.content-column-3 {
+    float: right;
+    margin-right: 0;
+}
+
+.footer {
+    background-color: #34495e;   
+
+}
+
+.footer-block {
+    padding-top: 5px;   
+    padding-left: 5px;
+    height: 30px;
+}
+
+/*
+    Èñïîëüçóåìûå öâåòà:
+    #34495e – ìîêðûé àñôàëüò
+    #c0392b – êðàñíûé
+    #3498DB – ñèíèé
+*/

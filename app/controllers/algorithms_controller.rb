@@ -11,6 +11,7 @@ class AlgorithmsController < ApplicationController
   # GET /algorithms/1
   # GET /algorithms/1.json
   def show
+    @code = @algorithm.code_contents.split("\n")
   end
 
   # GET /algorithms/new
