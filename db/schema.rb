@@ -10,14 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513035219) do
+ActiveRecord::Schema.define(version: 20170517104820) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
     t.integer  "theme_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "code_file_name"
+    t.string   "code_content_type"
+    t.integer  "code_file_size"
+    t.datetime "code_updated_at"
     t.index ["theme_id"], name: "index_algorithms_on_theme_id"
   end
 

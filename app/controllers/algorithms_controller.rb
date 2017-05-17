@@ -75,6 +75,6 @@ class AlgorithmsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def algorithm_params
-      params.require(:algorithm).permit(:title, :description, :theme_id)
+      params.require(:algorithm).permit(:title, :description, :theme_id, :code)
     end
 end
