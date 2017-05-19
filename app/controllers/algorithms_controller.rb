@@ -11,6 +11,7 @@ class AlgorithmsController < ApplicationController
   # GET /algorithms/1
   # GET /algorithms/1.json
   def show
+    @code = @algorithm.code_contents.split("\n")
   end
 
   # GET /algorithms/new
@@ -75,6 +76,6 @@ class AlgorithmsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def algorithm_params
-      params.require(:algorithm).permit(:title, :description, :theme_id)
+      params.require(:algorithm).permit(:title, :description, :theme_id, :code)
     end
 end

@@ -1,19 +1,61 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @algorithm.title %>
-</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @algorithm.description %>
-</p>
+<div class="header">
+    <div class="layout-positioner">
+        <div class="header-block">
+                <%= @algorithm.title %>
+        </div>
+    </div>
+</div>
+        
+<div class="menu">
+    <div class="layout-positioner">
+        <div class="menu-block">
+            Menu
+        </div>
+    </div>
+</div>
+        
+<div class="algorithm-edit">
+    <div class="layout-positioner">
+        <div class="algorithm-steps-column algorithm-edit-column">
+          <%= @algorithm.description %>
+        </div>
+        
+        <div class="algorithm-text-column algorithm-edit-column">
+        <% i=0 %>
+        <% @code.each do |code| %>
+          <div class="algorithm-text-row">
+            <div class="algorithm-text-string-button">
+            </div>
+            
+            <div class="algorithm-text-string-number">
+              <%= i=i+1 %> 
+            </div>
+            
+            <div class="algorithm-text-string-data">
+              <%= code %> 
+            </div>
+          </div> 
+        <% end %>
 
-<p>
-  <strong>Theme:</strong>
-  <%= @algorithm.theme.title %>
-</p>
+        </div>                             
+    </div>
+</div>
+        
+
+        
+        <div class="footer">
+            <div class="layout-positioner">
+                <div class="footer-block">
+                    Footer
+                </div>
+            </div>
+        </div>
+
+
+
 
 <%= link_to 'Edit', edit_algorithm_path(@algorithm) %> |
 <%= link_to 'Back', theme_algorithms_path(@algorithm.theme) %>
