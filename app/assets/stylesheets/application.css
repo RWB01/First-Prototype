@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+
+* {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.header {
+    height: 40px;
+    width: 100%;
+}
+
+.hmenu {
+    float: right;
+}

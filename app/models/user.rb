@@ -28,5 +28,16 @@ class User < ApplicationRecord
   has_and_belongs_to_many :roles, :join_table => 'users_roles'
   belongs_to :community, :polymorphic => true, optional: true
   has_and_belongs_to_many :disciplines, :join_table => 'disciplines_users'
+
+  def has_role(role_alias)
+    result = false
+    roles.each do |x|
+      if x.alias.to_sym == role_alias
+        result = true
+      end
+    end
+
+    return result
+  end
   
 end
