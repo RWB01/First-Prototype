@@ -1,3 +1,82 @@
 // Place all the styles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.dashboard_title_wrapper {
+  text-align: center;
+  font-size: 17px;
+  height: 60px;
+
+  .dashboard_title {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 20px;
+  }
+}
+
+.admin_wrapper {
+  margin: auto;
+  width: 1200px;
+  height: 1px;
+  min-height: 600px;
+  position: relative;
+
+  .widgets_wrapper {
+    position: absolute;
+    width: 900px;
+    top: 0;
+    margin-left: 250px;
+    border-left: solid;
+    border-right: solid;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #cac1c1;
+    height: 1px;
+    min-height: 600px;
+  }
+
+  .panel {
+    border-left: solid;
+    border-right: solid;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #cac1c1;
+    width: 230px;
+    height: 100%;
+  }
+
+  .panel_title_wrapper, .widgets_title_wrapper {
+    background-color: #d1e0e0;
+    padding-left: 6px;
+  }
+
+  .panel_title_wrapper {
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #cac1c1;
+    height: 40px;
+  }
+
+  .widgets_title_wrapper {
+    height: 41px;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #cac1c1;
+  }
+
+  .panel_title, .widgets_title {
+    font-size: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 12px;
+  }
+
+  .panel_items {
+    padding-left: 5px;
+    font-size: 18px;
+
+    .panel_item {
+      padding-top: 5px;
+    }
+  }
+}
