@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517104820) do
+ActiveRecord::Schema.define(version: 20170520132243) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(version: 20170517104820) do
     t.integer  "code_file_size"
     t.datetime "code_updated_at"
     t.index ["theme_id"], name: "index_algorithms_on_theme_id"
+  end
+
+  create_table "data_structures", force: :cascade do |t|
+    t.string   "alias"
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -92,6 +99,18 @@ ActiveRecord::Schema.define(version: 20170517104820) do
     t.integer "role_id"
     t.index ["role_id"], name: "index_users_roles_on_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
+  end
+
+  create_table "variables", force: :cascade do |t|
+    t.string   "alias"
+    t.string   "name"
+    t.string   "limitation"
+    t.integer  "algorithm_id"
+    t.integer  "data_structure_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["algorithm_id"], name: "index_variables_on_algorithm_id"
+    t.index ["data_structure_id"], name: "index_variables_on_data_structure_id"
   end
 
 end
