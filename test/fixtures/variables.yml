@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  alias: MyString
+  name: MyString
+  limitation: MyString
+  algorithm: one
+  data_structure: one
+
+two:
+  alias: MyString
+  name: MyString
+  limitation: MyString
+  algorithm: two
+  data_structure: two
