@@ -1,6 +1,12 @@
-<h1>Dashboard</h1>
+<div class="dashboard_title_wrapper">
+  <h1 class="dashboard_title">Dashboard</h1>
+</div>
 
-<%= link_to "Users", users_path %> <br/>
-<%= link_to "Communities", communities_path %> <br/>
-<%= link_to "Roles", roles_path %> <br/>
-<%= link_to "Disciplines", disciplines_path %> <br/>
+<% if current_user.roles.nil? || current_user.has_role(:STUDENT_ROLE) %>
+    <%= render 'student' %>
+<% elsif current_user.has_role(:PROFESSOR_ROLE)%>
+    <%= render 'admin' %>
+<% else %>
+    SOMETHING WENT WRONG
+<% end %>
+
