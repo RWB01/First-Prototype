@@ -1,3 +1,4 @@
 class DataStructure < ApplicationRecord
-	belongs_to :variable
+	has_many :variables
+	has_many :step_variables
 end

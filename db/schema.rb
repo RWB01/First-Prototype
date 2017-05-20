@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520142715) do
+ActiveRecord::Schema.define(version: 20170520143231) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -68,6 +68,17 @@ ActiveRecord::Schema.define(version: 20170520142715) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "step_variables", force: :cascade do |t|
+    t.string   "alias"
+    t.string   "name"
+    t.integer  "step_id"
+    t.integer  "data_structure_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["data_structure_id"], name: "index_step_variables_on_data_structure_id"
+    t.index ["step_id"], name: "index_step_variables_on_step_id"
   end
 
   create_table "steps", force: :cascade do |t|

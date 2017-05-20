@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  alias: MyString
+  name: MyString
+  step: one
+  data_structure: one
+
+two:
+  alias: MyString
+  name: MyString
+  step: two
+  data_structure: two
