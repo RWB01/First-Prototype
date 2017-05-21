@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520132243) do
+ActiveRecord::Schema.define(version: 20170521014713) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -58,11 +58,38 @@ ActiveRecord::Schema.define(version: 20170520132243) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "next_steps", id: false, force: :cascade do |t|
+    t.integer "step_id",      null: false
+    t.integer "next_step_id", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string   "alias"
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "step_variables", force: :cascade do |t|
+    t.string   "alias"
+    t.string   "name"
+    t.integer  "step_id"
+    t.integer  "data_structure_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "limitation"
+    t.index ["data_structure_id"], name: "index_step_variables_on_data_structure_id"
+    t.index ["step_id"], name: "index_step_variables_on_step_id"
+  end
+
+  create_table "steps", force: :cascade do |t|
+    t.integer  "line_number"
+    t.string   "description"
+    t.integer  "step_number"
+    t.integer  "algorithm_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["algorithm_id"], name: "index_steps_on_algorithm_id"
   end
 
   create_table "themes", force: :cascade do |t|
