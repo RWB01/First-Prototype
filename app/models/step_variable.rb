@@ -1,4 +1,4 @@
 class StepVariable < ApplicationRecord
   belongs_to :step
-  belongs_to :data_structure
+  belongs_to :variables
 end
