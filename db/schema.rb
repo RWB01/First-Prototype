@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170521014713) do
+ActiveRecord::Schema.define(version: 20170526085126) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -71,15 +71,12 @@ ActiveRecord::Schema.define(version: 20170521014713) do
   end
 
   create_table "step_variables", force: :cascade do |t|
-    t.string   "alias"
-    t.string   "name"
     t.integer  "step_id"
-    t.integer  "data_structure_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.string   "limitation"
-    t.index ["data_structure_id"], name: "index_step_variables_on_data_structure_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "variable_id"
     t.index ["step_id"], name: "index_step_variables_on_step_id"
+    t.index ["variable_id"], name: "index_step_variables_on_variable_id"
   end
 
   create_table "steps", force: :cascade do |t|
@@ -134,8 +131,9 @@ ActiveRecord::Schema.define(version: 20170521014713) do
     t.string   "limitation"
     t.integer  "algorithm_id"
     t.integer  "data_structure_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "is_input",          default: false
     t.index ["algorithm_id"], name: "index_variables_on_algorithm_id"
     t.index ["data_structure_id"], name: "index_variables_on_data_structure_id"
   end
