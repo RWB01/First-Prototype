@@ -11,7 +11,8 @@ class AlgorithmsController < ApplicationController
   # GET /algorithms/1
   # GET /algorithms/1.json
   def show
-    @code = @algorithm.code_contents.split("\n")
+    temp_code = @algorithm.code_contents.split("//end of variables descriptions")
+    @code = temp_code[-1].strip.split("\n")
   end
 
   # GET /algorithms/new
