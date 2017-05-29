@@ -21,6 +21,13 @@
     <div class="layout-positioner">
         <div class="algorithm-steps-column algorithm-edit-column">
           <%= @algorithm.description %>
+          <% @algorithm.variables.each do |variable| %>
+            </br>
+            <%= variable.alias %>
+            <%= variable.name %>
+            <%= variable.limitation %>
+            <%= variable.data_structure.alias %>
+          <% end %>
         </div>
         
         <div class="algorithm-text-column algorithm-edit-column">

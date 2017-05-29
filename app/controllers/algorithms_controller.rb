@@ -33,6 +33,21 @@ class AlgorithmsController < ApplicationController
     @theme = Theme.find(params[:theme_id])
     @algorithm = Algorithm.new(algorithm_params)
 
+    # Parsing variables in file
+    if @algorithm.save
+      temp_code = @algorithm.code_contents.split("//end of variables descriptions")
+      variables_descriptions = temp_code[0].strip.split("\n")
+      
+      variables_descriptions.each do |variable|
+        splitted_variable = variable.strip.split(%r{\s+})
+        search_word = splitted_variable[0].delete '/'
+        search_word = search_word.upcase
+        data_structure = DataStructure.find_by alias: search_word
+        new_variable = Variable.new(:alias => splitted_variable[1], :name => splitted_variable[1], :limitation => splitted_variable[2], :data_structure_id => data_structure.id, :algorithm_id => @algorithm.id)
+        new_variable.save
+      end
+    end
+
     respond_to do |format|
       if @algorithm.save
         format.html { redirect_to @algorithm, notice: 'Algorithm was successfully created.' }
