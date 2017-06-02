@@ -18,46 +18,66 @@
 </div>
         
 <div class="algorithm-edit">
-    <div class="layout-positioner">
-        <div class="algorithm-steps-column algorithm-edit-column">
-          <%= @algorithm.description %>
-          <% @algorithm.variables.each do |variable| %>
-            </br>
-            <%= variable.alias %>
-            <%= variable.name %>
-            <%= variable.limitation %>
-            <%= variable.data_structure.alias %>
-          <% end %>
-        </div>
-        
+    <div class="layout-positioner"> 
         <div class="algorithm-text-column algorithm-edit-column">
-        <% i=0 %>
-        <% @code.each do |code| %>
-          <div class="algorithm-text-row">
-            <div class="algorithm-text-string-button">
-            </div>
+            <% i=0 %>
+            <% @code.each do |code| %>
+                <div class="algorithm-text-row">
+                    <div class="algorithm-text-string-button" data-status="unchecked" id="step_button_<%= i=i+1 %>">
+                        Добавить шаг
+                    </div>
             
-            <div class="algorithm-text-string-number">
-              <%= i=i+1 %> 
-            </div>
+                    <div class="algorithm-text-string-number">
+                        <%= i %> 
+                    </div>
             
-            <div class="algorithm-text-string-data"><%= code %></div>
-          </div> 
-        <% end %>
+                <div class="algorithm-text-string-data"><%= code %></div>
+                </div> 
+            <% end %>
+        </div> 
 
-        </div>                             
+
+        <div class="algorithm-steps-column">
+            <div class ="algorithm-input-values algorithm-edit-column">
+              <%= @algorithm.description %>
+              <% @algorithm.variables.each do |variable| %>
+                </br>
+                <%= variable.alias %>
+                <%= variable.name %>
+                <%= variable.limitation %>
+                <%= variable.data_structure.alias %>
+              <% end %>
+              </br>Здесь будет форма для выбора входных данных алгоритма
+            </div>
+
+
+
+            <div class ="algorithm-steps-options algorithm-edit-column">
+              <%= @algorithm.description %>
+              <% @algorithm.variables.each do |variable| %>
+                </br>
+                <%= variable.alias %>
+                <%= variable.name %>
+                <%= variable.limitation %>
+                <%= variable.data_structure.alias %>
+              <% end %>
+              </br>Здесь будут формы для настройки шагов алгоритма
+            </div>
+        </div>
+
+
     </div>
 </div>
         
 
         
-        <div class="footer">
-            <div class="layout-positioner">
-                <div class="footer-block">
-                    Footer
-                </div>
-            </div>
+<div class="footer">
+    <div class="layout-positioner">
+        <div class="footer-block">
+            Footer
         </div>
+    </div>
+</div>
 
 
 

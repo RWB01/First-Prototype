@@ -13,6 +13,7 @@ class AlgorithmsController < ApplicationController
   def show
     temp_code = @algorithm.code_contents.split("//end of variables descriptions")
     @code = temp_code[-1].strip.split("\n")
+    gon.algorithm = @algorithm
   end
 
   # GET /algorithms/new
@@ -34,6 +35,7 @@ class AlgorithmsController < ApplicationController
     @algorithm = Algorithm.new(algorithm_params)
 
     # Parsing variables in file
+    # Should change it later to parse better to exclude errors
     if @algorithm.save
       temp_code = @algorithm.code_contents.split("//end of variables descriptions")
       variables_descriptions = temp_code[0].strip.split("\n")
