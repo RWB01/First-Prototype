@@ -13,7 +13,10 @@ class AlgorithmsController < ApplicationController
   def show
     temp_code = @algorithm.code_contents.split("//end of variables descriptions")
     @code = temp_code[-1].strip.split("\n")
+    @steps = @algorithm.steps
     gon.algorithm = @algorithm
+    gon.variables = @algorithm.variables
+    gon.steps = @algorithm.steps
   end
 
   # GET /algorithms/new

@@ -22,10 +22,25 @@
         <div class="algorithm-text-column algorithm-edit-column">
             <% i=0 %>
             <% @code.each do |code| %>
+                <% i=i+1 %>
                 <div class="algorithm-text-row">
-                    <div class="algorithm-text-string-button" data-status="unchecked" id="step_button_<%= i=i+1 %>">
-                        Добавить шаг
-                    </div>
+                    <% checked_step = false %>
+                    <% @steps.each do |step| %>
+                        <% if step.line_number == i%>
+                            <div class="algorithm-text-string-button" data-status="checked" id="step_button_<%= i %>" style="background-color:#3498DB;">
+                                Шаг <%= step.step_number %>
+                            </div>
+                            <% checked_step = true %>
+                            <% break %>
+                        <% end %>
+                    <% end %>
+
+                    <% if checked_step == false%>
+                        <div class="algorithm-text-string-button" data-status="unchecked" id="step_button_<%= i %>">
+                            Добавить шаг
+                        </div>
+                    <% end %>
+
             
                     <div class="algorithm-text-string-number">
                         <%= i %> 
@@ -39,29 +54,44 @@
 
         <div class="algorithm-steps-column">
             <div class ="algorithm-input-values algorithm-edit-column">
-              <%= @algorithm.description %>
-              <% @algorithm.variables.each do |variable| %>
-                </br>
-                <%= variable.alias %>
-                <%= variable.name %>
-                <%= variable.limitation %>
-                <%= variable.data_structure.alias %>
-              <% end %>
-              </br>Здесь будет форма для выбора входных данных алгоритма
+                <%= @algorithm.description %>
+                <div>
+                    Выберите входные данные алгоритма
+                </div>
+                <form action="#">
+                    <% @algorithm.variables.each do |variable| %> 
+                        <div>
+                            <input type="checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="variable.id"<% if variable.is_input == true %>checked<% end %>>
+                            <%= variable.alias %>
+                        </div>  
+                    <% end %>
+                </form>
             </div>
 
 
 
-            <div class ="algorithm-steps-options algorithm-edit-column">
-              <%= @algorithm.description %>
-              <% @algorithm.variables.each do |variable| %>
-                </br>
-                <%= variable.alias %>
-                <%= variable.name %>
-                <%= variable.limitation %>
-                <%= variable.data_structure.alias %>
-              <% end %>
-              </br>Здесь будут формы для настройки шагов алгоритма
+            <div class="algorithm-steps-options algorithm-edit-column">
+                <% @steps.each do |step| %>
+                    <div class="step">
+                        <div class="step_options_button" data-status="closed" id="step_options_button_<%= step.step_number %>">
+                            Шаг <%= step.step_number %>
+                        </div>
+                        <div class="step_options" id="step_options_<%= step.step_number %>">
+                            <form action="#">
+                                <% @algorithm.variables.each do |variable| %> 
+                                    <div>
+                                        <input type="checkbox" id="step_<%= step.step_number%>_variable_<%= variable.id %>" name="<%= variable.alias %>" value="variable.id">
+                                        <%= variable.alias %>
+                                        <% step.variables.each do |vr| %>
+                                            </br>
+                                            <%= vr.alias %>
+                                        <% end %>
+                                    </div>  
+                                <% end %>
+                            </form>
+                        </div>
+                    </div>
+                <% end %>
             </div>
         </div>
 
