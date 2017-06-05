@@ -56,13 +56,12 @@
             <div class ="algorithm-input-values algorithm-edit-column">
                 <%= @algorithm.description %>
                 <div>
-                    Выберите входные данные алгоритма
+                    Выберите входные данные алгоритма:
                 </div>
                 <form action="#">
                     <% @algorithm.variables.each do |variable| %> 
                         <div>
-                            <input type="checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="variable.id"<% if variable.is_input == true %>checked<% end %>>
-                            <%= variable.alias %>
+                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="variable.id"<% if variable.is_input == true %>checked<% end %>><%= variable.alias %></label>  
                         </div>  
                     <% end %>
                 </form>
@@ -72,22 +71,23 @@
 
             <div class="algorithm-steps-options algorithm-edit-column">
                 <% @steps.each do |step| %>
-                    <div class="step">
+                    <div class="step" id="step_<%= step.step_number %>">
                         <div class="step_options_button" data-status="closed" id="step_options_button_<%= step.step_number %>">
                             Шаг <%= step.step_number %>
                         </div>
                         <div class="step_options" id="step_options_<%= step.step_number %>">
-                            <form action="#">
+                            <form action="#" id="form_<%= step.step_number %>">
                                 <% @algorithm.variables.each do |variable| %> 
-                                    <div>
-                                        <input type="checkbox" id="step_<%= step.step_number%>_variable_<%= variable.id %>" name="<%= variable.alias %>" value="variable.id">
-                                        <%= variable.alias %>
-                                        <% step.variables.each do |vr| %>
-                                            </br>
-                                            <%= vr.alias %>
-                                        <% end %>
+                                    <div>      
+                                        <label><input type="checkbox" class="input_step_variables_checkbox" id="step_<%= step.step_number%>_variable_<%= variable.id %>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if step.variables.include? variable %> checked <% end %>><%= variable.alias %></label>
                                     </div>  
                                 <% end %>
+                                <label>Описание шага:<textarea  name="text" class="step_description" id="step_description_<%= step.step_number %>"><%= step.description %></textarea></label>
+                                
+                                <% @steps.each do |next_step| %>
+                                    <div class="next_step_checkbox_wrapper"><label><input type="checkbox" class="next_step_checkbox" id="next_step_<%= next_step.step_number%>" name="next_step" value="<%= next_step.step_number%>"<% if step.steps.include? next_step %> checked <% end %>> Шаг <%= next_step.step_number %></label></div>
+                                <% end %>
+
                             </form>
                         </div>
                     </div>
