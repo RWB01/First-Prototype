@@ -11,24 +11,32 @@ function addStepOptions(step_number){
 		str += "<label><input type=\"checkbox\" class=\"input_step_variables_checkbox\" id=\"step_" + step_number + "_variable_" + gon.variables[i].id + "\"" + "name=\"" + gon.variables[i].alias + "\"" + "value=\"" + gon.variables[i].id + "\">" + gon.variables[i].alias + "</label>";
 	}
 	str += "<label>Описание шага:<textarea  name=\"text\" class=\"step_description\" id=\"step_description_" + step_number + "\">" + "</textarea></label>";
+	str += "<div>Следующие шаги:</div>";
 	for (var i = 1; i < steps.length; i++){
 		if (steps[i] !== undefined && steps[i] !== 0){
-		str += "<div class=\"next_step_checkbox_wrapper\"><label><input type=\"checkbox\" class=\"next_step_checkbox\" id=\"next_step_" + steps[i] + "\" name=\"next_step\" value=\"" + steps[i] + "\"> Шаг " + steps[i]  + "</label></div>";
+		str += "<div class=\"next_step_checkbox_wrapper\"><label><input type=\"checkbox\" class=\"next_step_checkbox\" id=\"next_step_" + steps[i] + "\" name=\"next_step\" value=\"" + steps[i] + "\"><span class=\"next_step_span\">Шаг " + steps[i]  + "</span></label></div>";
 		}
 	}
 	str += "</form>";
 	str += "</div>";
 	str += "</div>" 
 	return str;
-};                    
+}; 
+
+function addNextStepToOptions(step_number){
+	str = "<div class=\"next_step_checkbox_wrapper\"><label><input type=\"checkbox\" class=\"next_step_checkbox\" id=\"next_step_" + step_number + "\" name=\"next_step\" value=\"" + step_number + "\"><span class=\"next_step_span\">Шаг " + step_number  + "</span></label></div>";
+	return str;
+};                
 
 document.addEventListener("turbolinks:load", function() {
 	$(document).ready(function(){
 		
-
-		for (var i = 0; i < gon.steps.length; i++) {
-			steps[gon.steps[i].line_number] = gon.steps[i].step_number;
+		if (gon.steps != undefined){
+			for (var i = 0; i < gon.steps.length; i++) {
+				steps[gon.steps[i].line_number] = gon.steps[i].step_number;
+			}
 		}
+
 
 		//функция вызывается при попытке добавить/удалить шаг
 		$(".algorithm-text-string-button").click(function(){
@@ -58,31 +66,31 @@ document.addEventListener("turbolinks:load", function() {
 	  				if (temp_step_line === i){
 
 	  					if (temp_current_step_number === 1){
-	  						$(".algorithm-steps-options").prepend(addStepOptions(temp_current_step_number));
 	  						added_step = temp_current_step_number;
 	  						console.log("added_step: " + added_step);
 	  					} else {
-	  						$("#step_" + (temp_current_step_number-1)).after(addStepOptions(temp_current_step_number));
 	  						added_step = temp_current_step_number;
 	  						console.log("added_step: " + added_step);
 	  					}
 	  				}
-
-
-					//steps[i] = temp_current_step_number;
 	  				$("#step_button_" + i).html("Шаг " + temp_current_step_number);
 	  				temp_current_step_number++;				
 	  			}
 	  			
 	  			if (steps[i] === 0){
-	  				//console.log("i: " + i);
-	  				//console.log("   steps[i]:" +steps[i]);
-	  				//console.log("   delete_step_line: " + delete_step_line);
-	  				//console.log("   delete_step_number: " + delete_step_number);
+	  				console.log("   delete_step_number: " + delete_step_number);
 	  				steps[i] = undefined;
 	  				$("#step_"+delete_step_number).remove();
 	  			}
 	  		}
+
+	  		if (added_step === 1){
+	  			$(".algorithm-steps-options").prepend(addStepOptions(added_step));
+	  		} else {
+	  			$("#step_" + (added_step-1)).after(addStepOptions(added_step));
+	  		}
+
+	  		console.log(steps);
 
 	  		var k = 1;
 	  		$(".step").each(function(){
@@ -93,44 +101,60 @@ document.addEventListener("turbolinks:load", function() {
 
 	  			//здесь проходимся по каждому чекбоксу следующего шага в шаге
 	  			var checked = [];
-	  			$(this).find(".next_step_checkbox_wrapper").each(function(){
-	  				if (delete_step_number !== 0){
-	  					//удаляем нужный чекбокс и нумеруем остальные по-порядку
-	  				}
-	  				if (delete_step_number === 0){
-	  					//если добавляем шаг, то добавляем ко всем шагам новые чекбоксы, правильно изменяя нумерацию
-	  				}
-	  			});
+	  			var temp_step_number = 1;
+	  			var is_deleted = false;
+	  			var is_added = false;
 
-	  			//           вооооооооооооооооооооооооооот                               ВОООООООООООТ ОТСЮДА ВОТ
-/*	  			var checked = [];
-	  			var z = 1;
-
-	  			$(this).find(".next_step_checkbox").each(function(){
-	  				if($(this).prop('checked')){
-	  					checked[z] = true;
-	  				} else {
-	  					checked[z] = false;
-	  				}
-	  				z++;
-	  			});
-
-	  			$(this).find(".next_step_checkbox_wrapper").remove();
-	  			for (var m = 1; m < steps.length; m++){
-	  				str = "";
-					if (steps[m] !== undefined && steps[m] !== 0){
-						str += "<div class=\"next_step_checkbox_wrapper\"><label><input type=\"checkbox\" class=\"next_step_checkbox\" id=\"next_step_" + steps[m] + "\" name=\"next_step\" value=\"" + steps[m] + "\"> Шаг " + steps[m]  + "</label></div>";
-					}
-					$(this).find("form").append(str);
-				}*/
-				//  ППППППППППППППППППООООООООООООООООООООООООООООООО СЮДА ВОТ ПОД ВОПРОСОМ ЭТО ВСЁ. Лучше попробовать appendить\удалять шаги по одному, изменяя при этом номера\id шагов
-	  			
+		  			$(this).find(".next_step_checkbox_wrapper").each(function(){
+		  				if (delete_step_number !== 0){
+		  					//удаляем нужный чекбокс и нумеруем остальные по-порядку
+		  					if (is_deleted === true){
+		  						//здесь начинаем от айдишников шагов отнимать единичку
+		  						$(this).find(".next_step_checkbox").prop("id", "next_step_" + (temp_step_number-1).toString());
+		  						$(this).find(".next_step_span").html("Шаг " + (temp_step_number-1).toString());
+		  						$(this).find(".next_step_checkbox").prop("value", (temp_step_number-1).toString());
+		  					} else {
+			  					if ($(this).find(".next_step_checkbox").prop("id") == "next_step_" + delete_step_number){
+			  						//если находим чекбокс с удаляемым шагом, то ремуваем
+			  						$(this).remove();
+			  						is_deleted = true;
+			  					}
+		  					}
+		  					temp_step_number++;
+		  				}
+		  				console.log(" k: " +  k + " added_step: " + added_step + " temp_step_number: "+ temp_step_number);
+		  				if ((delete_step_number === 0) && (k !==added_step)){
+		  					//console.log("Добавляем чекбокс " + (temp_step_number).toString() + " к шагу " + k);
+		  					//если добавляем шаг, то добавляем ко всем шагам новые чекбоксы, правильно изменяя нумерацию
+		  					if (is_added === true){
+		  						//console.log("is_added: true | temp_step_number: " +  temp_step_number);
+		  						$(this).find(".next_step_checkbox").prop("id", "next_step_" + (temp_step_number).toString());
+		  						$(this).find(".next_step_span").html("Шаг " + (temp_step_number).toString());
+		  						$(this).find(".next_step_checkbox").prop("value", (temp_step_number).toString());
+		  					} else {
+		  						if (added_step === temp_step_number){
+		  							//console.log(" k: " +  k + " added_step: " + added_step + " temp_step_number: "+ temp_step_number);
+		  							console.log("Добавляем чекбокс " + (added_step).toString() + " к шагу " + k);
+		  							$(this).before(addNextStepToOptions(added_step));
+		  							temp_step_number++;
+		  							is_added = true;
+		  							$(this).find(".next_step_checkbox").prop("id", "next_step_" + (temp_step_number).toString());
+			  						$(this).find(".next_step_span").html("Шаг " + (temp_step_number).toString());
+			  						$(this).find(".next_step_checkbox").prop("value", (temp_step_number).toString());
+		  						} else {
+		  							if (added_step === temp_step_number+1){
+			  							$(this).after(addNextStepToOptions(added_step));
+			  							temp_step_number++;
+			  							is_added = true;
+			  						}
+		  						}
+		  					}
+		  					temp_step_number++;
+		  				}
+		  			});
+	
 	  			k++;
 	  		});
-
-	  		//$(".next_step_checkbox").each(function(){
-
-	  		//});
 		});	
 
 		//функция вызывается при попытке свернуть/развернуть опции шага
@@ -150,14 +174,45 @@ document.addEventListener("turbolinks:load", function() {
 
 		//функция вызывается при нажатии чекбокса в поле выбора входных переменных алгоритма
 		$(".input_variables_checkbox").click(function(){
-			alert("ПОЧАЛОСЯ");
+			//alert("ПОЧАЛОСЯ");
 		});
 
 
 		//функция вызывается при нажатии чекбокса в поле выбора переменных шага
 		//работает И ДЛЯ динамически сгенерированных элементов
 		$(document).on('click','.input_step_variables_checkbox',function(){
-			alert("ПОЧАЛОСЯ в шаге");
+			//alert("ПОЧАЛОСЯ в шаге");
+		});
+
+		$("#submit_algorithm_button").click(function(){
+			var input_variables = [];
+			$(".input_variables_checkbox").each(function(){
+				var temp_input_variable = {};
+				temp_input_variable.id = parseInt($(this).prop("value"));
+				if ($(this).is(':checked')){
+					temp_input_variable.is_input = true;
+				} else {
+					temp_input_variable.is_input = false;
+				}
+				input_variables.push(temp_input_variable);
+			});
+			//alert(input_variables);
+			for (var i=0; i<input_variables.length;i++){
+				console.log(input_variables[i].id + "    " + input_variables[i].is_input);
+			}
+
+			var data = {
+				"input_variables": input_variables
+			};
+
+			$.ajax({
+		        "url": gon.algorithm.id + "/change_options", 
+		        "data": data,
+		        "success": function () {
+		            alert("Вроде сохранилось");
+		        },
+		        "type": 'post'
+		    });
 		});
 	});
 });

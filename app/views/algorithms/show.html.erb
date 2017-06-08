@@ -61,7 +61,7 @@
                 <form action="#">
                     <% @algorithm.variables.each do |variable| %> 
                         <div>
-                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="variable.id"<% if variable.is_input == true %>checked<% end %>><%= variable.alias %></label>  
+                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if variable.is_input == true %>checked<% end %>><%= variable.alias %></label>  
                         </div>  
                     <% end %>
                 </form>
@@ -83,9 +83,10 @@
                                     </div>  
                                 <% end %>
                                 <label>Описание шага:<textarea  name="text" class="step_description" id="step_description_<%= step.step_number %>"><%= step.description %></textarea></label>
+                                <div>Следующие шаги:</div>
                                 
                                 <% @steps.each do |next_step| %>
-                                    <div class="next_step_checkbox_wrapper"><label><input type="checkbox" class="next_step_checkbox" id="next_step_<%= next_step.step_number%>" name="next_step" value="<%= next_step.step_number%>"<% if step.steps.include? next_step %> checked <% end %>> Шаг <%= next_step.step_number %></label></div>
+                                    <div class="next_step_checkbox_wrapper"><label><input type="checkbox" class="next_step_checkbox" id="next_step_<%= next_step.step_number%>" name="next_step" value="<%= next_step.step_number%>"<% if step.steps.include? next_step %> checked <% end %>><span class="next_step_span">Шаг <%= next_step.step_number %></span></label></div>
                                 <% end %>
 
                             </form>
@@ -111,6 +112,6 @@
 
 
 
-
+<button id="submit_algorithm_button">Сохранить изменения</button>
 <%= link_to 'Edit', edit_algorithm_path(@algorithm) %> |
 <%= link_to 'Back', theme_algorithms_path(@algorithm.theme) %>

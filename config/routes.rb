@@ -25,6 +25,10 @@ Rails.application.routes.draw do
     resources :algorithms
   end
 
+  resources :algorithms do
+    post :change_options, on: :member
+  end
+
   resources :community
 
   resources :groups

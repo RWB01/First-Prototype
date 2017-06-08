@@ -1,5 +1,5 @@
 class AlgorithmsController < ApplicationController
-  before_action :set_algorithm, only: [:show, :edit, :update, :destroy]
+  before_action :set_algorithm, only: [:show, :edit, :update, :destroy, :change_options]
 
   # GET /algorithms
   # GET /algorithms.json
@@ -61,6 +61,17 @@ class AlgorithmsController < ApplicationController
         format.html { render :new }
         format.json { render json: @algorithm.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def change_options
+    #@algorithm.update_input_variables params.fetch(:input_variables)
+    @algorithm.update_input_variables params[:input_variables]
+
+    respond_to do |format|
+      format.html { redirect_to @algorithm, notice: 'Algorithm was successfully updated.' }
+      format.json 
+      format.js
     end
   end
 
