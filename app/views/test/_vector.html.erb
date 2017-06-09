@@ -1,0 +1,32 @@
+<div class="vector_type">
+
+  <h4>Vector, length: <%= vector_limitation[:columns] %></h4>
+  <p class="cell_characteristics">Min value of cell: <%= vector_limitation[:min_value] %></p>
+  <p class="cell_characteristics">Max value of cell: <%= vector_limitation[:max_value] %></p>
+
+  <!-- add row numbers-->
+  <% vector_limitation[:rows].times do |row| %>
+
+      <div class="vector_row">
+
+        <!-- add column numbers -->
+        <% vector_limitation[:columns].times do |column| %>
+
+            <div class="vector_column">
+
+              <input class="vector_cell" type="text" size="1"
+                     data-min-value="<%= vector_limitation[:min_value] %>"
+                     data-max-value="<%= vector_limitation[:max_value] %>"
+                     data-row="<%= row %>"
+                     data-column="<%= column %>"
+              >
+
+            </div>
+
+        <% end %>
+
+      </div>
+
+  <% end %>
+
+</div>

@@ -1,4 +1,7 @@
-$('.test_body').append("<%= @algorithm.title %>");
-$('.test_body').append("<%= current_step.id %>");
 
-$('input[value="First step"]').attr('value', 'Next step');
+  // $('.test_body').append("<%= @algorithm.title %>");
+  // $('.test_body').append("<%= current_step.id %>");
+
+$('.test_body').html("<%= escape_javascript render 'variables', :variables => current_step.variables %>");
+
+$('.paramsHolder').attr('value', 'Next step');

@@ -1,34 +1,50 @@
 class TestController < ApplicationController
 
+  before_action :set_algorithm, only: [:start, :step]
+
   def start
+
+    current_step = @algorithm.steps[0]
+
     respond_to do |format|
-        format.html { render :test }
+        #current_step nil because it's initial step
+        format.html { render :test, :locals => {:current_step => current_step }}
     end
+
   end
 
 
   def step
 
-    step_id = step_param
+    step_id = params[:step_id]
+
     current_step = nil
 
-    @algorithm = Algorithm.find(1)
     @algorithm.steps.each do |x|
+
       if x.id.equal? step_id.to_i
         current_step = x
         break
       end
+
     end
 
-    respond_to do |format|
-      format.js {render "step", :locals => {:current_step => current_step }}
+    if !current_step.nil?
+      respond_to do |format|
+        format.js {render :step, :locals => {:current_step => current_step }}
+      end
     end
+
   end
 
   private
 
-    def step_param
-      params.fetch(:step, nil)
+    def set_algorithm
+      @algorithm = Algorithm.find(params[:algorithm_id].to_i)
     end
+
+    # def step_params
+    #   params.fetch
+    # end
 
 end

@@ -1,5 +1,14 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :add_role, :remove_role, :add_discipline, :remove_discipline]
+  before_action :set_user, only: [
+      :show,
+      :edit,
+      :update,
+      :destroy,
+      :add_role,
+      :remove_role,
+      :add_discipline,
+      :remove_discipline
+  ]
   # Helpful filter to access
   # before_filter :authenticate_user!, :except => [:show, :index]
   before_filter :authenticate_user!

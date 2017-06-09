@@ -22,8 +22,13 @@
     height: 40px;
     width: 100%;
     background-color: #c4dcf5;
+
+    border-top-left-radius: 15px 10px;
+    border-top-right-radius: 15px 10px;
+
 }
 
 .hmenu {
     float: right;
+    padding-right: 15px;
 }
