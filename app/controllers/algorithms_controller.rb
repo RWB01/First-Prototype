@@ -1,5 +1,5 @@
 class AlgorithmsController < ApplicationController
-  before_action :set_algorithm, only: [:show, :edit, :update, :destroy]
+  before_action :set_algorithm, only: [:show, :edit, :update, :destroy, :change_options]
 
   # GET /algorithms
   # GET /algorithms.json
@@ -11,7 +11,12 @@ class AlgorithmsController < ApplicationController
   # GET /algorithms/1
   # GET /algorithms/1.json
   def show
-    @code = @algorithm.code_contents.split("\n")
+    temp_code = @algorithm.code_contents.split("//end of variables descriptions")
+    @code = temp_code[-1].strip.split("\n")
+    @steps = @algorithm.steps
+    gon.algorithm = @algorithm
+    gon.variables = @algorithm.variables
+    gon.steps = @algorithm.steps
   end
 
   # GET /algorithms/new
@@ -32,6 +37,22 @@ class AlgorithmsController < ApplicationController
     @theme = Theme.find(params[:theme_id])
     @algorithm = Algorithm.new(algorithm_params)
 
+    # Parsing variables in file
+    # Should change it later to parse better to exclude errors
+    if @algorithm.save
+      temp_code = @algorithm.code_contents.split("//end of variables descriptions")
+      variables_descriptions = temp_code[0].strip.split("\n")
+      
+      variables_descriptions.each do |variable|
+        splitted_variable = variable.strip.split(%r{\s+})
+        search_word = splitted_variable[0].delete '/'
+        search_word = search_word.upcase
+        data_structure = DataStructure.find_by alias: search_word
+        new_variable = Variable.new(:alias => splitted_variable[1], :name => splitted_variable[1], :limitation => splitted_variable[2], :data_structure_id => data_structure.id, :algorithm_id => @algorithm.id)
+        new_variable.save
+      end
+    end
+
     respond_to do |format|
       if @algorithm.save
         format.html { redirect_to @algorithm, notice: 'Algorithm was successfully created.' }
@@ -40,6 +61,17 @@ class AlgorithmsController < ApplicationController
         format.html { render :new }
         format.json { render json: @algorithm.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def change_options
+    #@algorithm.update_input_variables params.fetch(:input_variables)
+    @algorithm.update_input_variables params[:input_variables]
+    @algorithm.update_steps params[:steps]
+    respond_to do |format|
+      format.html { redirect_to @algorithm, notice: 'Algorithm was successfully updated.' }
+      format.json 
+      format.js
     end
   end
 

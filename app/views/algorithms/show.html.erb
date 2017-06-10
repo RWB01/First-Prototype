@@ -18,44 +18,100 @@
 </div>
         
 <div class="algorithm-edit">
-    <div class="layout-positioner">
-        <div class="algorithm-steps-column algorithm-edit-column">
-          <%= @algorithm.description %>
-        </div>
-        
+    <div class="layout-positioner"> 
         <div class="algorithm-text-column algorithm-edit-column">
-        <% i=0 %>
-        <% @code.each do |code| %>
-          <div class="algorithm-text-row">
-            <div class="algorithm-text-string-button">
-            </div>
-            
-            <div class="algorithm-text-string-number">
-              <%= i=i+1 %> 
-            </div>
-            
-            <div class="algorithm-text-string-data">
-              <%= code %> 
-            </div>
-          </div> 
-        <% end %>
+            <% i=0 %>
+            <% @code.each do |code| %>
+                <% i=i+1 %>
+                <div class="algorithm-text-row">
+                    <% checked_step = false %>
+                    <% @steps.each do |step| %>
+                        <% if step.line_number == i%>
+                            <div class="algorithm-text-string-button" data-status="checked" id="step_button_<%= i %>" style="background-color:#3498DB;">
+                                Шаг <%= step.step_number %>
+                            </div>
+                            <% checked_step = true %>
+                            <% break %>
+                        <% end %>
+                    <% end %>
 
-        </div>                             
+                    <% if checked_step == false%>
+                        <div class="algorithm-text-string-button" data-status="unchecked" id="step_button_<%= i %>">
+                            Добавить шаг
+                        </div>
+                    <% end %>
+
+            
+                    <div class="algorithm-text-string-number">
+                        <%= i %> 
+                    </div>
+            
+                <div class="algorithm-text-string-data"><%= code %></div>
+                </div> 
+            <% end %>
+        </div> 
+
+
+        <div class="algorithm-steps-column">
+            <div class ="algorithm-input-values algorithm-edit-column">
+                <%= @algorithm.description %>
+                <div>
+                    Выберите входные данные алгоритма:
+                </div>
+                <form action="#">
+                    <% @algorithm.variables.each do |variable| %> 
+                        <div>
+                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if variable.is_input == true %>checked<% end %>><%= variable.alias %></label>  
+                        </div>  
+                    <% end %>
+                </form>
+            </div>
+
+
+
+            <div class="algorithm-steps-options algorithm-edit-column">
+                <% @steps.each do |step| %>
+                    <div class="step" id="step_<%= step.step_number %>">
+                        <div class="step_options_button" data-status="closed" id="step_options_button_<%= step.step_number %>">
+                            Шаг <%= step.step_number %>
+                        </div>
+                        <div class="step_options" id="step_options_<%= step.step_number %>">
+                            <form action="#" id="form_<%= step.step_number %>">
+                                <% @algorithm.variables.each do |variable| %> 
+                                    <div>      
+                                        <label><input type="checkbox" class="input_step_variables_checkbox" id="step_<%= step.step_number%>_variable_<%= variable.id %>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if step.variables.include? variable %> checked <% end %>><%= variable.alias %></label>
+                                    </div>  
+                                <% end %>
+                                <label>Описание шага:<textarea  name="text" class="step_description" id="step_description_<%= step.step_number %>"><%= step.description %></textarea></label>
+                                <div>Следующие шаги:</div>
+                                
+                                <% @steps.each do |next_step| %>
+                                    <div class="next_step_checkbox_wrapper"><label><input type="checkbox" class="next_step_checkbox" id="next_step_<%= next_step.step_number%>" name="next_step" value="<%= next_step.step_number%>"<% if step.steps.include? next_step %> checked <% end %>><span class="next_step_span">Шаг <%= next_step.step_number %></span></label></div>
+                                <% end %>
+
+                            </form>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+
+
     </div>
 </div>
         
 
         
-        <div class="footer">
-            <div class="layout-positioner">
-                <div class="footer-block">
-                    Footer
-                </div>
-            </div>
+<div class="footer">
+    <div class="layout-positioner">
+        <div class="footer-block">
+            Footer
         </div>
+    </div>
+</div>
 
 
 
-
+<button id="submit_algorithm_button">Сохранить изменения</button>
 <%= link_to 'Edit', edit_algorithm_path(@algorithm) %> |
 <%= link_to 'Back', theme_algorithms_path(@algorithm.theme) %>
