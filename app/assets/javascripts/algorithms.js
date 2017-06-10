@@ -185,6 +185,7 @@ document.addEventListener("turbolinks:load", function() {
 		});
 
 		$("#submit_algorithm_button").click(function(){
+			//упаковываем входные переменные для отправки
 			var input_variables = [];
 			$(".input_variables_checkbox").each(function(){
 				var temp_input_variable = {};
@@ -196,13 +197,58 @@ document.addEventListener("turbolinks:load", function() {
 				}
 				input_variables.push(temp_input_variable);
 			});
-			//alert(input_variables);
 			for (var i=0; i<input_variables.length;i++){
 				console.log(input_variables[i].id + "    " + input_variables[i].is_input);
 			}
 
+			//упаковываем шаги для отправки
+			var steps_to_send = [];
+			$(".step").each(function(){
+				var temp_step = {};
+
+				//упаковываем номер шага
+				temp_step.step_number = parseInt($(this).prop("id").substring(5));
+
+				//упаковываем номер строки шага
+				for (var i = 1; i < steps.length; i++){
+					if (steps[i] == temp_step.step_number){ 
+						temp_step.step_line = i;
+						break;
+					}
+				}
+
+				//упаковываем АЙДИШНИКИ выходных данных шага
+				var temp_output_step_variable;
+				temp_step.step_variables = [];
+				$(this).find(".input_step_variables_checkbox").each(function(){
+					if ($(this).is(':checked')){
+						temp_output_step_variable = parseInt($(this).prop("value"));
+						temp_step.step_variables.push(temp_output_step_variable);
+					}
+				});
+
+				//упаковываем описание шага
+				temp_step.description = $(this).find(".step_description").val();
+
+				//упаковываем НОМЕРА следующих шагов шага
+				temp_step.next_steps = [];
+				var temp_next_step;
+				$(this).find(".next_step_checkbox").each(function(){
+					if ($(this).is(':checked')){
+						temp_next_step = parseInt($(this).prop("value"));
+						temp_step.next_steps.push(temp_next_step);
+					}
+				});
+
+
+				steps_to_send.push(temp_step);
+			});
+
+
+
 			var data = {
-				"input_variables": input_variables
+				"input_variables": input_variables,
+				"steps": steps_to_send
 			};
 
 			$.ajax({

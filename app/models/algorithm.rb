@@ -18,4 +18,32 @@ class Algorithm < ApplicationRecord
     end
   end
 
+  def update_steps steps
+    self.steps.each do |step|
+      step.destroy
+    end
+    if (!steps.nil?)
+      steps.each do |key, val|
+        temp_step = Step.new(:step_number => val[:step_number], :line_number => val[:step_line], :description => val[:description], :algorithm_id => self.id)
+        temp_step.save
+        if (!val[:step_variables].nil?)
+          val[:step_variables].each do |step_varialbe|
+            temp_variable = Variable.find(step_varialbe)
+            temp_step.variables << temp_variable;
+          end
+        end
+      end
+
+      steps.each do |key, val|
+        new_step = Step.find_by algorithm_id: self.id, step_number: val[:step_number]
+        if (!val[:next_steps].nil?)
+          val[:next_steps].each do |next_step_number|
+            temp_next_step = Step.find_by algorithm_id: self.id, step_number: next_step_number
+            new_step.steps << temp_next_step
+          end
+        end
+      end
+    end
+  end
+
 end

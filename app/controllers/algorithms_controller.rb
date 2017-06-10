@@ -67,7 +67,7 @@ class AlgorithmsController < ApplicationController
   def change_options
     #@algorithm.update_input_variables params.fetch(:input_variables)
     @algorithm.update_input_variables params[:input_variables]
-
+    @algorithm.update_steps params[:steps]
     respond_to do |format|
       format.html { redirect_to @algorithm, notice: 'Algorithm was successfully updated.' }
       format.json 
