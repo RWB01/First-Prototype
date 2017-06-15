@@ -75,6 +75,8 @@ class AlgorithmsController < ApplicationController
     end
   end
 
+
+
   # PATCH/PUT /algorithms/1
   # PATCH/PUT /algorithms/1.json
   def update
