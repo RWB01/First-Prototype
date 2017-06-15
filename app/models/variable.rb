@@ -46,6 +46,20 @@ class Variable < ApplicationRecord
 
   def get_string_limitation
    #   1x20-1x20
+
+    dimension, value_limitation = limitation.to_s.scan /\d+\w\d+/
+
+    min_length, max_length = dimension.scan /\d+/
+
+    min_value, max_value = value_limitation.scan /\d+/
+
+    {
+        :min_length => min_length.to_i,
+        :max_length => max_length.to_i,
+        :min_value => min_value.to_i,
+        :max_value => max_value.to_i
+    }
+
   end
 
   def get_number_limitation

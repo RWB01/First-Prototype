@@ -4,11 +4,9 @@ class TestController < ApplicationController
 
   def start
 
-    current_step = @algorithm.steps[0]
-
     respond_to do |format|
         #current_step nil because it's initial step
-        format.html { render :test, :locals => {:current_step => current_step }}
+        format.html { render :test, :locals => {:current_step => nil }}
     end
 
   end
@@ -31,10 +29,18 @@ class TestController < ApplicationController
 
     if !current_step.nil?
       respond_to do |format|
-        format.js {render :step, :locals => {:current_step => current_step }}
+        format.js { render :step, :locals => {:current_step => current_step }}
       end
+    else
+      redirect_to :result_test
     end
 
+  end
+
+  def result
+    respond_to do |format|
+      format.html { render :end }
+    end
   end
 
   private

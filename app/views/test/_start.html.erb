@@ -7,5 +7,5 @@
 
   </div>
 
-  <%= button_to 'First step', step_test_path, :data => {:step => current_step.id, :algorithm => @algorithm.id}, :method => :post, remote: true %>
+  <%= button_to 'First step', step_test_path, :data => {:step => current_step.nil? ? 0 : current_step.id, :algorithm => @algorithm.id}, :method => :post, remote: true %>
 </div>
