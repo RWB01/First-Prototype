@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @input_variable_value.value %>
+</p>
+
+<p>
+  <strong>Variable:</strong>
+  <%= @input_variable_value.variable %>
+</p>
+
+<%= link_to 'Edit', edit_input_variable_value_path(@input_variable_value) %> |
+<%= link_to 'Back', input_variable_values_path %>
