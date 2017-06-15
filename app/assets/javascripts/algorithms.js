@@ -30,13 +30,13 @@ function addNextStepToOptions(step_number){
 
 document.addEventListener("turbolinks:load", function() {
 	$(document).ready(function(){
-		
-		if (gon.steps != undefined){
-			for (var i = 0; i < gon.steps.length; i++) {
-				steps[gon.steps[i].line_number] = gon.steps[i].step_number;
+		if (gon!=undefined){
+			if (gon.steps != undefined){
+				for (var i = 0; i < gon.steps.length; i++) {
+					steps[gon.steps[i].line_number] = gon.steps[i].step_number;
+				}
 			}
 		}
-
 
 		//функция вызывается при попытке добавить/удалить шаг
 		$(".algorithm-text-string-button").click(function(){
