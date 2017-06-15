@@ -46,4 +46,19 @@ class Algorithm < ApplicationRecord
     end
   end
 
+  # @return [Step]
+  def get_initial_variables
+
+    initial_steps = Array.new
+
+    variables.each do |x|
+      if x.is_input
+        initial_steps.push x
+      end
+    end
+
+    return initial_steps
+
+  end
+
 end
