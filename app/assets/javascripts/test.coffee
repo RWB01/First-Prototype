@@ -17,6 +17,8 @@ $(document).on "turbolinks:load", ->
 
         param_bug[variable_id][$(this).data 'row'][$(this).data 'column'] = $(this).val()
 
+      return param_bug
+
     # end of function
 
     get_single_param =(number_el, param_bug, cell_class) ->
@@ -24,6 +26,8 @@ $(document).on "turbolinks:load", ->
       variable_id = number_el.data('variable-id')
 
       param_bug[variable_id] = number_el.find(cell_class).val()
+
+      return param_bug
 
     # end of function
 
@@ -62,22 +66,22 @@ $(document).on "turbolinks:load", ->
 #
 #      params_holder.data('step', next_step_id)
 
-      param_bag = []
+      param_bag = {}
 
       $('.step_variable').each ->
-        if $(this).hasClass('.matrix_type')
-          get_matrix_params($(this), param_bag, '.matrix_cell')
+        if $(this).hasClass('matrix_type')
+          param_bag = get_matrix_params($(this), param_bag, '.matrix_cell')
 
-        else if $(this).hasClass('.vector_type')
-          get_matrix_params($(this), param_bag, '.vector_cell')
+        else if $(this).hasClass('vector_type')
+          param_bag = get_matrix_params($(this), param_bag, '.vector_cell')
 
-        else if $(this).hasClass('.number_type')
-          get_single_param($(this), param_bag, '.number_cell')
+        else if $(this).hasClass('number_type')
+          param_bag = get_single_param($(this), param_bag, '.number_cell')
 
-        else if $(this).hasClass('.string_type')
-          get_string_params($(this), param_bag, '.string_cell')
+        else if $(this).hasClass('string_type')
+          param_bag = get_single_param($(this), param_bag, '.string_cell')
 
-      json_param_bug = JSON.stringify param_bag
+      json_param_bug = JSON.stringify(param_bag)
 
       params_holder = $('.paramsHolder')
 
@@ -91,6 +95,11 @@ $(document).on "turbolinks:load", ->
       params_holder.data('step', next_step_id)
 
     # end of function
+
+    get_json =(param_bug) ->
+
+
+    #need custom json_parse function
 
 
 
