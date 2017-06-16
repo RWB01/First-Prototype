@@ -27,5 +27,24 @@
 }
 
 .tests_list {
-	
+	display: table;
+}
+
+.test {
+	display: table-row;
+}
+
+.algorithm_title{
+	display:table-cell;
+	padding: 5px;
+}
+
+.input_variables {
+	display:table-cell;
+	padding: 5px;
+}
+
+.delete_button {
+	display:table-cell;
+	padding: 5px;
 }

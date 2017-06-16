@@ -16,6 +16,7 @@ class TestSessionsController < ApplicationController
   def new
     @test_session = TestSession.new
     @disciplines = Discipline.all #необходимо изменить так, чтобы искало только дисциплины преподавателя
+    @groups = Group.all
     #gon.themes = Theme.all #необходимо изменить так, чтобы искало только темы дисциплин преподавателя
     @algorithms = Algorithm.all #необходимо изменить так, чтобы искало только алгоритмы преподавателя
     gon.variables = Variable.all
