@@ -3,6 +3,13 @@
 	<form action="#" id="date_time_form">
 		<div>Дата проведения тестирования: <input type="date" name="test_date" id="test_date" min="2017-06-14"></div>
 		<div>Время, отведённое на тестирование(в минутах): <input type="number" name="test_time" id="test_time"></div>
+		<div>Выберите группу студентов: 
+			<select name="groups" id="group_select" >
+			<% @groups.each do |group|%>
+				<option value="<%= group.id %>"><%= group.title %></option>
+			<% end %>
+			</select>
+		</div>
 <!-- 		<div>Выберите дисциплину: <select name="disciplines" id="discipline_select" >
 			<option disabled selected value> -- select an option -- </option>
 			<% @disciplines.each do |discipline|%>
@@ -25,22 +32,26 @@
 			<div class="algorithm_name" id="algorithm_name_<%= algorithm.id %>" data-status="closed"><%= algorithm.title %>	</div>
 			<div class="algorithm_menu" id="algorithm_menu_<%= algorithm.id %>">
 				<div>Как будут заданы входные данные алгоритма:</div>
-				<div><input name="input_type_<%= algorithm.id %>" type="radio" value="manual" disabled > Ввести вручную</div>
-		    	<div><input name="input_type_<%= algorithm.id %>" type="radio" value="generate" checked> Сгенерировать </div>
-		    	<div><input name="input_type_<%= algorithm.id %>" type="radio" value="previous" disabled > Подобрать из существующих </div>	
+				<form id="variable_type_form_<%= algorithm.id %>">
+					<div><input name="input_type_<%= algorithm.id %>" type="radio" value="manual" disabled > Ввести вручную </div>
+			    	<div><input name="input_type_<%= algorithm.id %>" type="radio" value="generate" checked> Сгенерированы </div>
+			    	<div><input name="input_type_<%= algorithm.id %>" type="radio" value="previous" disabled > Подобрать из существующих </div>	
+		    	</form>
 		    	<div>
-					<button id="add_new_test_<%= algorithm.id %>">Добавить алгоритм</button>
+					<button class="add_new_test" id="add_new_test_<%= algorithm.id %>">Добавить алгоритм</button>
 				</div>	
 			</div>
 		</div>
 	<% end %>
 </div>
 
+
+<div>
+	Список тестов: 
+</div>
+
 <div class="tests_list">
-		<div>
-			Список тестов: 
-		</div>
-		
+
 </div>
 
 

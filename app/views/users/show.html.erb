@@ -52,4 +52,29 @@
   </div>
 <% end %>
 
+<% if @user.has_role(:STUDENT_ROLE) %>
+  <div>
+    <div class="group_wrapper">
+      <div class="user_group">
+        <h4 class="title">User's group</h4>
+          <% if !(student_group).nil? %>
+            <div class="group_item">
+              <%= student_group.title %>
+             <!--  <%= link_to 'Remove group', action: 'remove_group', group: student_group %> -->
+            </div>
+          <% end %>
+      </div>
+      <div class="unassigned_groups">
+        <h4 class="title">Unassigned disciplines</h4>
+        <% Group.all.each do |group| %>
+            <div class="group_item">
+              <%= group.title %>
+              <%= link_to 'Add group', action: 'add_group', group: group %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 
