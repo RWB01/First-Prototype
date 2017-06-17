@@ -1,0 +1,27 @@
+<% variables.each do |x| %>
+
+    <% if x.get_data_structure_type == :MATRIX %>
+
+        <%= render 'matrix', matrix: x %>
+
+    <% end %>
+
+    <% if x.get_data_structure_type == :VECTOR %>
+
+        <%= render 'vector', vector: x %>
+
+    <% end %>
+
+    <% if x.get_data_structure_type == :NUMBER %>
+
+        <%= render 'number', number: x %>
+
+    <% end %>
+
+    <% if x.get_data_structure_type == :STRING %>
+
+        <%= render 'string', string: x %>
+
+    <% end %>
+
+<% end %>

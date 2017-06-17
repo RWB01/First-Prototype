@@ -1,0 +1,11 @@
+<div>
+  This is the start page. The description of the algorithm should be there.
+
+  <div class="test_body">
+
+    <%= render 'variables', :variables => @algorithm.get_initial_variables %>
+
+  </div>
+
+  <%= button_to 'First step', step_test_path, :data => {:step => current_step.nil? ? 0 : current_step.id, :algorithm => @algorithm.id}, :method => :post, remote: true %>
+</div>

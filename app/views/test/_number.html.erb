@@ -1,0 +1,16 @@
+<% number_limitation = number.get_number_limitation %>
+
+<div class="number_type step_variable" data-variable-id="<%= number.id %>">
+
+  <h4>Number</h4>
+  <p class="cell_characteristics">Min value of cell: <%= number_limitation[:min_value] %></p>
+  <p class="cell_characteristics">Max value of cell: <%= number_limitation[:max_value] %></p>
+
+
+  <input class="number_cell input_cell" type="text" size="1"
+         data-min-value="<%= number_limitation[:min_value] %>"
+         data-max-value="<%= number_limitation[:max_value] %>"
+  >
+
+
+</div>

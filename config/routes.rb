@@ -35,6 +35,12 @@ Rails.application.routes.draw do
 
   resources :departments
 
+  controller 'test' do
+    get 'start/test' => :start
+    post 'step/test' => :step
+    get 'result/test' => :result
+  end
+
   get '/communities', :to => 'community#index'
 
   authenticated :user do
