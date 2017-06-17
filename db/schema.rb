@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615041540) do
+ActiveRecord::Schema.define(version: 20170617093657) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -58,17 +58,20 @@ ActiveRecord::Schema.define(version: 20170615041540) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "input_value_sets", force: :cascade do |t|
+    t.integer  "difficulty"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "input_variable_values", force: :cascade do |t|
     t.string   "value"
     t.integer  "variable_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "input_value_set_id"
+    t.index ["input_value_set_id"], name: "index_input_variable_values_on_input_value_set_id"
     t.index ["variable_id"], name: "index_input_variable_values_on_variable_id"
-  end
-
-  create_table "input_variable_values_tests", id: false, force: :cascade do |t|
-    t.integer "input_variable_value_id", null: false
-    t.integer "test_id",                 null: false
   end
 
   create_table "next_steps", id: false, force: :cascade do |t|
@@ -112,10 +115,14 @@ ActiveRecord::Schema.define(version: 20170615041540) do
   create_table "tests", force: :cascade do |t|
     t.integer  "test_session_id"
     t.integer  "algorithm_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "user_id"
+    t.integer  "input_value_set_id"
     t.index ["algorithm_id"], name: "index_tests_on_algorithm_id"
+    t.index ["input_value_set_id"], name: "index_tests_on_input_value_set_id"
     t.index ["test_session_id"], name: "index_tests_on_test_session_id"
+    t.index ["user_id"], name: "index_tests_on_user_id"
   end
 
   create_table "themes", force: :cascade do |t|
