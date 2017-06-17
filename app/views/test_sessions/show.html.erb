@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Test date:</strong>
+  <%= @test_session.test_date %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @test_session.time %>
+</p>
+
+<%= link_to 'Edit', edit_test_session_path(@test_session) %> |
+<%= link_to 'Back', test_sessions_path %>

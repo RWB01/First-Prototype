@@ -1,0 +1,27 @@
+<%= form_for(input_variable_value) do |f| %>
+  <% if input_variable_value.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(input_variable_value.errors.count, "error") %> prohibited this input_variable_value from being saved:</h2>
+
+      <ul>
+      <% input_variable_value.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :value %>
+    <%= f.text_field :value %>
+  </div>
+
+  <div class="field">
+    <%= f.label :variable_id %>
+    <%= f.text_field :variable_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

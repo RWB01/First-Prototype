@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
   
   
+  resources :input_variable_values
+  resources :tests
+  resources :test_sessions
   devise_for :users
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -13,6 +16,8 @@ Rails.application.routes.draw do
     get :remove_role, on: :member
     get :add_discipline, on: :member
     get :remove_discipline, on: :member
+    get :add_group, on: :member
+    get :remove_group, on: :member
   end
 
   resources :roles

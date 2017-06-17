@@ -38,6 +38,7 @@ document.addEventListener("turbolinks:load", function() {
 			}
 		}
 
+
 		//функция вызывается при попытке добавить/удалить шаг
 		$(".algorithm-text-string-button").click(function(){
 			var temp_step_line = 0;

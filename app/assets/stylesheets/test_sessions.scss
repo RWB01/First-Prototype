@@ -1,0 +1,50 @@
+// Place all the styles related to the TestSessions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.algorithms_list {
+
+}
+
+.algorithm {
+	padding-bottom: 10px;
+	width: 20%;
+}
+
+.algorithm_menu {
+	background-color: #ccdfff;
+	display: none;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+.algorithm_name {
+	background-color: #8cb8ff;
+	padding-top: 15px;
+	padding-left: 15px;
+	min-height: 40px;
+	border-radius: 10px;
+	border: 4px solid black;
+}
+
+.tests_list {
+	display: table;
+}
+
+.test {
+	display: table-row;
+}
+
+.algorithm_title{
+	display:table-cell;
+	padding: 5px;
+}
+
+.input_variables {
+	display:table-cell;
+	padding: 5px;
+}
+
+.delete_button {
+	display:table-cell;
+	padding: 5px;
+}

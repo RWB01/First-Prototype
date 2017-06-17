@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526085126) do
+ActiveRecord::Schema.define(version: 20170615041540) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -58,6 +58,19 @@ ActiveRecord::Schema.define(version: 20170526085126) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "input_variable_values", force: :cascade do |t|
+    t.string   "value"
+    t.integer  "variable_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["variable_id"], name: "index_input_variable_values_on_variable_id"
+  end
+
+  create_table "input_variable_values_tests", id: false, force: :cascade do |t|
+    t.integer "input_variable_value_id", null: false
+    t.integer "test_id",                 null: false
+  end
+
   create_table "next_steps", id: false, force: :cascade do |t|
     t.integer "step_id",      null: false
     t.integer "next_step_id", null: false
@@ -87,6 +100,22 @@ ActiveRecord::Schema.define(version: 20170526085126) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.index ["algorithm_id"], name: "index_steps_on_algorithm_id"
+  end
+
+  create_table "test_sessions", force: :cascade do |t|
+    t.date     "test_date"
+    t.integer  "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.integer  "test_session_id"
+    t.integer  "algorithm_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["algorithm_id"], name: "index_tests_on_algorithm_id"
+    t.index ["test_session_id"], name: "index_tests_on_test_session_id"
   end
 
   create_table "themes", force: :cascade do |t|
