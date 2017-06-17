@@ -15,6 +15,22 @@
   margin-bottom: 15px;
   margin-top: 15px;
 
+  .empty_value {
+    border-color: gray;
+  }
+
+  .incorrect_value {
+    border-color: red;
+  }
+
+  .valid_value {
+    border-color: blue;
+  }
+
+  .frozen_input {
+    background-color: #c7c7c7;
+  }
+
 
   .matrix_type {
 

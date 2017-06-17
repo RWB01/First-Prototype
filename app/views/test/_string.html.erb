@@ -3,17 +3,14 @@
 <div class="string_type step_variable" data-variable-id="<%= string.id %>">
 
   <h4>String</h4>
-  <p class="cell_characteristics">Min value of char: <%= string_limitation[:min_value] %></p>
-  <p class="cell_characteristics">Max value of char: <%= string_limitation[:max_value] %></p>
-
   <p class="cell_characteristics">Min length: <%= string_limitation[:min_length] %></p>
   <p class="cell_characteristics">Max length: <%= string_limitation[:max_length] %></p>
 
 
-  <input class="string_cell input_cell" type="text"
+  <input class="string_cell input_string_cell empty_value" type="text"
          size=""<%= string_limitation[:max_length] %>"
-         data-min-value="<%= string_limitation[:min_value] %>"
-         data-max-value="<%= string_limitation[:max_value] %>"
+         data-min-length="<%= string_limitation[:min_length] %>"
+         data-max-length="<%= string_limitation[:max_length] %>"
   >
 
 
