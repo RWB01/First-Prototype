@@ -96,11 +96,6 @@ $(document).on "turbolinks:load", ->
 
     # end of function
 
-    get_json =(param_bug) ->
-
-
-    #need custom json_parse function
-
 
 
 

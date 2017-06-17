@@ -20,7 +20,7 @@ class TestController < ApplicationController
 
     @algorithm.steps.each do |x|
 
-      if x.id.equal? step_id.to_i
+      if x.step_number.equal? step_id.to_i
         current_step = x
         break
       end
