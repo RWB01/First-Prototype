@@ -1,50 +1,86 @@
 // Place all the styles related to the TestSessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.algorithms_list {
 
+.discipline_list {
+	
 }
 
-.algorithm {
+.discipline {
 	padding-bottom: 10px;
 	width: 20%;
 }
 
-.algorithm_menu {
+.discipline_menu {
 	background-color: #ccdfff;
 	display: none;
 	border: 1px solid black;
 	border-radius: 10px;
 }
 
-.algorithm_name {
+.discipline_name {
+	background-color: #0057e5;
+	padding-top: 15px;
+	padding-left: 15px;
+	min-height: 40px;
+	border-radius: 10px;
+	border: 1px solid black;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	color: rgb(255, 255, 255);
+}
+
+.discipline_title{
+	display:table-cell;
+	padding: 5px;
+}
+
+.theme {
+	padding-bottom: 10px;
+	margin-right: -100px;
+}
+
+.theme_list {
+	margin-top: 10px;
+	margin-left: 100px;
+	display: none;
+}
+
+.theme_name {
 	background-color: #8cb8ff;
 	padding-top: 15px;
 	padding-left: 15px;
 	min-height: 40px;
 	border-radius: 10px;
-	border: 4px solid black;
+	border: 1px solid black;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.tests_list {
-	display: table;
+.algorithm_list {
+	margin-top: 10px;
+	margin-left: 100px;
+	display: none;
 }
 
-.test {
-	display: table-row;
+.algorithm {
+	padding-bottom: 10px;
+	margin-right: -100px;
 }
 
-.algorithm_title{
-	display:table-cell;
-	padding: 5px;
+.algorithm_name {
+	background-color: #a2f2f2;
+	padding-top: 15px;
+	padding-left: 15px;
+	min-height: 40px;
+	border-radius: 10px;
+	border: 1px solid black;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.input_variables {
-	display:table-cell;
-	padding: 5px;
+.algorithm_menu {
+	
 }
 
-.delete_button {
-	display:table-cell;
-	padding: 5px;
+.no_elements {
+	margin-left: -100px;
+	margin-right: 0px;
 }

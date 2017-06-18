@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :input_variable_values
   resources :tests
   resources :test_sessions
+
+
+
   devise_for :users
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -44,6 +47,10 @@ Rails.application.routes.draw do
     get 'start/test' => :start
     post 'step/test' => :step
     get 'result/test' => :result
+  end
+
+  controller 'test_sessions' do
+    get 'test_sessions/add_one_algorithm' => :add_one_algorithm
   end
 
   get '/communities', :to => 'community#index'

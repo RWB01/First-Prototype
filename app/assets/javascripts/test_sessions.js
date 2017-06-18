@@ -10,15 +10,28 @@ function addTest(algorithm_name, input_variables){
 
 document.addEventListener("turbolinks:load", function() {
 	$(document).ready(function(){
-		$(document).on('click','.algorithm_name',function(){
+		$(document).on('click','.discipline_name',function(){
 			if ($(this).data("status") === "closed"){
-
-				$(".algorithm_menu").hide(500);
-				$(".algorithm_name").data("status","closed");
-				var temp_algorithm_id = this.id.substring(15); //20 = длина step_options_button_
-
+				$(".theme_list").hide(500);
+				$(".algorithm_list").hide(500);
+				$(".discipline_name").data("status","closed");
+				$(this).parent().find(".theme_list").show(500);
 				$(this).data("status","opened");
-				$("#algorithm_menu_" + temp_algorithm_id).show(500);
+			} else {
+				$(this).parent().find(".theme_list").hide(500);
+				$(this).data("status","closed");
+			}
+		});
+
+		$(document).on('click','.theme_name',function(){
+			if ($(this).data("status") === "closed"){
+				$(".algorithm_list").hide(500);
+				$(".theme_name").data("status","closed");
+				$(this).parent().find(".algorithm_list").show(500);
+				$(this).data("status","opened");
+			} else {
+				$(this).parent().find(".algorithm_list").hide(500);
+				$(this).data("status","closed");
 			}
 		});
 
@@ -26,14 +39,14 @@ document.addEventListener("turbolinks:load", function() {
 
 		});
 
-		$(document).on('click','.add_new_test', function(){
-			name = $("#algorithm_name_"+this.id.substring(13)).html();
-			variable = $("input[name=input_type_" + this.id.substring(13) + "]:checked", '#variable_type_form_' + this.id.substring(13)).val(); 
-			$(".tests_list").append(addTest(name,variable));
-		});
+		//$(document).on('click','.add_new_test', function(){
+		//	name = $("#algorithm_name_"+this.id.substring(13)).html();
+		//	variable = $("input[name=input_type_" + this.id.substring(13) + "]:checked", '#variable_type_form_' + this.id.substring(13)).val(); 
+		//	$(".tests_list").append(addTest(name,variable));
+		//});
 
-		$(document).on('click','.delete_test',function(){
-			$(this).parent().parent().remove();
-		});
+		//$(document).on('click','.delete_test',function(){
+		//	$(this).parent().parent().remove();
+		//});
 	});
 });

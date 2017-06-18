@@ -3,6 +3,7 @@ class Algorithm < ApplicationRecord
   has_many :variables
   has_many :steps
   has_many :tests
+  has_many :input_value_sets
   has_attached_file :code
   validates_attachment :code, presence: true,
   content_type: { content_type: ["text/plain", "application/octet-stream", "text/x-java-source"] }
@@ -16,6 +17,7 @@ class Algorithm < ApplicationRecord
     input_variables.each do |key, val|
       temp_variable = Variable.find(val[:id])
       temp_variable.update_attribute(:is_input, val[:is_input])
+      temp_variable.update_attribute(:description, val[:description])
     end
   end
 

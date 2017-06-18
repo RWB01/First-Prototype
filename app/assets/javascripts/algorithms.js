@@ -196,10 +196,11 @@ document.addEventListener("turbolinks:load", function() {
 				} else {
 					temp_input_variable.is_input = false;
 				}
+				temp_input_variable.description = $(this).parent().parent().find(".input_variables_description").val();
 				input_variables.push(temp_input_variable);
 			});
 			for (var i=0; i<input_variables.length;i++){
-				console.log(input_variables[i].id + "    " + input_variables[i].is_input);
+				console.log(input_variables[i].id + "    " + input_variables[i].description +  "   " + input_variables[i].is_input);
 			}
 
 			//упаковываем шаги для отправки
