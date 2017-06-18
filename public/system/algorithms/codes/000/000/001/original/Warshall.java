@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class Warshall {
     private static final int INF = 1000 * 1000 * 1000;
     public static void main(String[] args) {
-        Solution solution = new Warshall();
+        Warshall solution = new Warshall();
         solution.solve();
     }
     private void solve() {

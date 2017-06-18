@@ -9,6 +9,19 @@ class TestController < ApplicationController
         format.html { render :test, :locals => {:current_step => nil }}
     end
 
+    logger.debug @algorithm.code.path
+
+    if !File.file?(@algorithm.code.path)
+      system("javac #{@algorithm.code.path}")
+    end
+
+    class_name = @algorithm.code.name.gsub '.java', ''
+    class_file_path = @algorithm.code.path.gsub @algorithm.code.name, ''
+
+    output
+
+    system("java -cp #{class_file_path} #{class_name}")
+
   end
 
 
