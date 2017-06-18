@@ -33,69 +33,82 @@ $(document).on "turbolinks:load", ->
 
     $('input[value="First step"]').addClass('paramsHolder')
 
-  # need to correct class for all cells
-    $('.input_cell').bind 'input', () ->
-      min = $(this).data 'min-value'
-      max = $(this).data 'max-value'
+    $('.test_body').find('.button_to').bind 'click', () ->
 
-      if ($(this).val() < min || $(this).val() > max)
-        if $(this).val() != ''
-          $(this).css('background-color', 'red')
+      if $('.empty_value').length == 0
+
+        param_bag = {}
+
+        $('.step_variable').each ->
+          if $(this).hasClass('matrix_type')
+            param_bag = get_matrix_params($(this), param_bag, '.matrix_cell')
+
+          else if $(this).hasClass('vector_type')
+            param_bag = get_matrix_params($(this), param_bag, '.vector_cell')
+
+          else if $(this).hasClass('number_type')
+            param_bag = get_single_param($(this), param_bag, '.number_cell')
+
+          else if $(this).hasClass('string_type')
+            param_bag = get_single_param($(this), param_bag, '.string_cell')
+
+        json_param_bug = JSON.stringify(param_bag)
+
+        params_holder = $('.paramsHolder')
+
+        # may be that logick should be in the test_controller?
+        next_step_id = params_holder.data('step') + 1
+
+        action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
+
+        $(this).attr('action', action_string)
+
+        params_holder.data('step', next_step_id)
+
       else
-        $(this).css('background-color', '')
+
+        $('.paramsHolder').prop 'disabled', true
 
     # end of function
 
-    $('.button_to').bind 'click', () ->
+  # TODO: Fix DRY!
+  $(document).on 'input', '.input_cell', () ->
 
-#      list = []
-#      $('.matrix_cell').each ->
-#        if list[$(this).data 'row'] == undefined
-#          list[$(this).data 'row'] = [];
-#        list[$(this).data 'row'][$(this).data 'column'] = $(this).val()
-#
-#      json_list = JSON.stringify list
-#
-#      params_holder = $('.paramsHolder')
-#
-#      next_step_id = params_holder.data('step') + 1
-#
-#      action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&matrix=' + json_list
-#
-#      $(this).attr('action', action_string)
-#
-#      params_holder.data('step', next_step_id)
+    min = $(this).data 'min-value'
+    max = $(this).data 'max-value'
 
-      param_bag = {}
-
-      $('.step_variable').each ->
-        if $(this).hasClass('matrix_type')
-          param_bag = get_matrix_params($(this), param_bag, '.matrix_cell')
-
-        else if $(this).hasClass('vector_type')
-          param_bag = get_matrix_params($(this), param_bag, '.vector_cell')
-
-        else if $(this).hasClass('number_type')
-          param_bag = get_single_param($(this), param_bag, '.number_cell')
-
-        else if $(this).hasClass('string_type')
-          param_bag = get_single_param($(this), param_bag, '.string_cell')
-
-      json_param_bug = JSON.stringify(param_bag)
-
-      params_holder = $('.paramsHolder')
-
-      # may be that logick should be in the test_controller?
-      next_step_id = params_holder.data('step') + 1
-
-      action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
-
-      $(this).attr('action', action_string)
-
-      params_holder.data('step', next_step_id)
-
-    # end of function
+    if ($(this).val() < min || $(this).val() > max)
+      if $(this).val() != ''
+        $(this).addClass('incorrect_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+      else
+        $(this).addClass('empty_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+    else
+      $(this).removeClass('incorrect_value empty_value').addClass('valid_value')
+      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
+        $('.paramsHolder').prop 'disabled', false
 
 
+  # end of function
 
+  $(document).on 'input', '.input_string_cell', () ->
 
+    min_length = $(this).data 'min-length'
+    max_length = $(this).data 'max-length'
+
+    value = $(this).val()
+
+    if (value.length < min_length || value.length > max_length)
+      if $(this).val() != ''
+        $(this).addClass('incorrect_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+      else
+        $(this).addClass('empty_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+    else
+      $(this).removeClass('incorrect_value empty_value').addClass('valid_value')
+      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
+        $('.paramsHolder').prop 'disabled', false
+
+  # end of function

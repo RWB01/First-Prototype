@@ -1,7 +1,17 @@
 
-  // $('.test_body').append("<%= @algorithm.title %>");
-  // $('.test_body').append("<%= current_step.id %>");
 
-$('.test_body').html("<%= escape_javascript render 'variables', :variables => current_step.variables %>");
+test_body = $('.test_body');
+
+test_body.find('.step_variable').each(function () {
+    $(this).removeClass('step_variable').addClass('step_finished');
+    $(this).find(':input').each(function () {
+        $(this).prop('disabled', true).addClass('frozen_input');
+    })
+});
+
+test_body.find('.unfinished').removeClass('unfinished').addClass('finished').append('Done!');
+
+test_body.append("<%= escape_javascript render 'step_title', :step_number => current_step.step_number %>");
+test_body.append("<%= escape_javascript render 'variables', :variables => current_step.variables %>");
 
 $('.paramsHolder').attr('value', 'Next step');
