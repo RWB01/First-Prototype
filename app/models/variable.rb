@@ -10,7 +10,7 @@ class Variable < ApplicationRecord
 
   def get_matrix_limitation
 
-    dimension, value_limitation = limitation.to_s.scan /\d+\w\d+/
+    dimension, value_limitation = limitation.to_s.scan /\d+.\d+/
 
     rows, columns = dimension.scan /\d+/
 
@@ -29,7 +29,7 @@ class Variable < ApplicationRecord
 
   def get_vector_limitation
 
-     dimension, value_limitation = limitation.to_s.scan /\d+\w\d+/
+     dimension, value_limitation = limitation.to_s.scan /\d+.\d+/
 
      rows, columns = dimension.scan /\d+/
 

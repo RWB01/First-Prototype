@@ -33,7 +33,7 @@ $(document).on "turbolinks:load", ->
 
     $('input[value="First step"]').addClass('paramsHolder')
 
-    $('.test_body').find('.button_to').bind 'click', () ->
+    $('.test_process_wrapper').find('.button_to').bind 'click', () ->
 
       if $('.empty_value').length == 0
 
