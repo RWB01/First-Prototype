@@ -1,5 +1,8 @@
 <h1>Назначение сеанса тестирования</h1>
 <div>
+	<div>
+		Тип данного сеанса тестирования простой. Его основное назначение - тестирование группы студентов на одном алгоритме, который они только что изучили.
+	</div>
 	<form action="#" id="date_time_form">
 		<div>Дата проведения тестирования: <input type="date" name="test_date" id="test_date" min="2017-06-14"></div>
 		<div>Время, отведённое на тестирование(в минутах): <input type="number" name="test_time" id="test_time"></div>
@@ -23,34 +26,52 @@
 
 
 <div>
-	Выберите алгоритм, чтобы добавить его в тест:
+	Выберите дисциплину:
 </div>
 
-<div class="algorithms_list">
-	<% @algorithms.each do |algorithm| %>
-		<div class="algorithm" id="algorithm_<%= algorithm.id %>">
-			<div class="algorithm_name" id="algorithm_name_<%= algorithm.id %>" data-status="closed"><%= algorithm.title %>	</div>
-			<div class="algorithm_menu" id="algorithm_menu_<%= algorithm.id %>">
-				<div>Как будут заданы входные данные алгоритма:</div>
-				<form id="variable_type_form_<%= algorithm.id %>">
-					<div><input name="input_type_<%= algorithm.id %>" type="radio" value="manual" disabled > Ввести вручную </div>
-			    	<div><input name="input_type_<%= algorithm.id %>" type="radio" value="generate" checked> Сгенерированы </div>
-			    	<div><input name="input_type_<%= algorithm.id %>" type="radio" value="previous" disabled > Подобрать из существующих </div>	
-		    	</form>
-		    	<div>
-					<button class="add_new_test" id="add_new_test_<%= algorithm.id %>">Добавить алгоритм</button>
-				</div>	
+<div class="discipline_list">
+	<% @disciplines.each do |discipline| %>
+		<div class="discipline" id="discipline_<%= discipline.id %>">
+			<div class="discipline_name" id="discipline_name_<%= discipline.id %>" data-status="closed"><%= discipline.title %>	</div>
+			<div class="theme_list">
+				<% if discipline.themes.empty? %>
+					<div class="no_elements">Данная дисциплина не содержит тем.</div>
+				<% else %>
+					<div>
+						Список тем:
+					</div>
+				<% end %>
+				<% discipline.themes.each do |theme| %>
+					<div class="theme" id="theme_<%= theme.id %>">
+						<div class="theme_name" id="theme_name_<%= theme.id %>" data-status="closed"><%= theme.title %>	</div>
+						<div class="algorithm_list">
+							<% if theme.algorithms.empty? %>
+								<div class="no_elements">Данная тема не содержит алгоритмов.</div>
+							<% else %>
+								<div>
+									Список алгоритмов:
+								</div>
+							<% end %>
+							<% theme.algorithms.each do |algorithm| %>
+								<div class="algorithm" id="algorithm_<%= algorithm.id %>">
+									<div class="algorithm_name" id="algorithm_name_<%= algorithm.id %>" data-status="closed"><%= algorithm.title %></div>
+									<div class="algorithm_menu" id="algorithm_menu_<%= algorithm.id %>">
+										<%= button_to 'Выбрать алгоритм', test_sessions_add_one_algorithm_path, :data => {:algorithm => algorithm.id}, :method => :get, remote: true %>	
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
 			</div>
 		</div>
 	<% end %>
 </div>
 
 
-<div>
-	Список тестов: 
-</div>
 
-<div class="tests_list">
+
+<div class="selected_algorithm" id="algorithm_placeholder">
 
 </div>
 

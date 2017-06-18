@@ -15,7 +15,8 @@ class TestSessionsController < ApplicationController
   # GET /test_sessions/new
   def new
     @test_session = TestSession.new
-    @disciplines = Discipline.all #необходимо изменить так, чтобы искало только дисциплины преподавателя
+
+    @disciplines = User.find(current_user.id).disciplines #необходимо изменить так, чтобы искало только дисциплины преподавателя
     @groups = Group.all
     #gon.themes = Theme.all #необходимо изменить так, чтобы искало только темы дисциплин преподавателя
     @algorithms = Algorithm.all #необходимо изменить так, чтобы искало только алгоритмы преподавателя
@@ -25,6 +26,13 @@ class TestSessionsController < ApplicationController
 
   # GET /test_sessions/1/edit
   def edit
+  end
+
+  def add_one_algorithm
+    @algorithm = Algorithm.find(params[:algorithm_id])
+      respond_to do |format|
+        format.js { render :add_one_algorithm, :locals => {:variables => @algorithm.variables, :description => @algorithm.description, :title => @algorithm.title }}
+      end
   end
 
   # POST /test_sessions

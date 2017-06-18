@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170617093657) do
+ActiveRecord::Schema.define(version: 20170618051436) do
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -60,8 +60,10 @@ ActiveRecord::Schema.define(version: 20170617093657) do
 
   create_table "input_value_sets", force: :cascade do |t|
     t.integer  "difficulty"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "algorithm_id"
+    t.index ["algorithm_id"], name: "index_input_value_sets_on_algorithm_id"
   end
 
   create_table "input_variable_values", force: :cascade do |t|
@@ -170,6 +172,7 @@ ActiveRecord::Schema.define(version: 20170617093657) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.boolean  "is_input",          default: false
+    t.string   "description"
     t.index ["algorithm_id"], name: "index_variables_on_algorithm_id"
     t.index ["data_structure_id"], name: "index_variables_on_data_structure_id"
   end
