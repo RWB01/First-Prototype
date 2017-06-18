@@ -1,0 +1,18 @@
+<% number_limitation = number.get_number_limitation %>
+
+<div class="number_type" data-variable-id="<%= number.id %>">
+	<div class="variable description">
+		<div>Имя переменной: <%= number.alias %></div>
+		<div>Тип данных: Число</div>
+		<div>Описание переменной: <%= number.description %></div>
+		<div class="cell_characteristics">Минимально допустимое значение: <%= number_limitation[:min_value] %></div>
+		<div class="cell_characteristics">Максимально допустимое значение: <%= number_limitation[:max_value] %></div>
+	</div>
+	<div class="input_field">
+		<div>Введите значение:</div>
+		<input class="number_cell input_cell empty_value" type="text" size="1"
+		         data-min-value="<%= number_limitation[:min_value] %>"
+		         data-max-value="<%= number_limitation[:max_value] %>"
+		>
+	</div>
+</div>

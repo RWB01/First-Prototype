@@ -56,7 +56,7 @@
 								<div class="algorithm" id="algorithm_<%= algorithm.id %>">
 									<div class="algorithm_name" id="algorithm_name_<%= algorithm.id %>" data-status="closed"><%= algorithm.title %></div>
 									<div class="algorithm_menu" id="algorithm_menu_<%= algorithm.id %>">
-										<%= button_to 'Выбрать алгоритм', test_sessions_add_one_algorithm_path, :data => {:algorithm => algorithm.id}, :method => :get, remote: true %>	
+										<%= button_to 'Выбрать алгоритм', test_sessions_add_one_algorithm_path, :params => {:algorithm => algorithm.id}, :method => :post, remote: true %>	
 									</div>
 								</div>
 							<% end %>

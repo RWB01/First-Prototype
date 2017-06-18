@@ -1,0 +1,18 @@
+<% string_limitation = string.get_string_limitation %>
+
+<div class="string_type step_variable" data-variable-id="<%= string.id %>">
+
+  <h4>String</h4>
+  <p><%= string.name %></p>
+  <p class="cell_characteristics">Min length: <%= string_limitation[:min_length] %></p>
+  <p class="cell_characteristics">Max length: <%= string_limitation[:max_length] %></p>
+
+
+  <input class="string_cell input_string_cell empty_value" type="text"
+         size=""<%= string_limitation[:max_length] %>"
+         data-min-length="<%= string_limitation[:min_length] %>"
+         data-max-length="<%= string_limitation[:max_length] %>"
+  >
+
+
+</div>

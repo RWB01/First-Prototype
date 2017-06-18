@@ -29,9 +29,10 @@ class TestSessionsController < ApplicationController
   end
 
   def add_one_algorithm
-    @algorithm = Algorithm.find(params[:algorithm_id])
+    @algorithm = Algorithm.find(params[:algorithm])
+    input_variables = @algorithm.variables.reject{|x| x.is_input}
       respond_to do |format|
-        format.js { render :add_one_algorithm, :locals => {:variables => @algorithm.variables, :description => @algorithm.description, :title => @algorithm.title }}
+        format.js { render :add_one_algorithm, :locals => {:variables => input_variables, :description => @algorithm.description, :title => @algorithm.title }}
       end
   end
 
