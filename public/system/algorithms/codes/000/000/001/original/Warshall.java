@@ -7,10 +7,13 @@
 //number k 1-20
 //end of variables descriptions
 
-public class Solution {
+import java.util.Scanner;
+import java.io.PrintWriter;
+
+public class Warshall {
     private static final int INF = 1000 * 1000 * 1000;
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        Solution solution = new Warshall();
         solution.solve();
     }
     private void solve() {
