@@ -5,8 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th colspan="3"></th>
+      <th>Название</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -14,9 +14,8 @@
     <% @algorithms.each do |algorithm| %>
       <tr>
         <td><%= algorithm.title %></td>
-        <td><%= link_to 'Show', algorithm %></td>
-        <td><%= link_to 'Edit', edit_algorithm_path(algorithm) %></td>
-        <td><%= link_to 'Destroy', algorithm, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Настройки алгоритма', algorithm %></td>
+        <td><%= link_to 'Удалить', algorithm, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,5 +23,5 @@
 
 <br>
 
-<%= link_to 'New Algorithm', new_theme_algorithm_path %>
-<%= link_to 'Back', discipline_themes_path(@theme.discipline) %>
+<%= link_to 'Новый алгоритм', new_theme_algorithm_path %>
+<%= link_to 'Назад', discipline_themes_path(@theme.discipline) %>

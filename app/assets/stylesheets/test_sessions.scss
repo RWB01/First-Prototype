@@ -2,8 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.discipline_list {
+.body {
 	
+}
+
+div {
+	font-size: 12pt;
+}
+
+.discipline_list {
+	background-color: #d1e2fc;
+	margin-top: 10px;
+	font-size: 14pt;
 }
 
 .discipline {
@@ -64,16 +74,17 @@
 .algorithm {
 	padding-bottom: 10px;
 	margin-right: -100px;
-}
-
-.algorithm_name {
 	background-color: #a2f2f2;
-	padding-top: 15px;
-	padding-left: 15px;
-	min-height: 40px;
 	border-radius: 10px;
 	border: 1px solid black;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	padding-top: 15px;
+	margin-top: 10px;
+	min-height: 40px;
+}
+
+.algorithm_name {
+	padding-left: 15px;
 }
 
 .algorithm_menu {
@@ -88,8 +99,8 @@
 
 .number_type {
 	background-color: #dae2ef;
-	display: inline-block;
-	width: 25%;
+	display: inline-table;
+	
 	margin: 10px;
 	padding: 5px;
 }
@@ -101,4 +112,78 @@
 .input_field {
 	display: inline-block;
 	margin-top: 10px;
+}
+
+.string_type {
+	background-color: #dae2ef;
+	display: inline-table;
+	
+	margin: 10px;
+	padding: 5px;
+}
+
+
+.matrix_type {
+	background-color: #dae2ef;
+	display: inline-table;
+	
+	margin: 10px;
+	padding: 5px;
+}
+
+.matrix_input_field {
+	display: table;
+	padding: 2px;
+}
+
+.matrix_row {
+	display: table-row;
+	padding: 2px;
+}
+
+.matrix_column {
+    display: table-cell;
+	padding: 2px;
+}
+
+.matrix_cell {
+	width: 22px;
+    height: 17px;
+}
+
+.vector_type {
+	background-color: #dae2ef;
+	display: inline-table;
+	margin: 10px;
+	padding: 5px;
+}
+
+.vector_input_field {
+
+	padding: 2px;
+}
+
+.vector_column {
+	display: inline-table;
+
+}
+
+.vector_cell {
+	width: 22px;
+    height: 17px;
+}
+
+.variable_field {
+	display:none;
+}
+
+#submit_test_session {
+	display: none;
+}
+
+.selected_algorithm {
+	padding: 5px;
+	margin-top: 20px;
+	background-color: #8ca6ce;
+	display: inline-block;
 }

@@ -1,0 +1,19 @@
+<div>
+	<button id="cancel_algorithm_selection">Отменить выбор алгоритма</button>
+</div>
+
+<div>
+	<b>Название алгоритма:</b> <%= algorithm.title %>
+</div>
+
+<div>
+	<b>Описание алгоритма:</b> <%= algorithm.description %>
+</div>
+
+
+<div><b>Как будут заданы входные данные алгоритма:</b></div>
+	<form class="algorithm_form" id="variable_type_form_<%= algorithm.id %>">
+		<div><input name="input_type" type="radio" value="manual"> Введены вручную </div>
+		<div><input name="input_type" type="radio" value="generate" checked> Сгенерированы </div>
+		<div><input name="input_type" type="radio" value="previous" disabled> Подобраны из существующих </div>	
+	</form>
