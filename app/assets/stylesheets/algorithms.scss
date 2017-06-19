@@ -53,6 +53,10 @@ body {
     padding: 10px;
 }
 
+.algorithm-description {
+    margin-bottom: 10px;
+}
+
 .algorithm-edit-column {
     background-color: #3498DB;
     padding: 5px;
@@ -73,7 +77,6 @@ body {
 .algorithm-steps-column {
     float:right;
 	width: 35%;
-	
 }
 
 .algorithm-text-row {
@@ -124,13 +127,13 @@ body {
 .step_options_button {
     width: 100%;
     min-height: 50px;
-    background-color: #2c81ba;
+    background-color: #93bcff;
 }
 
 .step_options {
     width: 100%;
     min-height: 50px;
-    background-color: #88c6ef;
+    background-color: #66a0ff;
     display: none;
 }
 
@@ -143,7 +146,9 @@ body {
 }
 
 
-
+.input_variables_description {
+    margin-bottom: 10px;
+}
 
 
 

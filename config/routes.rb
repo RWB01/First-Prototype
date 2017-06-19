@@ -50,7 +50,8 @@ Rails.application.routes.draw do
   end
 
   controller 'test_sessions' do
-    get 'test_sessions/add_one_algorithm' => :add_one_algorithm
+    post 'test_sessions/add_one_algorithm' => :add_one_algorithm
+    post 'test_sessions/appoint_test_session' => :appoint_test_session
   end
 
   get '/communities', :to => 'community#index'

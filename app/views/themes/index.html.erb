@@ -5,8 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th colspan="3"></th>
+      <th>Название</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -14,10 +14,10 @@
     <% @themes.each do |theme| %>
       <tr>
         <td><%= theme.title %></td>
-        <td><%= link_to 'Algorithms', theme_algorithms_path(theme) %></td>
-        <td><%= link_to 'Show', theme %></td>
-        <td><%= link_to 'Edit', edit_theme_path(theme) %></td>
-        <td><%= link_to 'Destroy', theme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Алгоритмы', theme_algorithms_path(theme) %></td>
+<!--         <td><%= link_to 'Show', theme %></td>
+        <td><%= link_to 'Edit', edit_theme_path(theme) %></td> -->
+        <td><%= link_to 'Удалить', theme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -25,5 +25,5 @@
 
 <br>
 
-<%= link_to 'New Theme', new_discipline_theme_url %>
-<%= link_to 'Back', disciplines_path %>
+<%= link_to 'Новая тема', new_discipline_theme_url %>
+<%= link_to 'Назад', disciplines_path %>

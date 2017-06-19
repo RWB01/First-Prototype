@@ -28,10 +28,29 @@ class TestSessionsController < ApplicationController
   def edit
   end
 
+  #вкидываем 1 алгоритм в сеанс тестирования
   def add_one_algorithm
-    @algorithm = Algorithm.find(params[:algorithm_id])
+    require 'date'
+    @algorithm = Algorithm.find(params[:algorithm])
+    input_variables = @algorithm.variables.reject{|x| !x.is_input}
       respond_to do |format|
-        format.js { render :add_one_algorithm, :locals => {:variables => @algorithm.variables, :description => @algorithm.description, :title => @algorithm.title }}
+        format.js { render :add_one_algorithm, :locals => {:variables => input_variables, :algorithm => @algorithm }}
+      end
+  end
+
+  #сохраняем сеанс тестирования
+  def appoint_test_session
+      test_session = TestSession.new(:test_date => params[:date].to_date(), :time => params[:time], :estimation_formula => params[:formula])
+      test_session.save
+      if params[:input_type] == "manual"
+        test_session.manual_tests(params[:numbers], params[:strings], params[:vectors], params[:matrixs], params[:group], params[:algorithm])
+      end
+
+      if params[:input_type] == "generate"
+        test_session.generate_tests(params[:group],params[:algorithm])
+      end
+      respond_to do |format|
+        format.js 
       end
   end
 
