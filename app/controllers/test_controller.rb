@@ -9,18 +9,36 @@ class TestController < ApplicationController
         format.html { render :test, :locals => {:current_step => nil }}
     end
 
-    logger.debug @algorithm.code.path
 
-    if !File.file?(@algorithm.code.path)
-      system("javac #{@algorithm.code.path}")
+    java_json_package = '/home/rainwb/Rails/prototype_1/public/java-packages/org.json.jar'
+
+    class_file_name = @algorithm.code.path.to_s.gsub('.java', '.class')
+
+    if !File.file?(class_file_name)
+
+      logger.debug "javac -cp #{java_json_package} #{@algorithm.code.path}"
+
+      system("javac -cp #{java_json_package} #{@algorithm.code.path}")
+
     end
 
-    class_name = @algorithm.code.name.gsub '.java', ''
-    class_file_path = @algorithm.code.path.gsub @algorithm.code.name, ''
+    file_name = @algorithm.code.original_filename.to_s
 
-    output
+    class_name = file_name.gsub('.java', '')
 
-    system("java -cp #{class_file_path} #{class_name}")
+    class_file_path = @algorithm.code.path.to_s.gsub(file_name, '')
+
+    args = "[[0,10,18,8,-1,-1],[10,0,16,9,21,-1],[-1,16,0,-1,-1,15],[7,9,-1,0,-1,12],[-1,-1,-1,-1,0,23],[-1,-1,15,-1,23,0]]"
+
+    logger.debug "java -cp #{class_file_path} #{class_name} #{args}"
+
+    output = IO.popen "java -cp #{class_file_path} #{class_name} #{args}"
+
+    logger.debug output.read
+
+    #javac -cp /home/rainwb/Rails/prototype_1/public/java-packages/org.json.jar /home/rainwb/Rails/prototype_1/public/system/algorithms/codes/000/000/001/original/Warshall.java
+
+    #java -cp /home/rainwb/Rails/prototype_1/public/java-packages/org.json.jar:/home/rainwb/Rails/prototype_1/public/system/algorithms/codes/000/000/001/original/ Warshall [[0,10,18,8,-1,-1],[10,0,16,9,21,-1],[-1,16,0,-1,-1,15],[7,9,-1,0,-1,12],[-1,-1,-1,-1,0,23],[-1,-1,15,-1,23,0]]
 
   end
 
