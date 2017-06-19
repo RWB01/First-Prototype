@@ -4,9 +4,17 @@
 		Тип данного сеанса тестирования простой. Его основное назначение - тестирование группы студентов на одном алгоритме, который они только что изучили.
 	</div>
 	<form action="#" id="date_time_form">
-		<div>Дата проведения тестирования: <input type="date" name="test_date" id="test_date" min="2017-06-14"></div>
-		<div>Время, отведённое на тестирование(в минутах): <input type="number" name="test_time" id="test_time"></div>
-		<div>Выберите группу студентов: 
+		<div><b>Дата проведения тестирования:</b> <input type="date" name="test_date" id="test_date" min="<%= Date.today %>" value="<%= Date.today %>"></div>
+		<div><b>Время, отведённое на тестирование(в минутах):</b> <input type="number" name="test_time" id="test_time" value="30"></div>
+		<div><b>Выберите способ оценивания:</b> 
+			<select name="formula" id="formula_select">
+				<option value="5">5-бальная шкала</option>
+				<option value="10">10-бальная шкала</option>
+				<option value="100">100-бальная шкала</option>
+				<option value="pass">зачёт\незачёт</option>
+			</select>
+		</div>
+		<div><b>Выберите группу студентов:</b> 
 			<select name="groups" id="group_select" >
 			<% @groups.each do |group|%>
 				<option value="<%= group.id %>"><%= group.title %></option>
@@ -25,11 +33,12 @@
 
 
 
-<div>
-	Выберите дисциплину:
-</div>
+
 
 <div class="discipline_list">
+	<div>
+		Выберите дисциплину:
+	</div>
 	<% @disciplines.each do |discipline| %>
 		<div class="discipline" id="discipline_<%= discipline.id %>">
 			<div class="discipline_name" id="discipline_name_<%= discipline.id %>" data-status="closed"><%= discipline.title %>	</div>
@@ -56,7 +65,7 @@
 								<div class="algorithm" id="algorithm_<%= algorithm.id %>">
 									<div class="algorithm_name" id="algorithm_name_<%= algorithm.id %>" data-status="closed"><%= algorithm.title %></div>
 									<div class="algorithm_menu" id="algorithm_menu_<%= algorithm.id %>">
-										<%= button_to 'Выбрать алгоритм', test_sessions_add_one_algorithm_path, :data => {:algorithm => algorithm.id}, :method => :get, remote: true %>	
+										<%= button_to 'Выбрать алгоритм', test_sessions_add_one_algorithm_path, :params => {:algorithm => algorithm.id}, :method => :post, remote: true, :class => "select_algorithm_button" %>	
 									</div>
 								</div>
 							<% end %>

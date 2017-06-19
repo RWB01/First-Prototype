@@ -1,1 +1,3 @@
-$('#algorithm_placeholder').html("Почалосявыффффффффффффффффффффффффффффф");
+$('#algorithm_placeholder').html("<%= escape_javascript render 'algorithm', :algorithm => algorithm %>");
+$('#algorithm_placeholder').append("<%= escape_javascript render 'variables', :variables => variables %>");
+$("#algorithm_placeholder").show(200);

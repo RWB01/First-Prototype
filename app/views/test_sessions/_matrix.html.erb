@@ -1,0 +1,37 @@
+<% matrix_limitation = matrix.get_matrix_limitation %>
+
+<div class="matrix_type" data-variable-id="<%= matrix.id %>" data-variable-rows="<%= matrix_limitation[:rows] %>" data-variable-columns="<%= matrix_limitation[:columns] %>">
+  <div>Имя переменной: <%= matrix.alias %></div>
+  <div>Тип данных: Матрица <%= matrix_limitation[:rows] %>x<%= matrix_limitation[:columns] %></div>
+  <div>Описание переменной: <%= matrix.description %></div>
+  <div class="cell_characteristics">Min value of cell: <%= matrix_limitation[:min_value] %></div>
+  <div class="cell_characteristics">Max value of cell: <%= matrix_limitation[:max_value] %></div>
+  <div>Введите значение матрицы <%= matrix.alias %>:</div>
+  <div class="matrix_input_field">
+    <!-- add row numbers-->
+    <% matrix_limitation[:rows].times do |row| %>
+
+      <div class="matrix_row">
+
+        <!-- add column numbers -->
+        <% matrix_limitation[:columns].times do |column| %>
+
+            <div class="matrix_column">
+
+              <input class="matrix_cell input_cell" type="text" size="1"
+                     data-min-value="<%= matrix_limitation[:min_value] %>"
+                     data-max-value="<%= matrix_limitation[:max_value] %>"
+                     data-row="<%= row %>"
+                     data-column="<%= column %>"
+              >
+
+            </div>
+
+        <% end %>
+
+      </div>
+
+    <% end %>
+  </div>
+
+</div>
