@@ -35,30 +35,39 @@ class Algorithm < ApplicationRecord
       end
       i += 1
     end
-  
-    initialization = "AlgorithmData ad = new AlgorithmData();"
-    code_array.insert(main_line,initialization)
+    
+    class_algorithm_data_variable = "AlgorithmData ad;"
+    code_array.insert(main_line-1,class_algorithm_data_variable)
+    initialization = "ad = new AlgorithmData();"
+    code_array.insert(main_line+1,initialization)
     json_parser = "ad.parseJSON(args[0]);"
-    code_array.insert(main_line+1,json_parser)
-    shift_count = 3
+    code_array.insert(main_line+2,json_parser)
+    shift_count = 4
 
     input_variables = self.variables.reject{|x| !x.is_input}
     input_variables.each do |variable|
       variable_string = ""
+      class_variable = ""
       case variable.get_data_structure_type
         when :NUMBER
-          variable_string += "int " + variable.name.to_s + " = ad.getNumberFromJSON(\"" + variable.name.to_s + "\");"
+          variable_string += variable.name.to_s + " = ad.getNumberFromJSON(\"" + variable.name.to_s + "\");"
+          class_variable += "int " + variable.name.to_s + ";"
         when :STRING
-          variable_string += "String " + variable.name.to_s + " = ad.getStringFromJSON(\"" + variable.name.to_s + "\");"
+          variable_string += variable.name.to_s + " = ad.getStringFromJSON(\"" + variable.name.to_s + "\");"
+          class_variable += "String " + variable.name.to_s + ";"
         when :VECTOR
-          variable_string += "int[] " + variable.name.to_s + " = ad.getVectorFromJSON(\"" + variable.name.to_s + "\");"
+          variable_string += variable.name.to_s + " = ad.getVectorFromJSON(\"" + variable.name.to_s + "\");"
+          class_variable += "int[] " + variable.name.to_s + ";"
         when :MATRIX
-          variable_string += "int[][] " + variable.name.to_s + " = ad.getMatrixFromJSON(\"" + variable.name.to_s + "\");"
+          variable_string += variable.name.to_s + " = ad.getMatrixFromJSON(\"" + variable.name.to_s + "\");"
+          class_variable += "int[][] " + variable.name.to_s + ";"
         else
           variable_string += "//UNKNOWN_STUFF"
+          class_variable = "//UNKNOWN STUFF"
       end
-      code_array.insert(main_line+shift_count-1,variable_string)
-      shift_count += 1
+      code_array.insert(main_line-1,class_variable)
+      code_array.insert(main_line+shift_count,variable_string)
+      shift_count += 2
     end
 
     self.steps.each do |step|
