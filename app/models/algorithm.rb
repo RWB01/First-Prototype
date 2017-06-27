@@ -19,11 +19,10 @@ class Algorithm < ApplicationRecord
     Dir.mkdir(directory_path) unless Dir.exist?(directory_path)
 
     file_path = 'public/system/modified_algorithms/'+ self.id.to_s + '_' + self.title.to_s + '/' + self.code_file_name.to_s
-    #code.copy_to_local_file :original, file_path
     temp_code = self.code_contents.split("//end of variables descriptions")
     code_array = temp_code[-1].strip.split("\n")
 
-    import = "import com.public.java_sys_libs.AlgorithmData;"
+    import = "import com.public.java-packages.AlgorithmData;"
     code_array.insert(0,import)
 
     #ищем на какой строчке начинается main
@@ -39,7 +38,29 @@ class Algorithm < ApplicationRecord
   
     initialization = "AlgorithmData ad = new AlgorithmData();"
     code_array.insert(main_line,initialization)
-    shift_count = 2
+    json_parser = "ad.parseJSON(args[0]);"
+    code_array.insert(main_line+1,json_parser)
+    shift_count = 3
+
+    input_variables = self.variables.reject{|x| !x.is_input}
+    input_variables.each do |variable|
+      variable_string = ""
+      case variable.get_data_structure_type
+        when :NUMBER
+          variable_string += "int " + variable.name.to_s + " = ad.getNumberFromJSON(\"" + variable.name.to_s + "\");"
+        when :STRING
+          variable_string += "String " + variable.name.to_s + " = ad.getStringFromJSON(\"" + variable.name.to_s + "\");"
+        when :VECTOR
+          variable_string += "int[] " + variable.name.to_s + " = ad.getVectorFromJSON(\"" + variable.name.to_s + "\");"
+        when :MATRIX
+          variable_string += "int[][] " + variable.name.to_s + " = ad.getMatrixFromJSON(\"" + variable.name.to_s + "\");"
+        else
+          variable_string += "//UNKNOWN_STUFF"
+      end
+      code_array.insert(main_line+shift_count-1,variable_string)
+      shift_count += 1
+    end
+
     self.steps.each do |step|
       line = step.line_number
       step.variables.each do |variable|

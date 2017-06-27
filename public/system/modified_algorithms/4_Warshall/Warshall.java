@@ -1,8 +1,12 @@
-import com.public.java_sys_libs.AlgorithmData;
+import com.public.java-packages.AlgorithmData;
 public class Solution {
     private static final int INF = 1000 * 1000 * 1000;
     public static void main(String[] args) {
 AlgorithmData ad = new AlgorithmData();
+ad.parseJSON(args[0]);
+int[][] g = ad.getMatrixFromJSON("g");
+String args = ad.getStringFromJSON("args");
+int vertexCount = ad.getNumberFromJSON("vertexCount");
         Solution solution = new Solution();
 ad.store(g,"g");
 ad.store(vertexCount,"vertexCount");
