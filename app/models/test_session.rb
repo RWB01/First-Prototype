@@ -119,4 +119,16 @@ class TestSession < ApplicationRecord
 			end
 		end
 	end
+
+	def get_algorithm_id_by_user(user_id)
+		algorithm_id = nil
+
+		tests.each do |test|
+			if test.user_id == user_id
+				algorithm_id = test.algorithm_id
+			end
+		end
+
+		return algorithm_id
+	end
 end

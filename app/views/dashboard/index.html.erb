@@ -2,10 +2,10 @@
   <h1 class="dashboard_title">Dashboard</h1>
 </div>
 
-<% if current_user.roles.nil? || current_user.has_role(:STUDENT_ROLE) %>
+<% if current_user.has_role(:PROFESSOR_ROLE) %>
+  <%= render 'admin' %>
+<% elsif current_user.roles.nil? || current_user.has_role(:STUDENT_ROLE) %>
     <%= render 'student' %>
-<% elsif current_user.has_role(:PROFESSOR_ROLE)%>
-    <%= render 'admin' %>
 <% else %>
     SOMETHING WENT WRONG
 <% end %>
