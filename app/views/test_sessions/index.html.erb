@@ -19,6 +19,11 @@
           <td><%= test_session.time %></td>
 <!--           <td><%= link_to 'Show', test_session %></td>
           <td><%= link_to 'Edit', edit_test_session_path(test_session) %></td> -->
+          <% algorithm = test_session.get_algorithm_id_by_user current_user.id %>
+
+          <% if algorithm != nil %>
+              <td><%= link_to 'Start test', start_test_path(algorithm_id: algorithm) %></td>
+          <% end %>
           <td><%= link_to 'Удалить', test_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>

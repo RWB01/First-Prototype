@@ -22,8 +22,9 @@ class Algorithm < ApplicationRecord
     temp_code = self.code_contents.split("//end of variables descriptions")
     code_array = temp_code[-1].strip.split("\n")
 
-    import = "import com.public.java-packages.AlgorithmData;"
-    code_array.insert(0,import)
+    # Unnecessary shit
+    # import = "import com.public.java-packages.AlgorithmData;"
+    # code_array.insert(0,import)
 
     #ищем на какой строчке начинается main
     i = 0
@@ -36,13 +37,13 @@ class Algorithm < ApplicationRecord
       i += 1
     end
     
-    class_algorithm_data_variable = "AlgorithmData ad;"
+    class_algorithm_data_variable = "private static AlgorithmData ad;"
     code_array.insert(main_line-1,class_algorithm_data_variable)
     initialization = "ad = new AlgorithmData();"
     code_array.insert(main_line+1,initialization)
     json_parser = "ad.parseJSON(args[0]);"
     code_array.insert(main_line+2,json_parser)
-    shift_count = 4
+    shift_count = 3
 
     input_variables = self.variables.reject{|x| !x.is_input}
     input_variables.each do |variable|
@@ -51,23 +52,24 @@ class Algorithm < ApplicationRecord
       case variable.get_data_structure_type
         when :NUMBER
           variable_string += variable.name.to_s + " = ad.getNumberFromJSON(\"" + variable.name.to_s + "\");"
-          class_variable += "int " + variable.name.to_s + ";"
+          class_variable += "private static int " + variable.name.to_s + ";"
         when :STRING
           variable_string += variable.name.to_s + " = ad.getStringFromJSON(\"" + variable.name.to_s + "\");"
-          class_variable += "String " + variable.name.to_s + ";"
+          class_variable += "private static String " + variable.name.to_s + ";"
         when :VECTOR
           variable_string += variable.name.to_s + " = ad.getVectorFromJSON(\"" + variable.name.to_s + "\");"
-          class_variable += "int[] " + variable.name.to_s + ";"
+          class_variable += "private static int[] " + variable.name.to_s + ";"
         when :MATRIX
           variable_string += variable.name.to_s + " = ad.getMatrixFromJSON(\"" + variable.name.to_s + "\");"
-          class_variable += "int[][] " + variable.name.to_s + ";"
+          class_variable += "private static int[][] " + variable.name.to_s + ";"
         else
-          variable_string += "//UNKNOWN_STUFF"
-          class_variable = "//UNKNOWN STUFF"
+          variable_string += "//UNKNOWN_STUFF #{variable.name.to_s}"
+          class_variable = "//UNKNOWN STUFF #{variable.name.to_s}"
       end
       code_array.insert(main_line-1,class_variable)
+      shift_count += 1
       code_array.insert(main_line+shift_count,variable_string)
-      shift_count += 2
+      shift_count += 1
     end
 
     self.steps.each do |step|
@@ -133,6 +135,14 @@ class Algorithm < ApplicationRecord
 
     return initial_steps
 
+  end
+
+  def get_test_by_user(user_id)
+    tests.each do |test|
+      if test.user_id == user_id
+        return test
+      end
+    end
   end
 
 end
