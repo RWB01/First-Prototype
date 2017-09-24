@@ -72,7 +72,10 @@ class Algorithm < ApplicationRecord
       shift_count += 1
     end
 
+    puts("STEPS_COUNT:"+self.steps.count.to_s)
+    self.reload
     self.steps.each do |step|
+      #step.reload
       line = step.line_number
       step.variables.each do |variable|
         temp_store = "ad.store(" + variable.name.to_s + ",\"" + variable.name.to_s + "\");"
