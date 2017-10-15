@@ -4,13 +4,6 @@ class TestController < ApplicationController
 
   def start
 
-    respond_to do |format|
-        #current_step nil because it's initial step
-        format.html { render :test, :locals => {:current_step => nil }}
-    end
-
-    #current_user.id
-
     test = @algorithm.get_test_by_user current_user.id
 
     if test.nil?
@@ -44,18 +37,30 @@ class TestController < ApplicationController
     args = Hash.new
     input_set.input_variable_values.each do |variable_value|
       variable = Variable.find(variable_value.variable_id)
-      args[variable.name] = variable_value.value
+      args[variable.name] = JSON.parse variable_value.value
     end
 
     json_of_args = args.to_json
 
-    # args = "[23, 3, 1, 8 ,17]"
-
-    logger.debug "java -cp \"#{org_json_package}:#{java_json_package}:#{class_file_path}\" #{class_name} #{json_of_args}"
+    # logger.debug "java -cp \"#{org_json_package}:#{java_json_package}:#{class_file_path}\" #{class_name} #{json_of_args}"
 
     output = IO.popen "java -cp \"#{org_json_package}:#{java_json_package}:#{class_file_path}\" #{class_name} #{json_of_args}"
 
-    logger.debug output.read
+    #we can read output only once
+    algorithm_results = output.read
+
+    splitted_algoritm_results = algorithm_results.split "\n"
+
+    p splitted_algoritm_results
+
+    gon.algorithm_output_data = splitted_algoritm_results
+
+    gon.algorithm_input_data = json_of_args
+
+    respond_to do |format|
+      #current_step nil because it's initial step
+      format.html { render :test, :locals => {:current_step => nil }}
+    end
 
     #javac -cp /home/rainwb/Rails/prototype_1/public/java-packages/org.json.jar /home/rainwb/Rails/prototype_1/public/system/algorithms/codes/000/000/001/original/Warshall.java
 

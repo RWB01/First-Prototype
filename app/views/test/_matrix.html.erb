@@ -1,6 +1,6 @@
 <% matrix_limitation = matrix.get_matrix_limitation %>
 
-<div class="matrix_type step_variable" data-variable-id="<%= matrix.id %>">
+<div class="matrix_type step_variable" data-variable-id="<%= matrix.id %>" data-variable-name="<%= matrix.name %>">
 
   <h4>Matrix <%= matrix_limitation[:rows] %>x<%= matrix_limitation[:columns] %></h4>
   <p class="cell_characteristics">Min value of cell: <%= matrix_limitation[:min_value] %></p>

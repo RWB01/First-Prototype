@@ -3,35 +3,169 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $(document).on "turbolinks:load", ->
 
+  validate_input_cell =(input_cell) ->
+    min = input_cell.data 'min-value'
+    max = input_cell.data 'max-value'
+    if (input_cell.val() < min || input_cell.val() > max || input_cell.val() == '')
+      if input_cell.val() != ''
+        input_cell.addClass('incorrect_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+      else
+        input_cell.addClass('empty_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+    else
+      input_cell.removeClass('incorrect_value empty_value').addClass('valid_value')
+      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
+        $('.paramsHolder').prop 'disabled', false
+
+  # end of function
+
+  validate_string_cell =(input_string_cell) ->
+    min_length = input_string_cell.data 'min-length'
+    max_length = input_string_cell.data 'max-length'
+
+    value = input_string_cell.val()
+
+    if (value.length < min_length || value.length > max_length || input_string_cell.val() == '')
+      if input_string_cell.val() != ''
+        input_string_cell.addClass('incorrect_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+      else
+        input_string_cell.addClass('empty_value').removeClass('valid_value')
+        $('.paramsHolder').prop 'disabled', true
+    else
+      input_string_cell.removeClass('incorrect_value empty_value').addClass('valid_value')
+      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
+        $('.paramsHolder').prop 'disabled', false
+
+  # end of function
+
   $(document).ready ->
+
+    current_question_id = 0
+
+    preset_matrix_input_value =(input_variable, input_data) ->
+
+      rows = input_variable.find '.matrix_row'
+      rows.each ->
+        cells = $(this).find '.matrix_cell'
+        cells.each ->
+          $(this).val input_data[$(this).data('row')][$(this).data('column')]
+          validate_input_cell($(this))
+
+    # end of function
+
+    preser_vector_input_value =(vector_el, input_data) ->
+
+      cells = vector_el.find('.vector_cell')
+      cells.each ->
+        $(this).val input_data[$(this).data('column')]
+        validate_input_cell($(this))
+
+    # end of function
+
+
+    $('input[value="First step"]').addClass('paramsHolder')
+
+    # if initial step, we shouldn't validate data
+    # we can get current step number from params_holder
+    # need to load data from controller and autofil inputs
+    if gon != undefined
+      if gon.algorithm_input_data != undefined
+        params_holder = $('.paramsHolder')
+        # current_step_id = params_holder.data('step')
+        if current_question_id == 0
+          parsed_input_values = JSON.parse gon.algorithm_input_data
+
+          for input_variable_name, input_variable_value of parsed_input_values
+            input_variable = $("[data-variable-name=#{input_variable_name}]")
+            if input_variable.hasClass 'matrix_type'
+              preset_matrix_input_value(input_variable, input_variable_value)
+            else if input_variable.hasClass 'vector_type'
+              preser_vector_input_value(input_variable.find('.vector_row'), input_variable_value)
+            else if input_variable.hasClass 'string_type'
+              string_cell = input_variable.find('.string_cell')
+              string_cell.val input_variable_value
+              validate_string_cell string_cell
+            else if input_variable.hasClass 'number_type'
+              number_cell = input_variable.find('.number_cell')
+              number_cell.val input_variable_value
+              validate_input_cell number_cell
+
+    # end of function
 
     get_matrix_params =(matrix_el, param_bug, cell_class) ->
 
       variable_id = matrix_el.data('variable-id')
+      variable_name = matrix_el.data('variable-name')
 
-      param_bug[variable_id] = [];
-
+      param_bug[variable_name] = [];
+      value = []
       matrix_el.find(cell_class).each ->
-        if param_bug[variable_id][$(this).data 'row'] == undefined
-          param_bug[variable_id][$(this).data 'row'] = []
+        if value[$(this).data 'row'] == undefined
+          value[$(this).data 'row'] = []
 
-        param_bug[variable_id][$(this).data 'row'][$(this).data 'column'] = $(this).val()
+        value[$(this).data 'row'][$(this).data 'column'] = parseInt($(this).val())
+
+      param_bug[variable_name]['type'] = 'Matrix'
+      param_bug[variable_name]['value'] = value
+#      matrix_el.find(cell_class).each ->
+#        if param_bug[variable_name][$(this).data 'row'] == undefined
+#          param_bug[variable_name][$(this).data 'row'] = []
+#
+#        param_bug[variable_name][$(this).data 'row'][$(this).data 'column'] = parseInt($(this).val())
+
+      return param_bug
+
+
+    get_vector_params =(vactor_el, param_bug, cell_class) ->
+
+      variable_id = vactor_el.data('variable-id')
+      variable_name = vactor_el.data('variable-name')
+
+      param_bug[variable_name] = [];
+
+      vactor_el.find(cell_class).each ->
+        if param_bug[variable_name]['type'] == undefined
+          param_bug[variable_name]['type'] = 'Vector'
+
+        if param_bug[variable_name]['value'] == undefined
+          param_bug[variable_name]['value'] = []
+        param_bug[variable_name]['value'][$(this).data 'column'] = parseInt($(this).val())
 
       return param_bug
 
     # end of function
 
-    get_single_param =(number_el, param_bug, cell_class) ->
+    get_single_param =(number_el, param_bug, cell_class, is_number) ->
 
       variable_id = number_el.data('variable-id')
+      variable_name = number_el.data('variable-name')
 
-      param_bug[variable_id] = number_el.find(cell_class).val()
+      param_bug[variable_name] = []
+
+      cell_value = number_el.find(cell_class).val()
+      if is_number
+        cell_value = parseInt(cell_value)
+        param_bug[variable_name]['type'] = 'Number'
+      else
+        param_bug[variable_name]['type'] = 'String'
+
+      param_bug[variable_name]['value'] = cell_value
 
       return param_bug
 
     # end of function
 
     $('input[value="First step"]').addClass('paramsHolder')
+
+    simple_array_equal =(a, b) ->
+      a.length is b.length and a.every (elem, i) -> elem is b[i]
+
+    complex_array_equal =(a, b) ->
+      a.length is b.length and a.every (row, i) ->
+        row.every (column, j) ->
+          column is b[i][j]
 
     $('.test_process_wrapper').find('.button_to').bind 'click', () ->
 
@@ -44,26 +178,66 @@ $(document).on "turbolinks:load", ->
             param_bag = get_matrix_params($(this), param_bag, '.matrix_cell')
 
           else if $(this).hasClass('vector_type')
-            param_bag = get_matrix_params($(this), param_bag, '.vector_cell')
+            param_bag = get_vector_params($(this), param_bag, '.vector_cell')
 
           else if $(this).hasClass('number_type')
-            param_bag = get_single_param($(this), param_bag, '.number_cell')
+            param_bag = get_single_param($(this), param_bag, '.number_cell', true)
 
           else if $(this).hasClass('string_type')
-            param_bag = get_single_param($(this), param_bag, '.string_cell')
-
-        json_param_bug = JSON.stringify(param_bag)
+            param_bag = get_single_param($(this), param_bag, '.string_cell', false)
 
         params_holder = $('.paramsHolder')
+        # current_step_id = params_holder.data('step')
 
-        # may be that logick should be in the test_controller?
-        next_step_id = params_holder.data('step') + 1
+        got_problems = false;
 
-        action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
+        if gon.algorithm_output_data != undefined && current_question_id != 0
+          br = gon.algorithm_output_data
+          for key, value of gon.algorithm_output_data
+            step_data = JSON.parse(value)
+            if step_data['QuestionNumber'] == current_question_id
+              for var_name, var_value of step_data['Variables']
+                user_var_data = param_bag[var_name]
 
-        $(this).attr('action', action_string)
+                if user_var_data['type'] == 'Vector'
+                  result = simple_array_equal(user_var_data['value'], var_value)
+                else if user_var_data['type'] == 'Matrix'
+                  result = complex_array_equal(user_var_data['value'], var_value)
+                else
+                  result = user_var_data['value'] == var_value
+                if !result
+                  got_problems = true;
+        #
+        if !got_problems
+          if current_question_id == 0
+            if gon.algorithm_output_data != undefined
+              first_value = JSON.parse gon.algorithm_output_data[0]
+              current_question_id = first_value['QuestionNumber']
+              next_step_id = first_value['StepNumber']
+          else
+            is_last_question = true
+            # need a function
+            for key, value of gon.algorithm_output_data
+              step_val = JSON.parse(value)
+              if step_val['QuestionNumber'] == (current_question_id + 1) && is_last_question
+                current_question_id = step_val['QuestionNumber']
+                next_step_id = step_val['StepNumber']
+                is_last_question = false
 
-        params_holder.data('step', next_step_id)
+          # json_param_bug = JSON.stringify(param_bag)
+
+          # may be that logick should be in the test_controller?
+          # next_step_id = params_holder.data('step') + 1
+
+          # action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
+          action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id
+
+          $(this).attr('action', action_string)
+
+          params_holder.data('step', next_step_id)
+        else
+          # we must show error message and do nothing after
+          $('.paramsHolder').prop 'disabled', true
 
       else
 
@@ -73,42 +247,9 @@ $(document).on "turbolinks:load", ->
 
   # TODO: Fix DRY!
   $(document).on 'input', '.input_cell', () ->
-
-    min = $(this).data 'min-value'
-    max = $(this).data 'max-value'
-
-    if ($(this).val() < min || $(this).val() > max)
-      if $(this).val() != ''
-        $(this).addClass('incorrect_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
-      else
-        $(this).addClass('empty_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
-    else
-      $(this).removeClass('incorrect_value empty_value').addClass('valid_value')
-      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
-        $('.paramsHolder').prop 'disabled', false
-
-
+    validate_input_cell($(this))
   # end of function
 
   $(document).on 'input', '.input_string_cell', () ->
-
-    min_length = $(this).data 'min-length'
-    max_length = $(this).data 'max-length'
-
-    value = $(this).val()
-
-    if (value.length < min_length || value.length > max_length)
-      if $(this).val() != ''
-        $(this).addClass('incorrect_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
-      else
-        $(this).addClass('empty_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
-    else
-      $(this).removeClass('incorrect_value empty_value').addClass('valid_value')
-      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
-        $('.paramsHolder').prop 'disabled', false
-
+    validate_string_cell($(this))
   # end of function

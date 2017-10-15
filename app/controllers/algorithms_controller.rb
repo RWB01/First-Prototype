@@ -48,7 +48,7 @@ class AlgorithmsController < ApplicationController
         search_word = splitted_variable[0].delete '/'
         search_word = search_word.upcase
         data_structure = DataStructure.find_by alias: search_word
-        new_variable = Variable.new(:alias => splitted_variable[1], :name => splitted_variable[1], :limitation => splitted_variable[2], :data_structure_id => data_structure.id, :algorithm_id => @algorithm.id)
+        new_variable = Variable.new(:alias => data_structure.title, :name => splitted_variable[1], :limitation => splitted_variable[2], :data_structure_id => data_structure.id, :algorithm_id => @algorithm.id)
         new_variable.save
       end
     end
