@@ -38,7 +38,11 @@ class TestController < ApplicationController
     args = Hash.new
     input_set.input_variable_values.each do |variable_value|
       variable = Variable.find(variable_value.variable_id)
-      args[variable.name] = JSON.parse variable_value.value
+      if variable.alias == 'String'
+        args[variable.name] = variable_value.value
+      else
+        args[variable.name] = JSON.parse variable_value.value
+      end
     end
 
     json_of_args = args.to_json
@@ -218,6 +222,7 @@ class TestController < ApplicationController
   private
 
     def set_algorithm
+      p params[:algorithm_id]
       @algorithm = Algorithm.find(params[:algorithm_id].to_i)
     end
 
