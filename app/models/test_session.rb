@@ -1,5 +1,6 @@
 class TestSession < ApplicationRecord
 	has_many :tests, :dependent => :destroy
+	has_many :test_results
 
 
 	def manual_tests(numbers, strings, vectors, matrixs, group, algorithm)
@@ -120,7 +121,7 @@ class TestSession < ApplicationRecord
 		end
 	end
 
-	def get_algorithm_id_by_user(user_id)
+	def get_algorithm_by_user(user_id)
 		algorithm_id = nil
 
 		tests.each do |test|
@@ -129,6 +130,20 @@ class TestSession < ApplicationRecord
 			end
 		end
 
-		return algorithm_id
+		algorithm = Algorithm.find algorithm_id
+
+		return algorithm
+	end
+
+	def get_result_by_user_id(user_id)
+		result = nil
+
+		test_results.each do |test_result|
+			if test_result.user_id == user_id
+				result = test_result
+			end
+		end
+
+		return result
 	end
 end

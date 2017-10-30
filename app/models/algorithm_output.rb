@@ -1,0 +1,2 @@
+class AlgorithmOutput < ApplicationRecord
+end

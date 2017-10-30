@@ -23,6 +23,10 @@ Rails.application.routes.draw do
     get :remove_group, on: :member
   end
 
+  controller :input_logs do
+    post 'input_logs/add_log' => :add_log
+  end
+
   resources :roles
 
   resources :disciplines, shallow: true do
@@ -46,7 +50,7 @@ Rails.application.routes.draw do
   controller 'test' do
     get 'start/test' => :start
     post 'step/test' => :step
-    get 'result/test' => :result
+    post 'result/test' => :result
   end
 
   controller 'test_sessions' do

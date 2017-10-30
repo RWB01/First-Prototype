@@ -1,0 +1,40 @@
+<% if (!test_sessions.empty?) %>
+    <table>
+      <thead>
+      <tr>
+        <th>Дата тестирования</th>
+        <th>Ограничение по времени</th>
+        <th colspan="1"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% test_sessions.each do |test_session| %>
+          <tr>
+            <td><%= test_session.test_date %></td>
+            <td><%= test_session.time %></td>
+            <% algorithm = test_session.get_algorithm_by_user current_user.id %>
+
+            <% if (test_session.test_date.to_time.to_i >= DateTime.now.to_time.to_i) %>
+
+              <% if algorithm != nil %>
+                  <td><%= link_to 'Start test', start_test_path(algorithm_id: algorithm.id) %></td>
+              <% end %>
+            <% else %>
+                <td> Test seance for algorithm:" <%= algorithm.title %>" was expired </td>
+            <% end %>
+            <% result = test_session.get_result_by_user_id current_user.id %>
+            <% if result != nil %>
+                <td> Your last result is <%= result.result %> </td>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <div>В настоящее время не назначено ни одного сеанса тестирования. Для назначения сеанса тестирования выберите одну из опций снизу.</div>
+<% end %>
+
+<br>
+
+<div><%= link_to 'Back', dashboard_index_path %></div>

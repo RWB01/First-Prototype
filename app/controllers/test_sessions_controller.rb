@@ -5,6 +5,12 @@ class TestSessionsController < ApplicationController
   # GET /test_sessions.json
   def index
     @test_sessions = TestSession.all
+    # @user_test_results = []
+    # TestResult.where(
+    #     user_id: current_user.id,
+    # ).find_each do |result|
+    #   @user_test_results.push result
+    # end
   end
 
   # GET /test_sessions/1

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  test_session_id: 1
+  result: 1
+  estimation_formula: MyString
+  errors_count: 1
+  is_passed: false
+  unique_errors: 1
+
+two:
+  test_session_id: 1
+  result: 1
+  estimation_formula: MyString
+  errors_count: 1
+  is_passed: false
+  unique_errors: 1

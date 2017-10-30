@@ -42,6 +42,8 @@ $(document).on "turbolinks:load", ->
 
   $(document).ready ->
 
+    timestamp = Math.round((new Date()).getTime() / 1000)
+
     current_question_id = 0
 
     preset_matrix_input_value =(input_variable, input_data) ->
@@ -91,6 +93,8 @@ $(document).on "turbolinks:load", ->
               number_cell = input_variable.find('.number_cell')
               number_cell.val input_variable_value
               validate_input_cell number_cell
+
+          $('.step_variable').find(':input').prop('disabled', true).addClass('frozen_input')
 
     # end of function
 
@@ -169,6 +173,9 @@ $(document).on "turbolinks:load", ->
 
     $('.test_process_wrapper').find('.button_to').bind 'click', () ->
 
+      if !$(this).hasClass('next_button')
+        $(this).addClass('next_button')
+
       if $('.empty_value').length == 0
 
         param_bag = {}
@@ -187,18 +194,19 @@ $(document).on "turbolinks:load", ->
             param_bag = get_single_param($(this), param_bag, '.string_cell', false)
 
         params_holder = $('.paramsHolder')
+        algorithm_id = parseInt(params_holder.data('algorithm'))
         # current_step_id = params_holder.data('step')
 
         got_problems = false;
 
         if gon.algorithm_output_data != undefined && current_question_id != 0
-          br = gon.algorithm_output_data
           for key, value of gon.algorithm_output_data
             step_data = JSON.parse(value)
             if step_data['QuestionNumber'] == current_question_id
               for var_name, var_value of step_data['Variables']
                 user_var_data = param_bag[var_name]
-
+                all_data = {}
+                wrong_data = {}
                 if user_var_data['type'] == 'Vector'
                   result = simple_array_equal(user_var_data['value'], var_value)
                 else if user_var_data['type'] == 'Matrix'
@@ -207,6 +215,37 @@ $(document).on "turbolinks:load", ->
                   result = user_var_data['value'] == var_value
                 if !result
                   got_problems = true;
+
+                  #SHITCODING TO STRINGIFY ARRAYS, JS CAN'T STRINGIFY ARRAYS, ONLY HASH
+                  wrong_data[var_name] = {}
+                  wrong_data[var_name]['type'] = user_var_data['type']
+                  wrong_data[var_name]['value'] = JSON.stringify(user_var_data['value'])
+
+                #SHITCODING TO STRINGIFY ARRAYS, JS CAN'T STRINGIFY ARRAYS, ONLY HASH
+                all_data[var_name] = {}
+                all_data[var_name]['type'] = user_var_data['type']
+                all_data[var_name]['value'] = JSON.stringify(user_var_data['value'])
+
+          wrong_json_data = JSON.stringify(wrong_data)
+          all_json_data = JSON.stringify(all_data)
+
+          $.ajax({
+            'url': '/input_logs/add_log'
+            'data': {
+              user_id: gon.user_id
+              input_value_set_id: gon.input_value_set_id
+              algorithm_id: algorithm_id
+              question_number: current_question_id
+              wrong_data: wrong_json_data
+              all_data: all_json_data
+              algorithm_output_data_id: gon.algorithm_output_id
+              error: got_problems
+              timestamp: timestamp
+
+            }
+            'type': 'POST'
+            'dataType': 'json'
+          })
         #
         if !got_problems
           if current_question_id == 0
@@ -229,17 +268,28 @@ $(document).on "turbolinks:load", ->
           # may be that logick should be in the test_controller?
           # next_step_id = params_holder.data('step') + 1
 
-          # action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
-          action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id
+          if is_last_question
+            alert('That was the last question!')
 
-          $(this).attr('action', action_string)
+            action_string = '/result/test?timestamp=' + timestamp + '&user_id=' + gon.user_id + '&input_value_set_id=' + gon.input_value_set_id + '&algorithm_id=' + algorithm_id
 
-          params_holder.data('step', next_step_id)
+            $(this).attr('action', action_string)
+          else
+            # action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
+            action_string = '/step/test?algorithm_id=' + algorithm_id + '&step_id=' + next_step_id + '&current_question_id=' + current_question_id + '&user_id=' + gon.user_id
+            $(this).attr('action', action_string)
+            params_holder.data('step', next_step_id)
         else
+
+          alert('You type wrong answer. Please, try again')
+
+          $('').insertAfter('.step_variable')
           # we must show error message and do nothing after
           $('.paramsHolder').prop 'disabled', true
 
       else
+
+        alert('Seems like something went wrong while test start. Please, let the professor know')
 
         $('.paramsHolder').prop 'disabled', true
 

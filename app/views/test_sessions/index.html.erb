@@ -2,40 +2,8 @@
 
 <h1>Сеансы тестирования</h1>
 
-<% if (!@test_sessions.empty?) %>
-  <table>
-    <thead>
-      <tr>
-        <th>Дата тестирования</th>
-        <th>Ограничение по времени</th>
-        <th colspan="1"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @test_sessions.each do |test_session| %>
-        <tr>
-          <td><%= test_session.test_date %></td>
-          <td><%= test_session.time %></td>
-<!--           <td><%= link_to 'Show', test_session %></td>
-          <td><%= link_to 'Edit', edit_test_session_path(test_session) %></td> -->
-          <% algorithm = test_session.get_algorithm_id_by_user current_user.id %>
-
-          <% if algorithm != nil %>
-              <td><%= link_to 'Start test', start_test_path(algorithm_id: algorithm) %></td>
-          <% end %>
-          <td><%= link_to 'Удалить', test_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div>В настоящее время не назначено ни одного сеанса тестирования. Для назначения сеанса тестирования выберите одну из опций снизу.</div>
+<% if current_user.has_role(:PROFESSOR_ROLE) %>
+    <%= render 'admin_index', :test_sessions => @test_sessions %>
+<% elsif current_user.has_role(:STUDENT_ROLE) %>
+    <%= render 'student_index', :test_sessions => @test_sessions %>
 <% end %>
-
-<br>
-
-<div><%= link_to 'Back', dashboard_index_path %></div>
-<div><%= link_to 'Назначить простое тестирование', new_test_session_path %></div>
-<div><%= link_to 'Назначить тестирование по теме', new_test_session_path %></div>
-<div><%= link_to 'Назначить экзаменационное тестирование', new_test_session_path %></div>
