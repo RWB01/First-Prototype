@@ -1,0 +1,24 @@
+test_process_wrapper = $('.test_process_wrapper');
+test_body = test_process_wrapper.find('.test_body');
+
+test_body.find('.unfinished').removeClass('unfinished').addClass('finished').append('Done!');
+
+test_body.find('.step_variable').each(function () {
+    $(this).removeClass('step_variable').addClass('step_finished');
+    $(this).find(':input').each(function () {
+        $(this).prop('disabled', true).addClass('frozen_input');
+    })
+});
+
+test_body.append("<%=
+  escape_javascript render 'result',
+    :result => result,
+    :estimation_formula => estimation_formula,
+    :errors_count => errors_count,
+    :is_passed => is_passed,
+    :unique_errors => unique_errors
+%>");
+
+test_body.append("<%= escape_javascript link_to 'Return to Test Sessions', test_sessions_path %>")
+
+test_process_wrapper.find('.next_button').remove();

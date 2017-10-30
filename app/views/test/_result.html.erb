@@ -1,0 +1,30 @@
+<div>
+  <% if estimation_formula == 'pass'%>
+      <% if is_passed %>
+          <div>
+            Great! You passed!
+          </div>
+      <% else %>
+          <div>
+            Honey! You didn't pass!
+          </div>
+      <% end %>
+  <% else %>
+    <div>
+      <h2>
+        Your result is: <%= result %>
+      </h2>
+      <p>Result estimated by scale: <%= estimation_formula %></p>
+    </div>
+    <% if errors_count != 0%>
+      <div>
+        You make <%= errors_count %> errors.
+        <% if errors_count == unique_errors && errors_count != 1 %>
+          All errors are unique!
+        <% else %>
+          Unique errors count: <%= unique_errors %>.
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

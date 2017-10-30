@@ -3,7 +3,7 @@
 </div>
 
 <% if current_user.has_role(:PROFESSOR_ROLE) %>
-  <%= render 'admin' %>
+    <%= render 'admin' %>
 <% elsif current_user.roles.nil? || current_user.has_role(:STUDENT_ROLE) %>
     <%= render 'student' %>
 <% else %>

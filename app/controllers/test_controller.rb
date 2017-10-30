@@ -4,14 +4,8 @@ class TestController < ApplicationController
 
   def start
 
-    respond_to do |format|
-        #current_step nil because it's initial step
-        format.html { render :test, :locals => {:current_step => nil }}
-    end
-
-    #current_user.id
-
     test = @algorithm.get_test_by_user current_user.id
+    gon.user_id = current_user.id
 
     if test.nil?
       #THROW SOME EXCEPTION
@@ -44,18 +38,39 @@ class TestController < ApplicationController
     args = Hash.new
     input_set.input_variable_values.each do |variable_value|
       variable = Variable.find(variable_value.variable_id)
-      args[variable.name] = variable_value.value
+      args[variable.name] = JSON.parse variable_value.value
     end
 
     json_of_args = args.to_json
 
-    # args = "[23, 3, 1, 8 ,17]"
-
-    logger.debug "java -cp \"#{org_json_package}:#{java_json_package}:#{class_file_path}\" #{class_name} #{json_of_args}"
+    # logger.debug "java -cp \"#{org_json_package}:#{java_json_package}:#{class_file_path}\" #{class_name} #{json_of_args}"
 
     output = IO.popen "java -cp \"#{org_json_package}:#{java_json_package}:#{class_file_path}\" #{class_name} #{json_of_args}"
 
-    logger.debug output.read
+    #we can read output only once
+    algorithm_results = output.read
+
+    splitted_algoritm_results = algorithm_results.split "\n"
+
+    p splitted_algoritm_results
+
+    gon.algorithm_output_data = splitted_algoritm_results
+
+    gon.algorithm_input_data = json_of_args
+
+    algorithm_output = AlgorithmOutput.new
+    algorithm_output.data = splitted_algoritm_results
+    algorithm_output.algorithm_id = @algorithm.id
+    algorithm_output.input_value_set_id = input_set.id
+    algorithm_output.save
+
+    gon.algorithm_output_id = algorithm_output.id
+    gon.input_value_set_id = input_set.id
+
+    respond_to do |format|
+      #current_step nil because it's initial step
+      format.html { render :test, :locals => {:current_step => nil }}
+    end
 
     #javac -cp /home/rainwb/Rails/prototype_1/public/java-packages/org.json.jar /home/rainwb/Rails/prototype_1/public/system/algorithms/codes/000/000/001/original/Warshall.java
 
@@ -81,7 +96,12 @@ class TestController < ApplicationController
 
     if !current_step.nil?
       respond_to do |format|
-        format.js { render :step, :locals => {:current_step => current_step }}
+        format.js {
+          render :step, :locals => {
+              :current_step => current_step,
+              :current_question_id => params[:current_question_id]
+          }
+        }
       end
     else
       redirect_to :result_test
@@ -90,8 +110,108 @@ class TestController < ApplicationController
   end
 
   def result
-    respond_to do |format|
-      format.html { render :end }
+
+    input_value_set_id = params[:input_value_set_id].to_i
+
+    algorithm = Algorithm.find(params[:algorithm_id])
+
+    test_session = nil
+
+    algorithm.tests.each do |test|
+      if test.input_value_set_id == input_value_set_id
+        test_session = TestSession.find test.test_session_id
+      end
+    end
+
+    attempts = []
+
+    InputLog.where(
+        user_id: params[:user_id],
+        timestamp: params[:timestamp],
+        input_value_set_id: input_value_set_id
+    ).find_each do |log|
+      attempts.push log
+    end
+
+    if test_session.nil? || attempts.nil?
+      respond_to do |format|
+        format.html { render :error }
+      end
+    else
+
+      errors_count = 0
+      questions_count = 0
+
+      attempts.each do |attempt|
+
+        if attempt.question_number > questions_count
+          questions_count = attempt.question_number
+        end
+        if attempt.error
+          errors_count += 1
+        end
+      end
+
+      estimation_formula = test_session.estimation_formula
+
+      if estimation_formula == 'pass'
+        scale = 100
+      else
+        scale = estimation_formula.to_i
+      end
+
+      one_error_coast = scale / questions_count
+      repeated_error_coefficient = errors_count / questions_count
+
+      total_error_coast = 0
+
+      unique_errors = 0
+
+      previous_question_number = nil
+      attempts.each do |attempt|
+        if attempt.error
+          if !previous_question_number.nil? && previous_question_number == attempt.question_number
+            total_error_coast += repeated_error_coefficient * one_error_coast
+          else
+            unique_errors += 1
+            total_error_coast += one_error_coast
+            previous_question_number = attempt.question_number
+          end
+        end
+      end
+
+      #result = (scale - total_error_coast).round
+      result = scale - total_error_coast
+
+      is_passed = nil
+
+      if estimation_formula == 'pass' && result > 60
+        is_passed = true
+      end
+
+      test_result = TestResult.new
+      test_result.test_session_id = test_session.id
+      test_result.result = result
+      test_result.estimation_formula = estimation_formula
+      test_result.errors_count = errors_count
+      test_result.is_passed = is_passed
+      test_result.unique_errors = unique_errors
+      test_result.input_value_set_id = input_value_set_id
+      test_result.user_id = params[:user_id]
+      test_result.save
+
+
+      respond_to do |format|
+        format.js {
+          render :end, :locals => {
+              :result => result,
+              :estimation_formula => estimation_formula,
+              :errors_count => errors_count,
+              :is_passed => is_passed,
+              :unique_errors => unique_errors
+          }
+        }
+      end
     end
   end
 

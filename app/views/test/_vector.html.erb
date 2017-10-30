@@ -1,6 +1,6 @@
 <% vector_limitation = vector.get_vector_limitation%>
 
-<div class="vector_type step_variable" data-variable-id="<%= vector.id %>">
+<div class="vector_type step_variable" data-variable-id="<%= vector.id %>" data-variable-name="<%= vector.name %>">
 
   <h4>Vector, length: <%= vector_limitation[:columns] %></h4>
   <p class="cell_characteristics">Min value of cell: <%= vector_limitation[:min_value] %></p>

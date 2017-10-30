@@ -1,0 +1,2 @@
+class InputLog < ApplicationRecord
+end

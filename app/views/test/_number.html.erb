@@ -1,6 +1,6 @@
 <% number_limitation = number.get_number_limitation %>
 
-<div class="number_type step_variable" data-variable-id="<%= number.id %>">
+<div class="number_type step_variable" data-variable-id="<%= number.id %>" data-variable-name="<%= number.name %>">
 
   <h4>Number</h4>
   <p class="cell_characteristics">Min value of cell: <%= number_limitation[:min_value] %></p>
