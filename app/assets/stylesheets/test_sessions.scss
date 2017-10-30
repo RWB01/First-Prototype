@@ -1,189 +1,119 @@
-// Place all the styles related to the TestSessions controller here.
+// Place all the styles related to the Algorithms controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.body {
-	
+html,
+body {
+    margin: 0;
+    padding: 0;
 }
 
-div {
-	font-size: 12pt;
+body {
+
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    color: black;
 }
 
-.discipline_list {
-	background-color: #d1e2fc;
-	margin-top: 10px;
-	font-size: 14pt;
+.test-session-options {
+    padding: 5px;
+    float:left;
+    width: 47%;
 }
 
-.discipline {
-	padding-bottom: 10px;
-	width: 20%;
+.algorithm-selection {
+    padding: 5px;
+    float:right;
+    width: 47%;
 }
 
-.discipline_menu {
-	background-color: #ccdfff;
+.content-block {
+	border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background-color:#e1f5fe;
+    padding-top: 5px;   
+    padding-left: 5px;
+    min-height: 50px;
+}
+
+.notification {
+	font-size: 24px;
+}
+
+.layout-positioner {
+    margin: 0 auto;
+    width: 70%;
+}
+
+.layout-positioner::after {
+    display: table;
+    content: "";
+    clear: both;
+}
+
+
+.users-options {
+    padding: 5px;
+}
+
+.discipline_wrapper {
 	display: none;
-	border: 1px solid black;
-	border-radius: 10px;
 }
 
-.discipline_name {
-	background-color: #0057e5;
-	padding-top: 15px;
-	padding-left: 15px;
-	min-height: 40px;
-	border-radius: 10px;
-	border: 1px solid black;
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-	color: rgb(255, 255, 255);
+.theme-wrapper {
+	padding: 5px;
+	background-color: #aebfbe;
+	margin: 5px;
 }
 
-.discipline_title{
-	display:table-cell;
+.theme-selector {
 	padding: 5px;
 }
 
-.theme {
-	padding-bottom: 10px;
-	margin-right: -100px;
-}
-
-.theme_list {
-	margin-top: 10px;
-	margin-left: 100px;
+.theme_algorithms_wrapper {
+	padding: 5px;
+	background-color: #ffffff;
 	display: none;
 }
 
-.theme_name {
-	background-color: #8cb8ff;
-	padding-top: 15px;
-	padding-left: 15px;
-	min-height: 40px;
-	border-radius: 10px;
-	border: 1px solid black;
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+.algorithm-selector {
+	padding: 5px;
+	border-bottom: 1px solid gray;
+	
 }
 
-.algorithm_list {
-	margin-top: 10px;
-	margin-left: 100px;
+#notification_selected {
 	display: none;
+}
+
+.student_wrapper {
+	background-color: #aebfbe;
 }
 
 .algorithm {
-	padding-bottom: 10px;
-	margin-right: -100px;
-	background-color: #a2f2f2;
-	border-radius: 10px;
-	border: 1px solid black;
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-	padding-top: 15px;
-	margin-top: 10px;
-	min-height: 40px;
+	margin: 0 auto;
+    background-color: #ffffff;
 }
 
-.algorithm_name {
-	padding-left: 15px;
+.algorithm::after {
+    display: table;
+    content: "";
+    clear: both;
 }
 
-.algorithm_menu {
+.algorithm_selection_block {
+	padding: 5px;
 	
+    float:left;
+    width: 20%;
 }
 
-.no_elements {
-	margin-left: -100px;
-	margin-right: 0px;
-}
-
-
-.number_type {
-	background-color: #dae2ef;
-	display: inline-table;
-	
-	margin: 10px;
+.algorithm_description_block {
 	padding: 5px;
+    float:right;
+    width: 70%;
 }
 
-.variable description {
-	display: inline-block;
-}
-
-.input_field {
-	display: inline-block;
-	margin-top: 10px;
-}
-
-.string_type {
-	background-color: #dae2ef;
-	display: inline-table;
-	
-	margin: 10px;
-	padding: 5px;
-}
-
-
-.matrix_type {
-	background-color: #dae2ef;
-	display: inline-table;
-	
-	margin: 10px;
-	padding: 5px;
-}
-
-.matrix_input_field {
-	display: table;
-	padding: 2px;
-}
-
-.matrix_row {
-	display: table-row;
-	padding: 2px;
-}
-
-.matrix_column {
-    display: table-cell;
-	padding: 2px;
-}
-
-.matrix_cell {
-	width: 22px;
-    height: 17px;
-}
-
-.vector_type {
-	background-color: #dae2ef;
-	display: inline-table;
-	margin: 10px;
-	padding: 5px;
-}
-
-.vector_input_field {
-
-	padding: 2px;
-}
-
-.vector_column {
-	display: inline-table;
-
-}
-
-.vector_cell {
-	width: 22px;
-    height: 17px;
-}
-
-.variable_field {
-	display:none;
-}
-
-#submit_test_session {
-	display: none;
-}
-
-.selected_algorithm {
-	padding: 5px;
-	margin-top: 20px;
-	background-color: #8ca6ce;
-	display: inline-block;
+.variables {
+	background-color: #ffffff;
 }

@@ -20,8 +20,32 @@ class TestSessionsController < ApplicationController
     @groups = Group.all
     #gon.themes = Theme.all #необходимо изменить так, чтобы искало только темы дисциплин преподавателя
     @algorithms = Algorithm.all #необходимо изменить так, чтобы искало только алгоритмы преподавателя
-    gon.variables = Variable.all
-    gon.data_structures = DataStructure.all # ну вы понели
+    #gon.variables = Variable.all
+    #gon.data_structures = DataStructure.all # ну вы понели
+    gon.algorithms = []
+    @disciplines.each do |discipline|
+      discipline.themes.each do |theme|
+        theme.algorithms.each do |algorithm|
+          gon.algorithms << algorithm
+        end
+      end
+    end
+
+    gon.students = []
+    @groups.each do |group|
+      group.users.each do |user|
+        student_hash = {'group_id' => group.id, 'user_id' => user.id, 'email' => user.email}
+        gon.students << student_hash
+      end
+    end
+  end
+
+  # отрисовываем формы студентов
+  def draw_students_forms
+    students = Group.find(params[:group_id]).users
+    respond_to do |format|
+      format.js { render :draw_student_cards, :locals => {:students => students}}
+    end
   end
 
   # GET /test_sessions/1/edit
@@ -37,6 +61,8 @@ class TestSessionsController < ApplicationController
         format.js { render :add_one_algorithm, :locals => {:variables => input_variables, :algorithm => @algorithm }}
       end
   end
+
+
 
   #сохраняем сеанс тестирования
   def appoint_test_session

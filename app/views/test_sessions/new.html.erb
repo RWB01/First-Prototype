@@ -1,91 +1,95 @@
-<h1>Назначение сеанса тестирования</h1>
-<div>
-	<div>
-		Тип данного сеанса тестирования простой. Его основное назначение - тестирование группы студентов на одном алгоритме, который они только что изучили.
-	</div>
-	<form action="#" id="date_time_form">
-		<div><b>Дата проведения тестирования:</b> <input type="date" name="test_date" id="test_date" min="<%= Date.today %>" value="<%= Date.today %>"></div>
-		<div><b>Время, отведённое на тестирование(в минутах):</b> <input type="number" name="test_time" id="test_time" value="30"></div>
-		<div><b>Выберите способ оценивания:</b> 
-			<select name="formula" id="formula_select">
-				<option value="5">5-бальная шкала</option>
-				<option value="10">10-бальная шкала</option>
-				<option value="100">100-бальная шкала</option>
-				<option value="pass">зачёт\незачёт</option>
-			</select>
-		</div>
-		<div><b>Выберите группу студентов:</b> 
-			<select name="groups" id="group_select" >
-			<% @groups.each do |group|%>
-				<option value="<%= group.id %>"><%= group.title %></option>
-			<% end %>
-			</select>
-		</div>
-<!-- 		<div>Выберите дисциплину: <select name="disciplines" id="discipline_select" >
-			<option disabled selected value> -- select an option -- </option>
-			<% @disciplines.each do |discipline|%>
-				<option value="<%= discipline.id %>"><%= discipline.title %></option>
-			<% end %>
-			</select>
-		</div> -->
-	</form>
-</div>
+<div class="layout-positioner"> 
+	<div class="test-session-options">
+	        <div class="content-block">
+	                <h1>Назначение сеанса тестирования</h1>
+	                <div>
+	                	Выберите необходимые опции для тестирования:
+	                </div>
 
+	                <div>
+	                	<b>Дисциплина:</b>
+						<select name="disciplines" id="discipline_select" >
+									<option value="" selected disabled hidden>Выберите дисциплину</option>
+									<% @disciplines.each do |discipline|%>
+										<option value="<%= discipline.id %>" <% if discipline.themes.count == 0 %> disabled <% end %>><%= discipline.title %> (кол-во тем: <%= discipline.themes.count %>)</option>
+									<% end %>
+						</select>
+	                </div>
 
-
-
-
-<div class="discipline_list">
-	<div>
-		Выберите дисциплину:
-	</div>
-	<% @disciplines.each do |discipline| %>
-		<div class="discipline" id="discipline_<%= discipline.id %>">
-			<div class="discipline_name" id="discipline_name_<%= discipline.id %>" data-status="closed"><%= discipline.title %>	</div>
-			<div class="theme_list">
-				<% if discipline.themes.empty? %>
-					<div class="no_elements">Данная дисциплина не содержит тем.</div>
-				<% else %>
-					<div>
-						Список тем:
-					</div>
-				<% end %>
-				<% discipline.themes.each do |theme| %>
-					<div class="theme" id="theme_<%= theme.id %>">
-						<div class="theme_name" id="theme_name_<%= theme.id %>" data-status="closed"><%= theme.title %>	</div>
-						<div class="algorithm_list">
-							<% if theme.algorithms.empty? %>
-								<div class="no_elements">Данная тема не содержит алгоритмов.</div>
-							<% else %>
-								<div>
-									Список алгоритмов:
-								</div>
+	                <div>
+	                	<b>Группа:</b>
+						<select name="group" id="group_select">
+							<option value="" selected disabled hidden>Выберите группу</option>
+							<% @groups.each do |group|%>
+								<option value="<%= group.id %>" <% if group.users.count == 0 %> disabled <% end %>><%= group.title %> (кол-во студетов: <%= group.users.count %>)</option>
 							<% end %>
-							<% theme.algorithms.each do |algorithm| %>
-								<div class="algorithm" id="algorithm_<%= algorithm.id %>">
-									<div class="algorithm_name" id="algorithm_name_<%= algorithm.id %>" data-status="closed"><%= algorithm.title %></div>
-									<div class="algorithm_menu" id="algorithm_menu_<%= algorithm.id %>">
-										<%= button_to 'Выбрать алгоритм', test_sessions_add_one_algorithm_path, :params => {:algorithm => algorithm.id}, :method => :post, remote: true, :class => "select_algorithm_button" %>	
-									</div>
-								</div>
-							<% end %>
-						</div>
-					</div>
-				<% end %>
-			</div>
-		</div>
-	<% end %>
+						</select>
+	                </div>
+
+	                <div>
+	                	<b>Дата:</b><input type="date" name="test_date" id="test_date" min="<%= Date.today %>" value="<%= Date.today %>">
+	                </div>
+
+	                <div>
+	                	<b>Время:</b><input type="number" name="test_time" id="test_time" placeholder="В минутах" min="10" max="1000">
+	                </div>
+
+	                <div>
+	                	<b>Шкала:</b>			
+	                	<select name="formula" id="formula_select">
+							<option value="5">5-бальная шкала</option>
+							<option value="10">10-бальная шкала</option>
+							<option value="100">100-бальная шкала</option>
+							<option value="pass">зачёт\незачёт</option>
+						</select>
+	                </div>
+
+	                <button id="reset all forms" disabled>Очистить все формы</button>
+	                <button id="fill_forms" disabled>Заполнить формы ввода</button>
+	                <button id="submit_test_session" disabled>Сохранить сеанс тестирования</button>
+	        </div>
+	</div>
+
+
+	<div class="algorithm-selection">
+	        <div class="content-block">
+	        	<div class="notification" id="notification_unselected">
+	        		Выберите дисциплину, по которой будет проводиться тестирование
+	        	</div>
+	        	<div class="notification" id="notification_selected">
+	        		Выберите алгоритмы, которые будут учавствовать в тестировании
+	        	</div>
+	        	<% @disciplines.each do |discipline|%>
+	        		<div class="discipline_wrapper" id="discipline_<%= discipline.id %>">
+			        	<% discipline.themes.each do |theme|%>
+			        		<div class="theme-wrapper" id="theme_<%= theme.id %>">
+			        			<div class="theme-selector">
+			        				<input class="theme_checkbox" type="checkbox" name="theme" value="<%= theme.id %>" <% if theme.algorithms.count == 0 %> disabled <% end %>><%= theme.title %> (Кол-во алгоритмов: <%=theme.algorithms.count%>)
+			        			</div>
+			        			<div class="theme_algorithms_wrapper">
+			        				<% theme.algorithms.each do |algorithm|%>
+			        					<div class="algorithm-selector">
+					        				<input class="algorithm_checkbox" type="checkbox" name="algorithm" value="<%= algorithm.id %>" <% if algorithm.steps.count == 0 %> disabled <% end %>><%= algorithm.title %> <% if algorithm.steps.count == 0 %> (Алгоритм не настроен) <% end %>
+					        			</div>
+			        				<% end %>
+			        			</div>
+			        		</div>
+			        	<% end %>
+			        </div>
+	        	<% end %>
+	        </div>    
+	</div>
 </div>
 
-
-
-
-<div class="selected_algorithm" id="algorithm_placeholder">
-
-</div>
-
-
-<div>
-	<button id="submit_test_session">Сохранить сеанс тестирования</button>
-	<button id="back"><%= link_to 'Back', test_sessions_path %></button>
+<div class="users-options">
+	<div class="layout-positioner"> 
+        <div class="content-block">
+        		<div class="notification">	
+	        		Выберите группу студентов, в которой будет проводиться тестирование
+	        	</div>
+	        	<div id=student_cards_placeholder>
+	        	</div>
+	        	
+        </div>
+    </div>
 </div>

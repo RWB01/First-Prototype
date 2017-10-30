@@ -1,0 +1,32 @@
+function renewAlgorithmLists() {
+	var algorithms_list = [];
+
+	$(".algorithm_checkbox").each(function(){
+		if (this.checked) {
+			var temp_algorithm = {};
+			temp_algorithm.id = this.value;
+			temp_algorithm.title = gon.algorithms.find(x => x.id == this.value).title;
+			algorithms_list.push(temp_algorithm);
+		}
+	})
+
+	$(".algorithm_select").each(function(){
+		list = this;
+		algorithms_list.forEach(function(element,index,array){
+			//alert(element.id+"  "+element.title);
+			//list.append("<option value=\"" + element.id + "\">" + element.title + "</option>");
+			list.append(new Option(element.title, element.id));
+			//list.append("Дарова бандиты");
+		})
+	})
+
+};
+
+
+$('#student_cards_placeholder').html("");
+$('#student_cards_placeholder').append("<%= escape_javascript render 'students', :students => students %>");
+renewAlgorithmLists();
+
+
+
+//$("#student_cards_placeholder").show(200);
