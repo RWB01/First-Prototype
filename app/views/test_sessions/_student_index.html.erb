@@ -15,7 +15,7 @@
             <td><%= test_session.time %></td>
             <% algorithm = test_session.get_algorithm_by_user current_user.id %>
 
-            <% if (test_session.test_date.to_time.to_i >= DateTime.now.to_time.to_i) %>
+            <% if (test_session.test_date.to_time.to_i >= DateTime.now.beginning_of_day.to_time.to_i) %>
 
               <% if algorithm != nil %>
                   <td><%= link_to 'Start test', start_test_path(algorithm_id: algorithm.id) %></td>
