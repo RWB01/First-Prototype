@@ -130,7 +130,9 @@ class TestSession < ApplicationRecord
 			end
 		end
 
-		algorithm = Algorithm.find algorithm_id
+		if algorithm_id != nil
+			algorithm = Algorithm.find algorithm_id
+		end
 
 		return algorithm
 	end

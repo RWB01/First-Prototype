@@ -64,7 +64,7 @@
                 <form action="#" class="input-variable-form">
                     <% @algorithm.variables.each do |variable| %> 
                         <div>
-                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if variable.is_input == true %>checked<% end %>><%= variable.alias %> - <%= variable.get_data_structure_type %></label>
+                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if variable.is_input == true %>checked<% end %>><%= variable.name %> - <%= variable.get_data_structure_type %></label>
                             <label>Описание переменной:<input type="text" id="variable_description_<%= variable.id%>" name="variable_description_<%= variable.id %>" class="input_variables_description" value="<%= variable.description %>"></input></label>
                         </div>  
                     <% end %>

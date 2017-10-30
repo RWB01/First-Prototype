@@ -11,10 +11,10 @@ class TestController < ApplicationController
       #THROW SOME EXCEPTION
     end
 
-    java_json_package = '/home/rainwb/Rails/prototype_1/public/java-packages/parser.jar'
-    org_json_package = '/home/rainwb/Rails/prototype_1/public/java-packages/org.json.jar'
+    java_json_package = 'public/java-packages/parser.jar'
+    org_json_package = 'public/java-packages/org.json.jar'
 
-    algorithm_class_path = '/home/rainwb/Rails/prototype_1/public/system/modified_algorithms/' +
+    algorithm_class_path = 'public/system/modified_algorithms/' +
         @algorithm.id.to_s + '_' + @algorithm.title + '/' + @algorithm.code.original_filename.to_s
 
     algorithm_file_path = algorithm_class_path.gsub('.java', '.class')
