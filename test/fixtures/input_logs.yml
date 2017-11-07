@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  input_value_set_id: 1
+  algorithm_id: 1
+  question_number: 1
+  wrong_data: MyString
+  all_data: MyString
+  algorithm_output_data_id: 1
+
+two:
+  user_id: 1
+  input_value_set_id: 1
+  algorithm_id: 1
+  question_number: 1
+  wrong_data: MyString
+  all_data: MyString
+  algorithm_output_data_id: 1

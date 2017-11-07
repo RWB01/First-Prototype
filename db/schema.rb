@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170619043544) do
+ActiveRecord::Schema.define(version: 20171028065321) do
+
+  create_table "algorithm_outputs", force: :cascade do |t|
+    t.integer  "algorithm_id"
+    t.integer  "input_value_set_id"
+    t.string   "data"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "algorithms", force: :cascade do |t|
     t.string   "title"
@@ -56,6 +64,20 @@ ActiveRecord::Schema.define(version: 20170619043544) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "input_logs", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "input_value_set_id"
+    t.integer  "algorithm_id"
+    t.integer  "question_number"
+    t.string   "wrong_data"
+    t.string   "all_data"
+    t.integer  "algorithm_output_data_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.boolean  "error"
+    t.integer  "timestamp"
   end
 
   create_table "input_value_sets", force: :cascade do |t|
@@ -105,6 +127,19 @@ ActiveRecord::Schema.define(version: 20170619043544) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.index ["algorithm_id"], name: "index_steps_on_algorithm_id"
+  end
+
+  create_table "test_results", force: :cascade do |t|
+    t.integer  "test_session_id"
+    t.integer  "result"
+    t.string   "estimation_formula"
+    t.integer  "errors_count"
+    t.boolean  "is_passed"
+    t.integer  "unique_errors"
+    t.integer  "input_value_set_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "user_id"
   end
 
   create_table "test_sessions", force: :cascade do |t|
