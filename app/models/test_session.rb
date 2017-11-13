@@ -2,6 +2,47 @@ class TestSession < ApplicationRecord
 	has_many :tests, :dependent => :destroy
 	has_many :test_results
 
+	def create_tests(data)
+		require 'base64'
+		if (!data.nil?)
+			data.each do |key,val|
+				temp_student = User.find(val[:student])
+				temp_algorithm = Algorithm.find(val[:algorithm])
+				#temp_value_set = InputValueSet.new(:difficulty => "5", :algorithm_id => temp_algorithm.id)
+				#temp_value_set.save
+				variable_set_exist = false;
+				input_variables = val[:variables]
+
+				#проверяем, существует ли уже такой набор
+				if (!input_variables.nil?)
+					temp_string = ""
+					encoded_string = ""
+					input_variables.each do |key,val|
+						temp_string += val[:id].to_s + val[:value].to_s
+					end
+					encoded_string = Base64.encode64(temp_string)
+					existing_set = InputValueSet.find_by hash_string: encoded_string, algorithm_id: temp_algorithm.id
+					if (!existing_set.nil?)
+						temp_test = Test.new(:test_session_id => self.id, :algorithm_id => temp_algorithm.id, :user_id => temp_student.id, :input_value_set_id => existing_set.id)
+						temp_test.save
+					else
+						#если не существует, то делаем новый набор
+						temp_value_set = InputValueSet.new(:difficulty => "5", :algorithm_id => temp_algorithm.id, :hash_string => encoded_string)
+						temp_value_set.save
+						input_variables.each do |key,val|
+							temp_input_value = InputVariableValue.new(:value => val[:value], :variable_id => val[:id], :input_value_set_id => temp_value_set.id)
+							temp_input_value.save
+						end
+						#temp_value_set.create_hash
+						
+						temp_test = Test.new(:test_session_id => self.id, :algorithm_id => temp_algorithm.id, :user_id => temp_student.id, :input_value_set_id => temp_value_set.id)
+						temp_test.save
+					end
+				end
+			end
+		end
+	end
+
 
 	def manual_tests(numbers, strings, vectors, matrixs, group, algorithm)
 		temp_algorithm = Algorithm.find(algorithm)

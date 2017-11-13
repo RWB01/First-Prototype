@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028065321) do
+ActiveRecord::Schema.define(version: 20171113095903) do
 
   create_table "algorithm_outputs", force: :cascade do |t|
     t.integer  "algorithm_id"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20171028065321) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "algorithm_id"
+    t.text     "hash_string"
     t.index ["algorithm_id"], name: "index_input_value_sets_on_algorithm_id"
   end
 
@@ -148,6 +149,12 @@ ActiveRecord::Schema.define(version: 20171028065321) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "estimation_formula"
+    t.integer  "user_id"
+    t.integer  "discipline_id"
+    t.integer  "group_id"
+    t.index ["discipline_id"], name: "index_test_sessions_on_discipline_id"
+    t.index ["group_id"], name: "index_test_sessions_on_group_id"
+    t.index ["user_id"], name: "index_test_sessions_on_user_id"
   end
 
   create_table "tests", force: :cascade do |t|

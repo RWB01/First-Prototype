@@ -2,6 +2,10 @@
     <table>
       <thead>
       <tr>
+        
+        <th>Дисциплина</th>
+
+        <th>Преподаватель</th>
         <th>Дата тестирования</th>
         <th>Ограничение по времени</th>
         <th colspan="1"></th>
@@ -11,6 +15,10 @@
       <tbody>
       <% test_sessions.each do |test_session| %>
           <tr>
+            
+            <td><%= Discipline.find(test_session.discipline_id).title %></td>
+
+            <td><%= User.find(test_session.user_id).email %></td>
             <td><%= test_session.test_date %></td>
             <td><%= test_session.time %></td>
             <!--           <td><%= link_to 'Show', test_session %></td>
@@ -35,7 +43,6 @@
 
 <br>
 
-<div><%= link_to 'Back', dashboard_index_path %></div>
-<div><%= link_to 'Назначить простое тестирование', new_test_session_path %></div>
-<div><%= link_to 'Назначить тестирование по теме', new_test_session_path %></div>
-<div><%= link_to 'Назначить экзаменационное тестирование', new_test_session_path %></div>
+
+<div><%= link_to 'Назначить тестирование', new_test_session_path %></div>
+<div><%= link_to 'Назад', dashboard_index_path %></div>

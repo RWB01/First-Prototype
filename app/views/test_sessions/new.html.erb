@@ -44,19 +44,20 @@
 						</select>
 	                </div>
 
-	                <button id="reset all forms" disabled>Очистить все формы</button>
-	                <button id="fill_forms" disabled>Заполнить формы ввода</button>
-	                <button id="submit_test_session" disabled>Сохранить сеанс тестирования</button>
+	                <button id="reset_all_forms_button" disabled>Очистить все формы</button>
+	                <button id="fill_forms_button" disabled>Заполнить формы ввода</button>
+	                <button id="submit_test_session_button" disabled>Сохранить сеанс тестирования</button>
+	                <button><%= link_to 'Назад', test_sessions_path %></button>
 	        </div>
 	</div>
 
 
 	<div class="algorithm-selection">
 	        <div class="content-block">
-	        	<div class="notification" id="notification_unselected">
+	        	<div class="notification" id="discipline_notification_unselected">
 	        		Выберите дисциплину, по которой будет проводиться тестирование
 	        	</div>
-	        	<div class="notification" id="notification_selected">
+	        	<div class="notification" id="discipline_notification_selected">
 	        		Выберите алгоритмы, которые будут учавствовать в тестировании
 	        	</div>
 	        	<% @disciplines.each do |discipline|%>
@@ -84,8 +85,11 @@
 <div class="users-options">
 	<div class="layout-positioner"> 
         <div class="content-block">
-        		<div class="notification">	
+        		<div class="notification" id="group_notification_unselected">	
 	        		Выберите группу студентов, в которой будет проводиться тестирование
+	        	</div>
+	        	<div class="notification" id="group_notification_selected">	
+	        		Выберите алгоритмы и входные данные для каждого студента
 	        	</div>
 	        	<div id=student_cards_placeholder>
 	        	</div>

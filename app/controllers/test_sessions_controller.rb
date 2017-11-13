@@ -54,6 +54,18 @@ class TestSessionsController < ApplicationController
     end
   end
 
+  # отрисовываем формы ввода входных данных для каждого алгоритма
+  def select_algorithms
+    data_array = params[:data_array]
+    # if (!data_array.nil?)
+    #   data_array.each do |key,val|
+    #   end
+    # end
+    respond_to do |format|
+      format.js { render :add_input_data_forms, :locals => {:data_array => data_array} }
+    end
+  end
+
   # GET /test_sessions/1/edit
   def edit
   end
@@ -66,6 +78,14 @@ class TestSessionsController < ApplicationController
       respond_to do |format|
         format.js { render :add_one_algorithm, :locals => {:variables => input_variables, :algorithm => @algorithm }}
       end
+  end
+
+  def save_test_session
+    if (!params[:tests].nil?)
+      test_session = TestSession.new(:test_date => params[:date].to_date(), :time => params[:time], :estimation_formula => params[:formula], :user_id => current_user.id, :discipline_id => params[:discipline], :group_id => params[:group])
+      test_session.save
+      test_session.create_tests(params[:tests])
+    end
   end
 
 

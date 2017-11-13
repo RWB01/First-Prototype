@@ -82,12 +82,17 @@ body {
 	
 }
 
-#notification_selected {
+#discipline_notification_selected {
 	display: none;
+}
+
+#group_notification_selected {
+    display: none;
 }
 
 .student_wrapper {
 	background-color: #aebfbe;
+    margin-bottom: 10px;
 }
 
 .algorithm {
@@ -103,7 +108,6 @@ body {
 
 .algorithm_selection_block {
 	padding: 5px;
-	
     float:left;
     width: 20%;
 }
@@ -116,4 +120,104 @@ body {
 
 .variables {
 	background-color: #ffffff;
+    padding: 5px;
+}
+
+
+
+
+
+.variable {
+    background-color: #dae2ef;
+    display: inline-table;
+    margin: 10px;
+    padding: 5px;
+}
+
+.number_type {
+    background-color: #dae2ef;
+    display: inline-table;
+    margin: 10px;
+    padding: 5px;
+}
+
+.variable_description {
+    display: inline-block;
+}
+
+.input_field {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.string_type {
+    background-color: #dae2ef;
+    display: inline-table;
+    
+    margin: 10px;
+    padding: 5px;
+}
+
+
+.matrix_type {
+    background-color: #dae2ef;
+    display: inline-table;
+    
+    margin: 10px;
+    padding: 5px;
+}
+
+.matrix_input_field {
+    display: table;
+    padding: 2px;
+}
+
+.matrix_row {
+    display: table-row;
+    padding: 2px;
+}
+
+.matrix_column {
+    display: table-cell;
+    padding: 2px;
+}
+
+.matrix_cell {
+    width: 22px;
+    height: 17px;
+}
+
+.vector_type {
+    background-color: #dae2ef;
+    display: inline-table;
+    margin: 10px;
+    padding: 5px;
+}
+
+.vector_input_field {
+
+    padding: 2px;
+}
+
+.vector_column {
+    display: inline-table;
+
+}
+
+.vector_cell {
+    width: 22px;
+    height: 17px;
+}
+
+.variable_field {
+    
+}
+
+.error_cell {
+    background-color: #D28787;
+}
+
+.control_buttons {
+    background-color: #ffffff;
+    display:none;
 }

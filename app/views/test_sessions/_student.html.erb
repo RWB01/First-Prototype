@@ -1,21 +1,27 @@
-<div class="student_wrapper">
+<div class="student_wrapper" id="student_card_<%= student.id %>">
 	<div class="student_header">
-		<input class="student_checkbox" type="checkbox" name="student" value="1" checked> <%= student.email %>
+		<input class="student_checkbox" type="checkbox" name="student" value="<%= student.id %>" checked> <%= student.email %>
 	</div>
 
-	<div class="algorithm">
-		<div class="algorithm_selection_block">
-			<select name="algorithm" class="algorithm_select">
-				<option value="" selected disabled hidden>Выберите алгоритм</option>
-			</select>
-		</div>
-		<div class="algorithm_description_block">
-			Бла бла бла бла
-			Бла
-		</div>
-	</div>
+	<div class="student_options_wrapper">
+		<div class="algorithm">
+			<div class="algorithm_selection_block">
+				<select name="algorithm" class="algorithm_select" id="algorithm_select_<%= student.id %>">
+					<option value="" selected disabled hidden>Выберите алгоритм</option>
+				</select>
+			</div>
+			<div class="algorithm_description_block" id="algorithm_description_block_<%= student.id %>">
 
-	<div class="variables">
-		Ехехехехе
+			</div>
+		</div>
+
+		<div class="control_buttons" id="student_buttons_<%= student.id %>">
+			<button class="randomize_variables_button" id="randomize_variables_<%= student.id %>" >Сгенерировать значения</button>
+			<button class="empty_variables_button" id="empty_variables_<%= student.id %>" >Очистить всё</button>
+		</div>
+
+		<div class="variables" id="student_variables_<%= student.id %>">
+
+		</div>
 	</div>
 </div>

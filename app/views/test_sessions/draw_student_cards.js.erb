@@ -11,7 +11,7 @@ function renewAlgorithmLists() {
 	})
 
 	$(".algorithm_select").each(function(){
-		list = this;
+		var list = this;
 		algorithms_list.forEach(function(element,index,array){
 			//alert(element.id+"  "+element.title);
 			//list.append("<option value=\"" + element.id + "\">" + element.title + "</option>");
@@ -27,6 +27,47 @@ $('#student_cards_placeholder').html("");
 $('#student_cards_placeholder').append("<%= escape_javascript render 'students', :students => students %>");
 renewAlgorithmLists();
 
+//обработка включения-отключения студента
+$(".student_checkbox").change(function() {
+	if (this.checked){
+		$(this).parent().parent().find(".student_options_wrapper").show(100);
+	}
 
+	if (!this.checked){
+		$(this).parent().parent().find(".student_options_wrapper").hide(100);
+	}
+});
+
+//обработка смены алгоритма у студента
+$(".algorithm_select").change(function(){
+	var algorithms = [];
+	var students = [];
+			
+	algorithms.push($(this).val());
+	students.push($(this).prop('id').split("_").pop());
+
+	//собираем пары {алгоритм_id,студент_id} и посылаем их на сервер, чтобы отрендерить формы ввода данных
+	if (algorithms != 0 && students != 0) {
+		sendStudentsAlgorithms(students,algorithms);
+	}
+});
+
+
+$(".randomize_variables_button").click(function() {
+	$("#student_variables_" + $(this).prop('id').split("_").pop()).find(".variable").each(function() {
+		generateInputData($(this));
+	})
+});
+
+$(".empty_variables_button").click(function() {
+	$("#student_variables_" + $(this).prop('id').split("_").pop()).find(".variable").each(function() {
+		$(this).find(".input_cell").each(function() {
+			$(this).val("");
+		})
+		$(this).find(".input_string_cell").each(function() {
+			$(this).val("");
+		})
+	})
+});
 
 //$("#student_cards_placeholder").show(200);

@@ -1,12 +1,12 @@
 <% vector_limitation = vector.get_vector_limitation%>
 
-<div class="vector_type" data-variable-id="<%= vector.id %>" data-variable-min="<%= vector_limitation[:rows] %>" data-variable-max="<%= vector_limitation[:column] %>">
+<div class="variable" data-type="vector" data-variable-id="<%= vector.id %>" data-variable-min="<%= vector_limitation[:rows] %>" data-variable-max="<%= vector_limitation[:column] %>" data-min-value="<%= vector_limitation[:min_value] %>" data-max-value="<%= vector_limitation[:max_value] %>">
   <div>Имя переменной: <%= vector.alias %></div>
   <div>Тип данных: Вектор</div>
   <div>Длина вектора: От <%= vector_limitation[:rows] %> до <%= vector_limitation[:columns] %></div>
   <div>Описание переменной: <%= vector.description %></div>
-  <div class="cell_characteristics">Минимальное значение элемента: <%= vector_limitation[:min_value] %></div>
-  <div class="cell_characteristics">Максимальная значение элемента: <%= vector_limitation[:max_value] %></div>
+  <div class="cell_characteristics">Минимальное значение: <%= vector_limitation[:min_value] %></div>
+  <div class="cell_characteristics">Максимальная значение: <%= vector_limitation[:max_value] %></div>
 
 
   <div>Введите значение вектора <%= vector.alias %>:</div>
@@ -14,7 +14,7 @@
         <!-- add column numbers -->
         <% vector_limitation[:columns].times do |column| %>
             <div class="vector_column">
-              <input class="vector_cell input_cell empty_value" type="text" size="1"
+              <input class="vector_cell input_cell" type="text" size="1"
                      data-min-value="<%= vector_limitation[:min_value] %>"
                      data-max-value="<%= vector_limitation[:max_value] %>"
                      data-column="<%= column %>"

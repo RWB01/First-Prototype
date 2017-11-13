@@ -1,17 +1,17 @@
 <% string_limitation = string.get_string_limitation %>
 
-<div class="string_type" data-variable-id="<%= string.id %>">
+<div class="variable" data-type="string" data-variable-id="<%= string.id %>" data-min-length="<%= string_limitation[:min_length] %>" data-max-length="<%= string_limitation[:max_length] %>">
 
 
   	<div>Имя переменной: <%= string.alias %></div>
 	<div>Тип данных: Строка</div>
 	<div>Описание переменной: <%= string.description %></div>
-  	<div class="cell_characteristics">Минимальная длина строки: <%= string_limitation[:min_length] %></div>
-  	<div class="cell_characteristics">Максимальная длина строки: <%= string_limitation[:max_length] %></div>
+  	<div class="cell_characteristics">Минимальная длина: <%= string_limitation[:min_length] %></div>
+  	<div class="cell_characteristics">Максимальная длина: <%= string_limitation[:max_length] %></div>
 
 	<div class="input_field">
 		<div>Введите значение <%= string.alias %>:</div>
-		<input class="string_cell input_string_cell empty_value" type="text"
+		<input class="string_cell input_string_cell" type="text"
 		    size=""<%= string_limitation[:max_length] %>"
 		    data-min-length="<%= string_limitation[:min_length] %>"
 		    data-max-length="<%= string_limitation[:max_length] %>"
