@@ -2,6 +2,8 @@
     <table>
       <thead>
       <tr>
+      	<th>Дисциплина</th>
+        <th>Название алгоритма</th>
         <th>Дата тестирования</th>
         <th>Ограничение по времени</th>
         <th colspan="1"></th>
@@ -11,30 +13,36 @@
       <tbody>
       <% test_sessions.each do |test_session| %>
           <tr>
+
+          	<% temp_test = test_session.get_test_by_user_id current_user.id %>
+            <% algorithm = Algorithm.find(temp_test.algorithm_id) %>
+
+          	<td><%= Discipline.find(test_session.discipline_id).title %></td>
+            <td><%= algorithm.title %></td>
             <td><%= test_session.test_date %></td>
             <td><%= test_session.time %></td>
-            <% algorithm = test_session.get_algorithm_by_user current_user.id %>
+            
 
             <% if (test_session.test_date.to_time.to_i >= DateTime.now.beginning_of_day.to_time.to_i) %>
 
               <% if algorithm != nil %>
-                  <td><%= link_to 'Start test', start_test_path(algorithm_id: algorithm.id) %></td>
+                  <td><%= link_to 'Начать тестирование', start_test_path(test_id: temp_test.id) %></td>
               <% end %>
             <% else %>
-                <td> Test seance for algorithm:" <%= algorithm.title %>" was expired </td>
+                <td> Сеанс тестирования для алгоритма:" <%= algorithm.title %>" истёк </td>
             <% end %>
             <% result = test_session.get_result_by_user_id current_user.id %>
             <% if result != nil %>
-                <td> Your last result is <%= result.result %> </td>
+                <td> Ваш последний результат: <%= result.result %> </td>
             <% end %>
           </tr>
       <% end %>
       </tbody>
     </table>
 <% else %>
-    <div>В настоящее время не назначено ни одного сеанса тестирования. Для назначения сеанса тестирования выберите одну из опций снизу.</div>
+    <div>Для вас в данный момент не назначено ни одного теста.</div>
 <% end %>
 
 <br>
 
-<div><%= link_to 'Back', dashboard_index_path %></div>
+<div><%= link_to 'Назад', dashboard_index_path %></div>

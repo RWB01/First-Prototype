@@ -1,13 +1,15 @@
 class TestController < ApplicationController
 
-  before_action :set_algorithm, only: [:start, :step]
+  before_action :set_test, only: [:start]
+  before_action :set_algorithm, only: [:step]
 
   def start
 
-    test = @algorithm.get_test_by_user current_user.id
+    #test = @algorithm.get_test_by_user current_user.id
+    #@algorithm = Algorithm.find(@test.algorithm_id)
     gon.user_id = current_user.id
 
-    if test.nil?
+    if @algorithm.nil?
       #THROW SOME EXCEPTION
     end
 
@@ -34,7 +36,7 @@ class TestController < ApplicationController
     class_file_path = algorithm_file_path.gsub("#{class_name}.class", '')
 
     #i need to compose all input variables right there!
-    input_set = @algorithm.input_value_sets.last
+    input_set = InputValueSet.find(@test.input_value_set_id)
     args = Hash.new
     input_set.input_variable_values.each do |variable_value|
       variable = Variable.find(variable_value.variable_id)
@@ -221,10 +223,15 @@ class TestController < ApplicationController
 
   private
 
-    def set_algorithm
-      p params[:algorithm_id]
-      @algorithm = Algorithm.find(params[:algorithm_id].to_i)
+    def set_test
+      p params[:test_id]
+      @test = Test.find(params[:test_id].to_i)
+      @algorithm = Algorithm.find(@test.algorithm_id)
     end
+
+    def set_algorithm
+      @algorithm = Algorithm.find(params[:algorithm_id].to_i)
+    end    
 
     # def step_params
     #   params.fetch

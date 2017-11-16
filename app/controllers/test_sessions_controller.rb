@@ -4,7 +4,13 @@ class TestSessionsController < ApplicationController
   # GET /test_sessions
   # GET /test_sessions.json
   def index
-    @test_sessions = TestSession.all
+    if (current_user.has_role(:PROFESSOR_ROLE))
+      @test_sessions = TestSession.where user_id: current_user.id
+    else
+      if (current_user.has_role(:STUDENT_ROLE))
+        @test_sessions = TestSession.all.includes(:tests).where('tests.user_id' => current_user.id)
+      end
+    end
     # @user_test_results = []
     # TestResult.where(
     #     user_id: current_user.id,

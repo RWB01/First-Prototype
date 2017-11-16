@@ -4,7 +4,7 @@
       <tr>
         
         <th>Дисциплина</th>
-
+        <th>Группа</th>
         <th>Преподаватель</th>
         <th>Дата тестирования</th>
         <th>Ограничение по времени</th>
@@ -17,7 +17,7 @@
           <tr>
             
             <td><%= Discipline.find(test_session.discipline_id).title %></td>
-
+            <td><%= Group.find(test_session.group_id).title %></td>
             <td><%= User.find(test_session.user_id).email %></td>
             <td><%= test_session.test_date %></td>
             <td><%= test_session.time %></td>

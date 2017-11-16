@@ -189,4 +189,12 @@ class TestSession < ApplicationRecord
 
 		return result
 	end
+
+	def get_test_by_user_id(user_id)
+		result = nil
+
+		result = Test.find_by user_id: user_id, test_session_id: self.id
+
+		return result
+	end
 end
