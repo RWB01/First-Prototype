@@ -8,9 +8,14 @@
 
     <div class="test_body">
 
-      <h2> Initial step: Algorithm's input data </h2>
+      <div class="variables">
+        <h2> Initial step: Algorithm's input data </h2>
 
-      <%= render 'variables', :variables => @algorithm.get_initial_variables %>
+        <%= render 'variables', :variables => @algorithm.get_initial_variables %>
+      </div>
+      <div class="steps_description">
+        <%= render 'steps_description', :steps => @algorithm.steps %>
+      </div>
 
     </div>
 

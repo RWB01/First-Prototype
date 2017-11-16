@@ -20,7 +20,8 @@ class Variable < ApplicationRecord
       :rows => rows.to_i,
       :columns => columns.to_i,
       :min_value => min_value.to_i,
-      :max_value => max_value.to_i
+      :max_value => max_value.to_i,
+      :name => name
     }
 
   end
@@ -39,7 +40,8 @@ class Variable < ApplicationRecord
        :rows => rows.to_i,
        :columns => columns.to_i,
        :min_value => min_value.to_i,
-       :max_value => max_value.to_i
+       :max_value => max_value.to_i,
+       :name => name
      }
 
    end
@@ -52,6 +54,7 @@ class Variable < ApplicationRecord
     {
         :min_length => min_length.to_i,
         :max_length => max_length.to_i,
+        :name => name
     }
 
   end
@@ -62,7 +65,8 @@ class Variable < ApplicationRecord
 
      {
              :min_value => min_value.to_i,
-             :max_value => max_value.to_i
+             :max_value => max_value.to_i,
+             :name => name
      }
 
   end

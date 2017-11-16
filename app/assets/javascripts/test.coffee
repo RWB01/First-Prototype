@@ -303,3 +303,11 @@ $(document).on "turbolinks:load", ->
   $(document).on 'input', '.input_string_cell', () ->
     validate_string_cell($(this))
   # end of function
+
+  $('.step_checkbox').bind 'click', () ->
+    description = $(this).parent().parent().find('.description')
+    if $(this).is( ":checked" )
+
+      description.show('slow')
+    else
+      description.hide('slow')

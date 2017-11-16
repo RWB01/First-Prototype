@@ -2,72 +2,98 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
-.test_body {
-  width: 100%;
-  min-height: 200px;
-  height: auto;
+.test_process_wrapper {
 
   padding: 10px 15px 10px 15px;
 
-  background-color: #d9eafb;
+  .test_body {
+    width: 100%;
+    min-height: 200px;
+    height: auto;
 
-  margin-bottom: 15px;
-  margin-top: 15px;
+    background-color: #d9eafb;
 
-  .empty_value {
-    border-color: gray;
-  }
+    margin-bottom: 15px;
+    margin-top: 15px;
 
-  .incorrect_value {
-    border-color: red;
-  }
+    display: table;
 
-  .valid_value {
-    border-color: blue;
-  }
+    .variables {
 
-  .frozen_input {
-    background-color: #c7c7c7;
-  }
+      display: table-cell;
+
+      width: 50%;
+
+      .empty_value {
+        border-color: gray;
+      }
+
+      .incorrect_value {
+        border-color: red;
+      }
+
+      .valid_value {
+        border-color: blue;
+      }
+
+      .frozen_input {
+        background-color: #c7c7c7;
+      }
 
 
-  .matrix_type {
+      .matrix_type {
 
-    padding-bottom: 20px;
+        padding-bottom: 20px;
 
-    .matrix_column {
-      display: inline-block;
-      padding: 4px 4px 0 0;
+        .matrix_column {
+          display: inline-block;
+          padding: 4px 4px 0 0;
 
-      .matrix_cell {
-        width: 22px;
-        height: 17px;
-        box-shadow: 2px 2px 1px 0;
+          .matrix_cell {
+            width: 22px;
+            height: 17px;
+            box-shadow: 2px 2px 1px 0;
+          }
+        }
+
+      }
+
+      .vector_type {
+
+        padding-bottom: 20px;
+
+        .vector_column {
+          display: inline-block;
+          padding: 4px 4px 0 0;
+
+          .vector_cell {
+            width: 22px;
+            height: 17px;
+            box-shadow: 2px 2px 1px 0;
+          }
+
+        }
+      }
+
+      .cell_characteristics {
+        margin: 0;
       }
     }
 
-  }
+    .steps_description {
 
-  .vector_type {
+      padding-left: 2%;
 
-    padding-bottom: 20px;
+      display: table-cell;
 
-    .vector_column {
-      display: inline-block;
-      padding: 4px 4px 0 0;
+      .step_description{
 
-      .vector_cell {
-        width: 22px;
-        height: 17px;
-        box-shadow: 2px 2px 1px 0;
+        height: auto;
+
+        .description {
+          display: none;
+        }
       }
-
     }
   }
-
-  .cell_characteristics {
-    margin: 0;
-  }
-
 }
