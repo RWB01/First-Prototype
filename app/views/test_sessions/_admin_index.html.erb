@@ -23,11 +23,12 @@
             <td><%= test_session.time %></td>
             <!--           <td><%= link_to 'Show', test_session %></td>
           <td><%= link_to 'Edit', edit_test_session_path(test_session) %></td> -->
+            <% temp_test = test_session.get_test_by_user_id current_user.id %>
             <% algorithm = test_session.get_algorithm_by_user current_user.id %>
             <% result = test_session.get_result_by_user_id current_user.id %>
 
             <% if algorithm != nil %>
-                <td><%= link_to 'Start test', start_test_path(algorithm_id: algorithm.id) %></td>
+                <td><%= link_to 'Start test', start_test_path(test_id: temp_test.id) %></td>
             <% end %>
             <% if result != nil %>
                 <td> Your last result is <%= result.result %> </td>
