@@ -45,22 +45,30 @@ class Algorithm < ApplicationRecord
     code_array.insert(main_line+2,json_parser)
     shift_count = 3
 
-    input_variables = self.variables.reject{|x| !x.is_input}
+    input_variables = self.variables #.reject{|x| !x.is_input}
     input_variables.each do |variable|
-      variable_string = ""
-      class_variable = ""
+      variable_string = " "
+      class_variable = " "
       case variable.get_data_structure_type
         when :NUMBER
-          variable_string += variable.name.to_s + " = ad.getNumberFromJSON(\"" + variable.name.to_s + "\");"
+          if (variable.is_input)
+            variable_string += variable.name.to_s + " = ad.getNumberFromJSON(\"" + variable.name.to_s + "\");"
+          end
           class_variable += "private static int " + variable.name.to_s + ";"
         when :STRING
-          variable_string += variable.name.to_s + " = ad.getStringFromJSON(\"" + variable.name.to_s + "\");"
+          if (variable.is_input)
+            variable_string += variable.name.to_s + " = ad.getStringFromJSON(\"" + variable.name.to_s + "\");"
+          end
           class_variable += "private static String " + variable.name.to_s + ";"
         when :VECTOR
-          variable_string += variable.name.to_s + " = ad.getVectorFromJSON(\"" + variable.name.to_s + "\");"
+          if (variable.is_input)
+            variable_string += variable.name.to_s + " = ad.getVectorFromJSON(\"" + variable.name.to_s + "\");"
+          end
           class_variable += "private static int[] " + variable.name.to_s + ";"
         when :MATRIX
-          variable_string += variable.name.to_s + " = ad.getMatrixFromJSON(\"" + variable.name.to_s + "\");"
+          if (variable.is_input)
+            variable_string += variable.name.to_s + " = ad.getMatrixFromJSON(\"" + variable.name.to_s + "\");"
+          end
           class_variable += "private static int[][] " + variable.name.to_s + ";"
         else
           variable_string += "//UNKNOWN_STUFF #{variable.name.to_s}"

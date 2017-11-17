@@ -1,5 +1,5 @@
 <% data_array.each do |key,val| %>
-	$("#student_variables_<%= escape_javascript val[:student] %>").html("<%= escape_javascript render 'variables', :variables => Algorithm.find(val[:algorithm]).variables %>");
+	$("#student_variables_<%= escape_javascript val[:student] %>").html("<%= escape_javascript render 'variables', :variables => Algorithm.find(val[:algorithm]).variables.reject{|x| !x.is_input } %>");
 	$('#algorithm_select_<%= escape_javascript val[:student] %> option[value="<%= escape_javascript val[:algorithm] %>"]').prop("selected",true);
 	$("#algorithm_description_block_<%= escape_javascript val[:student] %>").html("<%= escape_javascript Algorithm.find(val[:algorithm]).description %>");
 	$("#student_buttons_<%= escape_javascript val[:student] %>").show(100);
