@@ -19,6 +19,11 @@ class Algorithm < ApplicationRecord
     Dir.mkdir(directory_path) unless Dir.exist?(directory_path)
 
     file_path = 'public/system/modified_algorithms/'+ self.id.to_s + '_' + self.title.to_s + '/' + self.code_file_name.to_s
+
+    file_path_to_delete = 'public/system/modified_algorithms/'+ self.id.to_s + '_' + self.title.to_s + '/' + self.code_file_name.to_s.split('.')[0...-1].join('.') + '.class'
+    p file_path_to_delete
+    File.delete(file_path_to_delete) if File.exist?(file_path_to_delete)
+
     temp_code = self.code_contents.split("//end of variables descriptions")
     code_array = temp_code[-1].strip.split("\n")
 

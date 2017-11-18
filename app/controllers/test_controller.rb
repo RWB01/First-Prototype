@@ -91,6 +91,8 @@ class TestController < ApplicationController
 
     current_step = nil
 
+    #current_step = @algorithm.steps.find_by step_number: params[:step_id]
+
     @algorithm.steps.each do |x|
 
       if x.step_number.equal? step_id.to_i
