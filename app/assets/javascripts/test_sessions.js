@@ -1,19 +1,19 @@
 //должно вызываться при нажатии на тему и при нажатии на алгоритм 
 function addAlgorithmToLists(algorithm_id) {
-	var title = gon.algorithms.find(x => x.id == algorithm_id).title;
+	var title = gon.algorithms.find(function(name){return name.id == algorithm_id}).title;
 	$(".algorithm_select").each(function(){
 		this.append(new Option(title, algorithm_id));
 	})
 }
 
 function deleteAlgorithmFromLists(algorithm_id) {
-	$('.algorithm_select option[value="' + algorithm_id + '"]:selected',).each(function(){
+	$('.algorithm_select option[value="' + algorithm_id + '"]:selected').each(function(){
 		$(this).parent().parent().parent().find(".algorithm_description_block").html("");
 		$(this).siblings('option[value=""]').prop("selected",true);
 		$("#student_buttons_" + $(this).parent().prop('id').split("_").pop()).hide();
 		alert($(this).parent().prop('id').split("_").pop());
 		$("#student_variables_" + $(this).parent().prop('id').split("_").pop()).html("");
-	})
+	});
 
 	$('.algorithm_select option[value="' + algorithm_id + '"]').remove();
 }
