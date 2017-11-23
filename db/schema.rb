@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113095903) do
+ActiveRecord::Schema.define(version: 20171123130713) do
 
   create_table "algorithm_outputs", force: :cascade do |t|
     t.integer  "algorithm_id"
@@ -78,6 +78,9 @@ ActiveRecord::Schema.define(version: 20171113095903) do
     t.datetime "updated_at",               null: false
     t.boolean  "error"
     t.integer  "timestamp"
+    t.integer  "wrong_step_id"
+    t.integer  "current_step_id"
+    t.integer  "line_number"
   end
 
   create_table "input_value_sets", force: :cascade do |t|
@@ -194,6 +197,9 @@ ActiveRecord::Schema.define(version: 20171113095903) do
     t.datetime "updated_at",                          null: false
     t.string   "community_type"
     t.integer  "community_id"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
     t.index ["community_type", "community_id"], name: "index_users_on_community_type_and_community_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
