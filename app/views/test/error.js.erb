@@ -3,8 +3,8 @@ test_body = test_process_wrapper.find('.test_body');
 
 test_body.find('.unfinished').removeClass('unfinished').addClass('finished').append('Done!');
 
-test_body.append("WOW! Something went wrong... SHIT HAPPENS")
+test_body.append("ОШИПКО! Что-то пошло не так!")
 
-test_body.append("<%= escape_javascript link_to 'Return to Dashboard', dashboard_index_path %>")
+test_body.append("<%= escape_javascript link_to 'Вернуться на главную страницу', dashboard_index_path %>")
 
 test_process_wrapper.find('.next_button').remove();

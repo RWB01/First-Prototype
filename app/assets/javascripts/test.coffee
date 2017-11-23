@@ -57,9 +57,11 @@ $(document).on "turbolinks:load", ->
 
     # WE MUST KNOW WHAT THE STEP IS NEXT
     array_of_questions_and_steps = {}
+    last_question_number = 0
     for key, value of gon.algorithm_output_data
       step_data = JSON.parse(value)
       array_of_questions_and_steps[step_data['QuestionNumber']] = step_data['StepNumber']
+      last_question_number = last_question_number + 1
 
     preset_matrix_input_value =(input_variable, input_data) ->
 
@@ -201,16 +203,24 @@ $(document).on "turbolinks:load", ->
         nxt_step_btn = $(this).find('[data-step]')
         algorithm_id = parseInt(nxt_step_btn.data('algorithm'))
         chosen_next_step_id= parseInt(nxt_step_btn.data('step'))
+        is_last_quesion_number = parseInt(nxt_step_btn.data('last'))
 
         got_problems = false
 
-        if current_question_id != 0 && chosen_next_step_id != -1
+
+        if current_question_id != 0 && chosen_next_step_id != -1 
           is_right_next_step = false
           for key, value of array_of_questions_and_steps
             if parseInt(key) == (current_question_id + 1) && value == chosen_next_step_id
               is_right_next_step = true
         else
           is_right_next_step = true
+
+        if current_question_id == last_question_number && chosen_next_step_id == -1
+          is_right_next_step = true
+
+        if current_question_id != last_question_number && chosen_next_step_id == -1 || current_question_id == last_question_number && chosen_next_step_id != -1
+          is_right_next_step = false
 
         if gon.algorithm_output_data != undefined && current_question_id != 0 && is_right_next_step
 
@@ -281,7 +291,7 @@ $(document).on "turbolinks:load", ->
 
           # may be that logick should be in the test_controller?
           if is_last_question
-            alert('That was the last question!')
+            alert('Вы успешно завершили тестирование!')
 
             action_string = '/result/test?timestamp=' + timestamp + '&user_id=' + gon.user_id + '&input_value_set_id=' + gon.input_value_set_id + '&algorithm_id=' + algorithm_id
 
@@ -292,7 +302,7 @@ $(document).on "turbolinks:load", ->
         else
 
           if (got_problems)
-            alert('You type wrong answer. Please, try again')
+            alert('Вы выбрали неправильный ответ, попробуйте снова.')
 
             $('').insertAfter('.step_variable')
             # we must show error message and do nothing after
@@ -318,13 +328,13 @@ $(document).on "turbolinks:load", ->
               'dataType': 'json'
             })
 
-            alert('You choose wrong next step. Please, try again')
+            alert('Вы выбрали неправильный ответ, попробуйте снова.')
 
             nxt_step_btn.prop 'disabled', true
 
       else
 
-        alert('Seems like something went wrong while test start. Please, let the professor know')
+        alert('Похоже что-то пошло не так')
 
         $nxt_step_btn.prop 'disabled', true
 

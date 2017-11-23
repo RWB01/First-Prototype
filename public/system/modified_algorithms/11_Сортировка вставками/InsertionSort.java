@@ -19,15 +19,15 @@ ad.parseJSON(args[0]);
 			value = input_array[i];
     		int j = i - 1;
 
+ad.store(value,"value");
+ad.printAllData(1);
     		while(j >= 0 && input_array[j] > value){
 			    input_array[j + 1] = input_array[j];
 			    j = j - 1;
 		    }
 		    input_array[j + 1] = value;
-			ad.store(input_array,"input_array");
-			ad.store(value,"value");
-			ad.printAllData(1);
-			
+ad.store(input_array,"input_array");
+ad.printAllData(2);
 		}
 
 	    

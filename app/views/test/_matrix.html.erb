@@ -2,10 +2,10 @@
 
 <div class="matrix_type step_variable" data-variable-id="<%= matrix.id %>" data-variable-name="<%= matrix.name %>">
 
-  <h4>Name: <%= matrix_limitation[:name] %></h4>
-  <h4>Matrix <%= matrix_limitation[:rows] %>x<%= matrix_limitation[:columns] %></h4>
-  <p class="cell_characteristics">Min value of cell: <%= matrix_limitation[:min_value] %></p>
-  <p class="cell_characteristics">Max value of cell: <%= matrix_limitation[:max_value] %></p>
+  <h4>Имя переменной: <%= matrix_limitation[:name] %></h4>
+  <h4>Матрица <%= matrix_limitation[:rows] %>x<%= matrix_limitation[:columns] %></h4>
+  <p class="cell_characteristics">Минимальное значение: <%= matrix_limitation[:min_value] %></p>
+  <p class="cell_characteristics">Максимальное значение: <%= matrix_limitation[:max_value] %></p>
 
   <!-- add row numbers-->
   <% matrix_limitation[:rows].times do |row| %>

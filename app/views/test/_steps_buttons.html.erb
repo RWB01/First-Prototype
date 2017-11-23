@@ -1,18 +1,18 @@
 <div class="steps_buttons">
   <% if current_step.nil? %>
-      <%= button_to 'First step', step_test_path, :data => {:step =>  0, :algorithm => algorithm_id}, :method => :post, remote: true %>
+      <%= button_to 'Первый шаг', step_test_path, :data => {:step =>  0, :algorithm => algorithm_id}, :method => :post, remote: true %>
   <% else %>
-      <% if current_step.steps.count == 0 %> <!-- there is no next steps, that's mean that was the last -->
-          <%= button_to 'The last step', step_test_path, :data => {:step => -1, :algorithm => algorithm_id}, :method => :post, remote: true %>
-      <% elsif current_step.steps.count == 1 %> <!-- there is the only one next step -->
+      <% if current_step.steps.count == 1 %> <!-- there is the only one next step -->
           <% next_step = current_step.steps.first %>
-          <%= button_to "Step  #{next_step.step_number}", step_test_path, :data => {:step => next_step.step_number, :algorithm => algorithm_id}, :method => :post, remote: true %>
+          <%= button_to "Шаг  #{next_step.step_number}", step_test_path, :data => {:step => next_step.step_number, :algorithm => algorithm_id}, :method => :post, remote: true %>
       <% else %> <!-- there are a lot of next steps -->
           <% current_step.steps.each do |x| %>
             <div class="step_button_wrapper">
-              <%= button_to "Step  #{x.step_number}", step_test_path, :data => {:step => x.step_number, :algorithm => algorithm_id}, :method => :post, remote: true %>
+              <%= button_to "Шаг  #{x.step_number}", step_test_path, :data => {:step => x.step_number, :algorithm => algorithm_id}, :method => :post, remote: true %>
             </div>
           <% end %>
       <% end %>
+  <%= button_to "Последний шаг", step_test_path, :data => {:step => -1, :algorithm => algorithm_id}, :method => :post, remote: true %>
   <% end %>
+  
 </div>

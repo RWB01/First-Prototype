@@ -1,6 +1,6 @@
 <div>
 
-  <%= link_to "Return to Test Sessions", test_sessions_path %> <br/>
+  <%= link_to "Вернуться к списку тестов", test_sessions_path %> <br/>
 
   <%= @algorithm.description %>
 
@@ -9,7 +9,7 @@
     <div class="test_body">
 
       <div class="variables">
-        <h2> Initial step: Algorithm's input data </h2>
+        <h2> Входные данные алгоритма </h2>
 
         <%= render 'variables', :variables => @algorithm.get_initial_variables %>
       </div>

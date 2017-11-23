@@ -1,9 +1,9 @@
-<h3> Information about steps: </h3>
+<h3> Описание шагов: </h3>
 
 <% steps.each do |x| %>
 
     <div class="step_description">
-      <label for="step_<%= x.step_number %>"><input class = "step_checkbox" type="checkbox" id="step_<%= x.step_number %>" /> Step <%= x.step_number %> </label>
+      <label for="step_<%= x.step_number %>"><input class = "step_checkbox" type="checkbox" id="step_<%= x.step_number %>" /> Шаг <%= x.step_number %> </label>
 
       <p class="description"> <%= x.description %> </p>
     </div>
