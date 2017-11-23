@@ -6,17 +6,20 @@ $(document).on "turbolinks:load", ->
   validate_input_cell =(input_cell) ->
     min = input_cell.data 'min-value'
     max = input_cell.data 'max-value'
+
+    nxt_step_btn = $('.test_body').find('[data-step]')
+
     if (input_cell.val() < min || input_cell.val() > max || input_cell.val() == '')
       if input_cell.val() != ''
         input_cell.addClass('incorrect_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
+        nxt_step_btn.prop 'disabled', true
       else
         input_cell.addClass('empty_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
+        nxt_step_btn.prop 'disabled', true
     else
       input_cell.removeClass('incorrect_value empty_value').addClass('valid_value')
       if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
-        $('.paramsHolder').prop 'disabled', false
+        nxt_step_btn.prop 'disabled', false
 
   # end of function
 
@@ -24,19 +27,21 @@ $(document).on "turbolinks:load", ->
     min_length = input_string_cell.data 'min-length'
     max_length = input_string_cell.data 'max-length'
 
+    nxt_step_btn = $('.test_body').find('[data-step]')
+
     value = input_string_cell.val()
 
     if (value.length < min_length || value.length > max_length || input_string_cell.val() == '')
       if input_string_cell.val() != ''
         input_string_cell.addClass('incorrect_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
+        nxt_step_btn.prop 'disabled', true
       else
         input_string_cell.addClass('empty_value').removeClass('valid_value')
-        $('.paramsHolder').prop 'disabled', true
+        nxt_step_btn.prop 'disabled', true
     else
       input_string_cell.removeClass('incorrect_value empty_value').addClass('valid_value')
       if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
-        $('.paramsHolder').prop 'disabled', false
+        nxt_step_btn.prop 'disabled', false
 
   # end of function
 
@@ -44,7 +49,17 @@ $(document).on "turbolinks:load", ->
 
     timestamp = Math.round((new Date()).getTime() / 1000)
 
+    # CURRENT QUESTION
     current_question_id = 0
+
+    # CURRENT STEP
+    current_step_id = 0
+
+    # WE MUST KNOW WHAT THE STEP IS NEXT
+    array_of_questions_and_steps = {}
+    for key, value of gon.algorithm_output_data
+      step_data = JSON.parse(value)
+      array_of_questions_and_steps[step_data['QuestionNumber']] = step_data['StepNumber']
 
     preset_matrix_input_value =(input_variable, input_data) ->
 
@@ -66,16 +81,11 @@ $(document).on "turbolinks:load", ->
 
     # end of function
 
-
-    $('input[value="First step"]').addClass('paramsHolder')
-
     # if initial step, we shouldn't validate data
-    # we can get current step number from params_holder
+    # we can get current step number from nxt_step_btn
     # need to load data from controller and autofil inputs
     if gon != undefined
       if gon.algorithm_input_data != undefined
-        params_holder = $('.paramsHolder')
-        # current_step_id = params_holder.data('step')
         if current_question_id == 0
           parsed_input_values = JSON.parse gon.algorithm_input_data
 
@@ -113,11 +123,6 @@ $(document).on "turbolinks:load", ->
 
       param_bug[variable_name]['type'] = 'Matrix'
       param_bug[variable_name]['value'] = value
-#      matrix_el.find(cell_class).each ->
-#        if param_bug[variable_name][$(this).data 'row'] == undefined
-#          param_bug[variable_name][$(this).data 'row'] = []
-#
-#        param_bug[variable_name][$(this).data 'row'][$(this).data 'column'] = parseInt($(this).val())
 
       return param_bug
 
@@ -171,7 +176,7 @@ $(document).on "turbolinks:load", ->
         row.every (column, j) ->
           column is b[i][j]
 
-    $('.test_process_wrapper').find('.button_to').bind 'click', () ->
+    $('.test_process_wrapper').on 'click', '.button_to', () ->
 
       if !$(this).hasClass('next_button')
         $(this).addClass('next_button')
@@ -193,16 +198,25 @@ $(document).on "turbolinks:load", ->
           else if $(this).hasClass('string_type')
             param_bag = get_single_param($(this), param_bag, '.string_cell', false)
 
-        params_holder = $('.paramsHolder')
-        algorithm_id = parseInt(params_holder.data('algorithm'))
-        # current_step_id = params_holder.data('step')
+        nxt_step_btn = $(this).find('[data-step]')
+        algorithm_id = parseInt(nxt_step_btn.data('algorithm'))
+        chosen_next_step_id= parseInt(nxt_step_btn.data('step'))
 
-        got_problems = false;
+        got_problems = false
 
-        if gon.algorithm_output_data != undefined && current_question_id != 0
+        if current_question_id != 0 && chosen_next_step_id != -1
+          is_right_next_step = false
+          for key, value of array_of_questions_and_steps
+            if parseInt(key) == (current_question_id + 1) && value == chosen_next_step_id
+              is_right_next_step = true
+        else
+          is_right_next_step = true
+
+        if gon.algorithm_output_data != undefined && current_question_id != 0 && is_right_next_step
+
           for key, value of gon.algorithm_output_data
             step_data = JSON.parse(value)
-            if step_data['QuestionNumber'] == current_question_id
+            if step_data['QuestionNumber'] == current_question_id && step_data['StepNumber'] == current_step_id
               for var_name, var_value of step_data['Variables']
                 user_var_data = param_bag[var_name]
                 all_data = {}
@@ -229,6 +243,7 @@ $(document).on "turbolinks:load", ->
           wrong_json_data = JSON.stringify(wrong_data)
           all_json_data = JSON.stringify(all_data)
 
+          # NEED TO SET WRONG STEP ATTEMPT
           $.ajax({
             'url': '/input_logs/add_log'
             'data': {
@@ -241,18 +256,19 @@ $(document).on "turbolinks:load", ->
               algorithm_output_data_id: gon.algorithm_output_id
               error: got_problems
               timestamp: timestamp
-
+              wrong_step_id: null
+              current_step_id: current_step_id
             }
             'type': 'POST'
             'dataType': 'json'
           })
         #
-        if !got_problems
+        if !got_problems && is_right_next_step
           if current_question_id == 0
             if gon.algorithm_output_data != undefined
               first_value = JSON.parse gon.algorithm_output_data[0]
               current_question_id = first_value['QuestionNumber']
-              next_step_id = first_value['StepNumber']
+              next_step_id = current_step_id = first_value['StepNumber']
           else
             is_last_question = true
             # need a function
@@ -260,14 +276,10 @@ $(document).on "turbolinks:load", ->
               step_val = JSON.parse(value)
               if step_val['QuestionNumber'] == (current_question_id + 1) && is_last_question
                 current_question_id = step_val['QuestionNumber']
-                next_step_id = step_val['StepNumber']
+                next_step_id = current_step_id= step_val['StepNumber']
                 is_last_question = false
 
-          # json_param_bug = JSON.stringify(param_bag)
-
           # may be that logick should be in the test_controller?
-          # next_step_id = params_holder.data('step') + 1
-
           if is_last_question
             alert('That was the last question!')
 
@@ -275,23 +287,46 @@ $(document).on "turbolinks:load", ->
 
             $(this).attr('action', action_string)
           else
-            # action_string = '/step/test?algorithm_id=' + params_holder.data('algorithm') + '&step_id=' + next_step_id + '&variables_params=' + json_param_bug
             action_string = '/step/test?algorithm_id=' + algorithm_id + '&step_id=' + next_step_id + '&current_question_id=' + current_question_id + '&user_id=' + gon.user_id
             $(this).attr('action', action_string)
-            params_holder.data('step', next_step_id)
         else
 
-          alert('You type wrong answer. Please, try again')
+          if (got_problems)
+            alert('You type wrong answer. Please, try again')
 
-          $('').insertAfter('.step_variable')
-          # we must show error message and do nothing after
-          $('.paramsHolder').prop 'disabled', true
+            $('').insertAfter('.step_variable')
+            # we must show error message and do nothing after
+            nxt_step_btn.prop 'disabled', true
+
+          if (!is_right_next_step)
+            $.ajax({
+              'url': '/input_logs/add_log'
+              'data': {
+                user_id: gon.user_id
+                input_value_set_id: gon.input_value_set_id
+                algorithm_id: algorithm_id
+                question_number: current_question_id
+                wrong_data: []
+                all_data: []
+                algorithm_output_data_id: gon.algorithm_output_id
+                error: is_right_next_step
+                timestamp: timestamp
+                wrong_step_id: chosen_next_step_id
+                current_step_id: current_step_id
+              }
+              'type': 'POST'
+              'dataType': 'json'
+            })
+
+            alert('You choose wrong next step. Please, try again')
+
+            nxt_step_btn.prop 'disabled', true
 
       else
 
         alert('Seems like something went wrong while test start. Please, let the professor know')
 
-        $('.paramsHolder').prop 'disabled', true
+        $nxt_step_btn.prop 'disabled', true
 
     # end of function
 

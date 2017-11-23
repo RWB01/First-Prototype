@@ -141,15 +141,15 @@ class Algorithm < ApplicationRecord
   # @return [Step]
   def get_initial_variables
 
-    initial_steps = Array.new
+    initial_variables = Array.new
 
     variables.each do |x|
       if x.is_input
-        initial_steps.push x
+        initial_variables.push x
       end
     end
 
-    return initial_steps
+    return initial_variables
 
   end
 

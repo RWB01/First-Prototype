@@ -14,4 +14,8 @@ test_body.find('.unfinished').removeClass('unfinished').addClass('finished').app
 test_body.append("<%= escape_javascript render 'step_title', :step_number => current_step.step_number, :current_question_id => current_question_id %>");
 test_body.append("<%= escape_javascript render 'variables', :variables => current_step.variables %>");
 
-$('.paramsHolder').attr('value', 'Next step');
+$('.steps_buttons').remove();
+
+test_body.append("<%= escape_javascript render 'steps_buttons', :current_step => current_step, :algorithm_id => @algorithm.id %>")
+
+//$('.paramsHolder').attr('value', 'Next step');
