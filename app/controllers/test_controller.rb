@@ -147,8 +147,8 @@ class TestController < ApplicationController
       end
     else
 
-      errors_count = 0
-      questions_count = 0
+      errors_count = 0.to_f
+      questions_count = 0.to_f
 
       attempts.each do |attempt|
 
@@ -165,10 +165,11 @@ class TestController < ApplicationController
       if estimation_formula == 'pass'
         scale = 100
       else
-        scale = estimation_formula.to_i
+        scale = estimation_formula.to_f
       end
 
       one_error_coast = scale / questions_count
+
       repeated_error_coefficient = errors_count / questions_count
 
       total_error_coast = 0
@@ -188,8 +189,11 @@ class TestController < ApplicationController
         end
       end
 
-      #result = (scale - total_error_coast).round
-      result = scale - total_error_coast
+      result = (scale - total_error_coast).round
+
+      if result < 0
+        result = 0
+      end
 
       is_passed = nil
 
@@ -214,7 +218,7 @@ class TestController < ApplicationController
           render :end, :locals => {
               :result => result,
               :estimation_formula => estimation_formula,
-              :errors_count => errors_count,
+              :errors_count => errors_count.to_i,
               :is_passed => is_passed,
               :unique_errors => unique_errors
           }

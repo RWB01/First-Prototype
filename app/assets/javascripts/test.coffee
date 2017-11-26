@@ -319,7 +319,7 @@ $(document).on "turbolinks:load", ->
                 wrong_data: []
                 all_data: []
                 algorithm_output_data_id: gon.algorithm_output_id
-                error: is_right_next_step
+                error: !is_right_next_step
                 timestamp: timestamp
                 wrong_step_id: chosen_next_step_id
                 current_step_id: current_step_id

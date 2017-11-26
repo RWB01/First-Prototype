@@ -4,7 +4,9 @@
   <% else %>
       <% if current_step.steps.count == 1 %> <!-- there is the only one next step -->
           <% next_step = current_step.steps.first %>
-          <%= button_to "Шаг  #{next_step.step_number}", step_test_path, :data => {:step => next_step.step_number, :algorithm => algorithm_id}, :method => :post, remote: true %>
+          <div class="step_button_wrapper">
+            <%= button_to "Шаг  #{next_step.step_number}", step_test_path, :data => {:step => next_step.step_number, :algorithm => algorithm_id}, :method => :post, remote: true %>
+          </div>
       <% else %> <!-- there are a lot of next steps -->
           <% current_step.steps.each do |x| %>
             <div class="step_button_wrapper">
@@ -12,7 +14,9 @@
             </div>
           <% end %>
       <% end %>
-  <%= button_to "Последний шаг", step_test_path, :data => {:step => -1, :algorithm => algorithm_id}, :method => :post, remote: true %>
+      <div class="step_button_wrapper">
+        <%= button_to "Последний шаг", step_test_path, :data => {:step => -1, :algorithm => algorithm_id}, :method => :post, remote: true %>
+      </div>
   <% end %>
   
 </div>
