@@ -66,6 +66,8 @@ class AlgorithmsController < ApplicationController
 
   def change_options
     #@algorithm.update_input_variables params.fetch(:input_variables)
+    @algorithm.update_attribute(:description, params[:description])
+    @algorithm.update_attribute(:private_description, params[:private_description])
     @algorithm.update_input_variables params[:input_variables]
     @algorithm.update_steps params[:steps]
     @algorithm.modify_code

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123130713) do
+ActiveRecord::Schema.define(version: 20171129130141) do
 
   create_table "algorithm_outputs", force: :cascade do |t|
     t.integer  "algorithm_id"
@@ -24,12 +24,13 @@ ActiveRecord::Schema.define(version: 20171123130713) do
     t.string   "title"
     t.string   "description"
     t.integer  "theme_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "code_file_name"
     t.string   "code_content_type"
     t.integer  "code_file_size"
     t.datetime "code_updated_at"
+    t.text     "private_description"
     t.index ["theme_id"], name: "index_algorithms_on_theme_id"
   end
 

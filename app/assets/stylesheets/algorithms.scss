@@ -53,8 +53,22 @@ body {
     padding: 10px;
 }
 
-.algorithm-description {
+.algorithm-description-field {
+    display: none;
+}
+
+.edit_algorithm_description_block {
     margin-bottom: 10px;
+    width: 100%;
+    padding: 5px;
+    display: initial;
+    float: none;
+}
+
+.algorithm_description_button {
+    width: 100%;
+    min-height: 50px;
+    background-color: #93bcff;
 }
 
 .algorithm-edit-column {
@@ -93,6 +107,12 @@ body {
 	display: table-cell;
 	width: 10%;
 	background: #c0392b;	
+}
+
+.algorithm_input_variables {
+    float: none;
+    margin-top: 5px;
+    display: initial;
 }
 
 
@@ -138,6 +158,14 @@ body {
 }
 
 .step_description {
+    width: 96%;
+    height: 100px;
+    resize: none;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.algorithm_description_text_area {
     width: 96%;
     height: 100px;
     resize: none;

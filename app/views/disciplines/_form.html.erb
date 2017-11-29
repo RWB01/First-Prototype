@@ -12,16 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :alias %>
-    <%= f.text_field :alias %>
+
+    <%= f.text_field :alias, :type => "hidden"  %>
   </div>
 
   <div class="field">
-    <%= f.label :title %>
+    <%= f.label "Название дисциплины:" %>
     <%= f.text_field :title %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Создать дисциплину" %>
   </div>
 <% end %>

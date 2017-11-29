@@ -54,21 +54,35 @@
 
         <div class="algorithm-steps-column">
             <div class="algorithm-input-values algorithm-edit-column">
-            <div class="algorithm-description">
-                Описание алгоритма:
-                <%= @algorithm.description %>
+            <div class="edit_algorithm_description_block">
+            	<div class="algorithm_description_button" data-desc="1">
+            		Общее описание алгоритма
+            	</div>
+	            <div class="algorithm-description-field" id="algorithm_description_1">                
+	                <textarea  name="text" class="algorithm_description_text_area" id="algorithm_description_input_field"><%= @algorithm.description %></textarea>
+	            </div>
             </div>
-                <div>
-                    Выберите входные данные алгоритма:
+            <div class="edit_algorithm_description_block">
+            	<div class="algorithm_description_button" data-desc="2">
+            		Описание алгоритма для преподавателя
+            	</div>
+	            <div class="algorithm-description-field" id="algorithm_description_2">                
+	                <textarea  name="text" class="algorithm_description_text_area" id="algorithm_private_description_input_field"><%= @algorithm.private_description %></textarea>
+	            </div>
+            </div>
+            	<div class="algorithm_input_variables">
+	                <div>
+	                    Выберите входные данные алгоритма:
+	                </div>
+	                <form action="#" class="input-variable-form">
+	                    <% @algorithm.variables.each do |variable| %> 
+	                        <div>
+	                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if variable.is_input == true %>checked<% end %>><%= variable.name %> - <%= variable.get_data_structure_type %></label>
+	                            <label>Описание переменной:<input type="text" id="variable_description_<%= variable.id%>" name="variable_description_<%= variable.id %>" class="input_variables_description" value="<%= variable.description %>"></input></label>
+	                        </div>  
+	                    <% end %>
+	                </form>
                 </div>
-                <form action="#" class="input-variable-form">
-                    <% @algorithm.variables.each do |variable| %> 
-                        <div>
-                            <label><input type="checkbox" class="input_variables_checkbox" id="variable_<%= variable.id%>" name="<%= variable.alias %>" value="<%=variable.id%>"<% if variable.is_input == true %>checked<% end %>><%= variable.name %> - <%= variable.get_data_structure_type %></label>
-                            <label>Описание переменной:<input type="text" id="variable_description_<%= variable.id%>" name="variable_description_<%= variable.id %>" class="input_variables_description" value="<%= variable.description %>"></input></label>
-                        </div>  
-                    <% end %>
-                </form>
             </div>
 
 
@@ -117,4 +131,4 @@
 
 
 <button id="submit_algorithm_button">Сохранить изменения</button>
-<%= link_to 'Back', theme_algorithms_path(@algorithm.theme) %>
+<%= link_to 'Назад', theme_algorithms_path(@algorithm.theme) %>

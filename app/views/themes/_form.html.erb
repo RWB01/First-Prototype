@@ -12,13 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %>
+    <%= f.label "Название темы:" %>
     <%= f.text_field :title %>
   </div>
 
   <div class="field">
-    <%= f.label :alias %>
-    <%= f.text_field :alias %>
+    <%= f.text_field :alias, :type => "hidden"  %>
   </div>
 
   <div class="field">
@@ -26,7 +25,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Создать тему" %>
   </div>
 <% end %>
 
