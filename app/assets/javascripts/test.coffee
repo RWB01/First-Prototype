@@ -3,48 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $(document).on "turbolinks:load", ->
 
-  validate_input_cell =(input_cell) ->
-    min = input_cell.data 'min-value'
-    max = input_cell.data 'max-value'
-
-    nxt_step_btn = $('.test_body').find('[data-step]')
-
-    if (input_cell.val() < min || input_cell.val() > max || input_cell.val() == '')
-      if input_cell.val() != ''
-        input_cell.addClass('incorrect_value').removeClass('valid_value')
-        nxt_step_btn.prop 'disabled', true
-      else
-        input_cell.addClass('empty_value').removeClass('valid_value')
-        nxt_step_btn.prop 'disabled', true
-    else
-      input_cell.removeClass('incorrect_value empty_value').addClass('valid_value')
-      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
-        nxt_step_btn.prop 'disabled', false
-
-  # end of function
-
-  validate_string_cell =(input_string_cell) ->
-    min_length = input_string_cell.data 'min-length'
-    max_length = input_string_cell.data 'max-length'
-
-    nxt_step_btn = $('.test_body').find('[data-step]')
-
-    value = input_string_cell.val()
-
-    if (value.length < min_length || value.length > max_length || input_string_cell.val() == '')
-      if input_string_cell.val() != ''
-        input_string_cell.addClass('incorrect_value').removeClass('valid_value')
-        nxt_step_btn.prop 'disabled', true
-      else
-        input_string_cell.addClass('empty_value').removeClass('valid_value')
-        nxt_step_btn.prop 'disabled', true
-    else
-      input_string_cell.removeClass('incorrect_value empty_value').addClass('valid_value')
-      if $('.incorrect_value').length == 0 && $('.empty_value').length == 0
-        nxt_step_btn.prop 'disabled', false
-
-  # end of function
-
   $(document).ready ->
 
     timestamp = Math.round((new Date()).getTime() / 1000)
@@ -66,11 +24,9 @@ $(document).on "turbolinks:load", ->
     preset_matrix_input_value =(input_variable, input_data) ->
 
       rows = input_variable.find '.matrix_row'
-      rows.each ->
         cells = $(this).find '.matrix_cell'
         cells.each ->
           $(this).val input_data[$(this).data('row')][$(this).data('column')]
-          validate_input_cell($(this))
 
     # end of function
 
@@ -79,7 +35,6 @@ $(document).on "turbolinks:load", ->
       cells = vector_el.find('.vector_cell')
       cells.each ->
         $(this).val input_data[$(this).data('column')]
-        validate_input_cell($(this))
 
     # end of function
 
@@ -100,11 +55,9 @@ $(document).on "turbolinks:load", ->
             else if input_variable.hasClass 'string_type'
               string_cell = input_variable.find('.string_cell')
               string_cell.val input_variable_value
-              validate_string_cell string_cell
             else if input_variable.hasClass 'number_type'
               number_cell = input_variable.find('.number_cell')
               number_cell.val input_variable_value
-              validate_input_cell number_cell
 
           $('.step_variable').find(':input').prop('disabled', true).addClass('frozen_input')
 
@@ -170,13 +123,34 @@ $(document).on "turbolinks:load", ->
 
     $('input[value="First step"]').addClass('paramsHolder')
 
-    simple_array_equal =(a, b) ->
-      a.length is b.length and a.every (elem, i) -> elem is b[i]
+    simple_array_equal =(a, b, var_name) ->
+      result = (a.length is b.length )
+      dom_of_variable = $('.test_body').find(".step_variable[data-variable-name='#{var_name}']")
+      for key, value of a
+        # i - index
+        if !(value is b[key])
+          dom_of_variable.find("[data-column='#{key}']").addClass('incorrect_value')
+          result = false
+        else
+          dom_of_variable.find("[data-column='#{key}']").addClass('valid_value')
 
-    complex_array_equal =(a, b) ->
-      a.length is b.length and a.every (row, i) ->
-        row.every (column, j) ->
-          column is b[i][j]
+      return result
+
+#    complex_array_equal =(a, b, var_name) ->
+#      result = (a.length is b.length )
+#      dom_of_variable = $('.test_body').find(".step_variable[data-variable-name='#{var_name}']")
+#      for x_key, x_value of a
+#        for y_key, y_value of x_value
+          #
+#          fuck = 'fuck'
+#          if !(y_value[y_key] is b[x_key][y_key])
+#            dom_of_variable.find("[data-row='#{x_key}'][data-column='#{y_key}']").addClass('incorrect_value')
+#          else
+#            dom_of_variable.find("[data-row='#{x_key}'][data-column='#{y_key}']").addClass('valid_value')
+
+    #      a.length is b.length and a.every (row, i) ->
+#        row.every (column, j) ->
+#          column is b[i][j]
 
     $('.test_process_wrapper').on 'click', '.button_to', () ->
 
@@ -232,9 +206,9 @@ $(document).on "turbolinks:load", ->
                 all_data = {}
                 wrong_data = {}
                 if user_var_data['type'] == 'Vector'
-                  result = simple_array_equal(user_var_data['value'], var_value)
+                  result = simple_array_equal(user_var_data['value'], var_value, var_name)
                 else if user_var_data['type'] == 'Matrix'
-                  result = complex_array_equal(user_var_data['value'], var_value)
+#                  result = complex_array_equal(user_var_data['value'], var_value, var_name)
                 else
                   result = user_var_data['value'] == var_value
                 if !result
@@ -297,6 +271,10 @@ $(document).on "turbolinks:load", ->
 
             $(this).attr('action', action_string)
           else
+
+            $('.step_variable').each ->
+              $(this).removeClass('step_variable')
+
             action_string = '/step/test?algorithm_id=' + algorithm_id + '&step_id=' + next_step_id + '&current_question_id=' + current_question_id + '&user_id=' + gon.user_id
             $(this).attr('action', action_string)
         else
@@ -342,11 +320,7 @@ $(document).on "turbolinks:load", ->
 
   # TODO: Fix DRY!
   $(document).on 'input', '.input_cell', () ->
-    validate_input_cell($(this))
-  # end of function
-
-  $(document).on 'input', '.input_string_cell', () ->
-    validate_string_cell($(this))
+    $('.test_body').find('[data-step]').prop 'disabled', false
   # end of function
 
   $('.step_checkbox').bind 'click', () ->
