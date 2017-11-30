@@ -40,9 +40,12 @@ class TestController < ApplicationController
     args = Hash.new
     input_set.input_variable_values.each do |variable_value|
       variable = Variable.find(variable_value.variable_id)
-      if variable.alias == 'String'
+      p variable_value.variable_id
+      p variable.alias
+      if variable.data_structure_id == 3
         args[variable.name] = variable_value.value
       else
+
         args[variable.name] = JSON.parse variable_value.value
       end
     end

@@ -23,14 +23,14 @@ $(document).on "turbolinks:load", ->
 
     preset_matrix_input_value =(input_variable, input_data) ->
 
-      rows = input_variable.find '.matrix_row'
-        cells = $(this).find '.matrix_cell'
+      rows = input_variable.find('.matrix_row').each ->
+        cells = $(this).find('.matrix_cell')
         cells.each ->
           $(this).val input_data[$(this).data('row')][$(this).data('column')]
 
     # end of function
 
-    preser_vector_input_value =(vector_el, input_data) ->
+    preset_vector_input_value =(vector_el, input_data) ->
 
       cells = vector_el.find('.vector_cell')
       cells.each ->
@@ -51,7 +51,7 @@ $(document).on "turbolinks:load", ->
             if input_variable.hasClass 'matrix_type'
               preset_matrix_input_value(input_variable, input_variable_value)
             else if input_variable.hasClass 'vector_type'
-              preser_vector_input_value(input_variable.find('.vector_row'), input_variable_value)
+              preset_vector_input_value(input_variable.find('.vector_row'), input_variable_value)
             else if input_variable.hasClass 'string_type'
               string_cell = input_variable.find('.string_cell')
               string_cell.val input_variable_value
@@ -127,7 +127,6 @@ $(document).on "turbolinks:load", ->
       result = (a.length is b.length )
       dom_of_variable = $('.test_body').find(".step_variable[data-variable-name='#{var_name}']")
       for key, value of a
-        # i - index
         if !(value is b[key])
           dom_of_variable.find("[data-column='#{key}']").addClass('incorrect_value')
           result = false
@@ -136,19 +135,33 @@ $(document).on "turbolinks:load", ->
 
       return result
 
-#    complex_array_equal =(a, b, var_name) ->
-#      result = (a.length is b.length )
-#      dom_of_variable = $('.test_body').find(".step_variable[data-variable-name='#{var_name}']")
-#      for x_key, x_value of a
-#        for y_key, y_value of x_value
-          #
-#          fuck = 'fuck'
-#          if !(y_value[y_key] is b[x_key][y_key])
-#            dom_of_variable.find("[data-row='#{x_key}'][data-column='#{y_key}']").addClass('incorrect_value')
-#          else
-#            dom_of_variable.find("[data-row='#{x_key}'][data-column='#{y_key}']").addClass('valid_value')
+    complex_array_equal =(a, b, var_name) ->
+      result = (a.length is b.length )
+      dom_of_variable = $('.test_body').find(".step_variable[data-variable-name='#{var_name}']")
+      for x_key, x_value of a
+        if !(x_value.length is b[x_key].length)
+          result = false
+        for y_key, y_value of x_value
+          if !(y_value is b[x_key][y_key])
+            dom_of_variable.find("[data-row='#{x_key}'][data-column='#{y_key}']").addClass('incorrect_value')
+            result = false
+          else
+            dom_of_variable.find("[data-row='#{x_key}'][data-column='#{y_key}']").addClass('valid_value')
 
-    #      a.length is b.length and a.every (row, i) ->
+      return result
+
+    simple_variable_equal =(a, b, var_name) ->
+      result = true
+      dom_of_variable = $('.test_body').find(".step_variable[data-variable-name='#{var_name}']")
+      if !(a is b)
+        result = false
+        dom_of_variable.find('.input_cell').addClass('incorrect_value')
+      else
+        dom_of_variable.find('.input_cell').addClass('valid_value')
+
+      return result
+#
+#          a.length is b.length and a.every (row, i) ->
 #        row.every (column, j) ->
 #          column is b[i][j]
 
@@ -208,9 +221,9 @@ $(document).on "turbolinks:load", ->
                 if user_var_data['type'] == 'Vector'
                   result = simple_array_equal(user_var_data['value'], var_value, var_name)
                 else if user_var_data['type'] == 'Matrix'
-#                  result = complex_array_equal(user_var_data['value'], var_value, var_name)
+                  result = complex_array_equal(user_var_data['value'], var_value, var_name)
                 else
-                  result = user_var_data['value'] == var_value
+                  result = simple_variable_equal(user_var_data['value'], var_value, var_name)
                 if !result
                   got_problems = true;
 
@@ -274,6 +287,7 @@ $(document).on "turbolinks:load", ->
 
             $('.step_variable').each ->
               $(this).removeClass('step_variable')
+              $(this).find('.input_cell ').addClass('frozen_input')
 
             action_string = '/step/test?algorithm_id=' + algorithm_id + '&step_id=' + next_step_id + '&current_question_id=' + current_question_id + '&user_id=' + gon.user_id
             $(this).attr('action', action_string)

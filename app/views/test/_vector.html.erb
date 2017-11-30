@@ -4,8 +4,6 @@
 
   <h4>Имя переменной: <%= vector_limitation[:name] %></h4>
   <h4>Вектор длины: <%= vector_limitation[:columns] %></h4>
-  <p class="cell_characteristics">Минимальное значение: <%= vector_limitation[:min_value] %></p>
-  <p class="cell_characteristics">Максимальное значение: <%= vector_limitation[:max_value] %></p>
 
   <!-- add row numbers-->
   <% vector_limitation[:rows].times do |row| %>
@@ -17,12 +15,7 @@
 
             <div class="vector_column">
 
-              <input class="vector_cell input_cell empty_value" type="text" size="1"
-                     data-min-value="<%= vector_limitation[:min_value] %>"
-                     data-max-value="<%= vector_limitation[:max_value] %>"
-                     data-row="<%= row %>"
-                     data-column="<%= column %>"
-              >
+              <input class="vector_cell input_cell" type="text" size="1" data-row="<%= row %>" data-column="<%= column %>">
 
             </div>
 

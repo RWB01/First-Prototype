@@ -10,14 +10,11 @@ class Variable < ApplicationRecord
 
   def get_matrix_limitation
 
-    #dimension, value_limitation = limitation.to_s.scan /\d+.\d+/
-
-    dimension = limitation.to_s.split("-",2)[0]
-    value_limitation = limitation.to_s.split("-",2)[1]
+    dimension = limitation.to_s.split(":",2)[0]
+    value_limitation = limitation.to_s.split(":",2)[1]
 
     rows, columns = dimension.scan /\d+/
 
-    #min_value, max_value = value_limitation.scan /\d+/
     min_value = value_limitation.split("x",2)[0]
     max_value = value_limitation.split("x",2)[1]
 
@@ -35,13 +32,11 @@ class Variable < ApplicationRecord
 
   def get_vector_limitation
 
-     #dimension, value_limitation = limitation.to_s.scan /\d+.\d+/
      dimension = limitation.to_s.split("-",2)[0]
      value_limitation = limitation.to_s.split("-",2)[1]
 
      rows, columns = dimension.scan /\d+/
 
-     #min_value, max_value = value_limitation.scan /\d+/
      min_value = value_limitation.split("x",2)[0]
      max_value = value_limitation.split("x",2)[1]
 
@@ -56,7 +51,6 @@ class Variable < ApplicationRecord
    end
 
   def get_string_limitation
-   #   1-6
 
     min_length, max_length = limitation.to_s.scan /\d+/
 
@@ -70,9 +64,8 @@ class Variable < ApplicationRecord
 
   def get_number_limitation
 
-     #min_value, max_value = limitation.to_s.scan /\d+/
-     min_value = limitation.to_s.split("x",2)[0]
-     max_value = limitation.to_s.split("x",2)[1]
+     min_value = limitation.to_s.split("-",2)[0]
+     max_value = limitation.to_s.split("-",2)[1]
 
      {
              :min_value => min_value.to_i,
