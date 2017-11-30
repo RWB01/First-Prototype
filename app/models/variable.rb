@@ -10,8 +10,8 @@ class Variable < ApplicationRecord
 
   def get_matrix_limitation
 
-    dimension = limitation.to_s.split(":",2)[0]
-    value_limitation = limitation.to_s.split(":",2)[1]
+    dimension = limitation.to_s.split("-",2)[0]
+    value_limitation = limitation.to_s.split("-",2)[1]
 
     rows, columns = dimension.scan /\d+/
 
@@ -64,8 +64,8 @@ class Variable < ApplicationRecord
 
   def get_number_limitation
 
-     min_value = limitation.to_s.split("-",2)[0]
-     max_value = limitation.to_s.split("-",2)[1]
+     min_value = limitation.to_s.split("x",2)[0]
+     max_value = limitation.to_s.split("x",2)[1]
 
      {
              :min_value => min_value.to_i,
