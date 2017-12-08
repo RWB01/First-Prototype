@@ -46,7 +46,16 @@ $(document).on "turbolinks:load", ->
         'type': 'GET'
         'dataType': 'json'
       }).done((data) ->
-        #
-        fuck = 'fuck'
+
+        MG.data_graphic({
+          title: "Сложность шагов алгоритма",
+          data: data,
+          width: 295,
+          height: 220,
+          right: 10,
+          target: '.right_column',
+          x_accessor: 'question',
+          y_accessor: 'value'
+        })
       );
 

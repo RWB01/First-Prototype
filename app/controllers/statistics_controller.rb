@@ -10,8 +10,10 @@ class StatisticsController < ApplicationController
       disciplines_data.push data
     end
 
+    data = [{date: '2014-11-01', value: 12}, {date: '2014-11-02', value: 18}]
+
     respond_to do |format|
-      format.html { render :show, :locals => {:disciplines_data => disciplines_data }}
+      format.html { render :show, :locals => {:disciplines_data => disciplines_data, :data => data }}
     end
   end
 
@@ -146,6 +148,19 @@ class StatisticsController < ApplicationController
     p questions_coefficients
 
 
+    birnbaum_model = Array.new
+
+    questions_coefficients.each do |key, value|
+      graph_obj = Hash.new
+      graph_obj['question'] = key
+      graph_obj['value'] = value['Bj']
+      birnbaum_model.push graph_obj
+    end
+
+
+    respond_to do |format|
+      format.js {render json: birnbaum_model.to_json}
+    end
   end
 
 end
