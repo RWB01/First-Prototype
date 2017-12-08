@@ -148,18 +148,53 @@ class StatisticsController < ApplicationController
     p questions_coefficients
 
 
-    birnbaum_model = Array.new
+    output_data = Hash.new
+
+    questions_difficulty = Array.new
+
+    algorithm_difficulty = 0.0
 
     questions_coefficients.each do |key, value|
       graph_obj = Hash.new
       graph_obj['question'] = key
-      graph_obj['value'] = value['Bj']
-      birnbaum_model.push graph_obj
+      algorithm_difficulty += value['Bj'] * value['aj']
+      graph_obj['value'] = value['Bj'] * value['aj']
+      questions_difficulty.push graph_obj
+    end
+
+    preparedness_level = Array.new
+    user_number = 1
+
+    user_results_matrix.each do |key, value|
+      user_graph = Hash.new
+      user_graph['number'] = user_number
+      user_graph['value'] = value['Oi']
+      preparedness_level.push user_graph
+      user_number += 1
     end
 
 
+    # answer_graph = Array.new
+    #
+    # general_data['users_results'].each do |key, value|
+    #   user_answers = Array.new
+    #   value.each do |question, answer|
+    #     answers = Hash.new
+    #     answers['question'] = question
+    #     answers['answer'] = answer
+    #     user_answers.push answers
+    #   end
+    #   answer_graph.push user_answers
+    # end
+
+    output_data['questions_difficulty'] = questions_difficulty
+    output_data['algorithm_difficulty'] = algorithm_difficulty
+    output_data['preparedness_level'] = preparedness_level
+    # output_data['answer_graph'] = answer_graph
+
+
     respond_to do |format|
-      format.js {render json: birnbaum_model.to_json}
+      format.js {render json: output_data.to_json}
     end
   end
 

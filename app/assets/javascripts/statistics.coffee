@@ -46,16 +46,44 @@ $(document).on "turbolinks:load", ->
         'type': 'GET'
         'dataType': 'json'
       }).done((data) ->
+#        output_data['questions_difficulty'] = questions_difficulty
+#        output_data['algorithm_difficulty'] = algorithm_difficulty
+#        output_data['preparedness_level'] = preparedness_level
+
+        ff = data['algorithm_difficulty']
+        $('.general_difficulty').text(ff)
 
         MG.data_graphic({
           title: "Сложность шагов алгоритма",
-          data: data,
-          width: 295,
-          height: 220,
+          data: data['questions_difficulty'],
+          width: 600,
+          height: 320,
           right: 10,
-          target: '.right_column',
+          target: '.difficulty_graphic',
           x_accessor: 'question',
           y_accessor: 'value'
         })
+
+        MG.data_graphic({
+          title: "Уровень подготовленности студентов",
+          data: data['preparedness_level'],
+          width: 600,
+          height: 320,
+          right: 10,
+          target: '.preparedness_graphic',
+          x_accessor: 'number',
+          y_accessor: 'value'
+        })
+
+#        MG.data_graphic({
+#          title: "Ответы студентов",
+#          data: data['answer_graph'],
+#          width: 295,
+#          height: 220,
+#          right: 10,
+#          target: '.answers_graphic',
+#          x_accessor: 'number',
+#          y_accessor: 'value'
+#        })
       );
 
