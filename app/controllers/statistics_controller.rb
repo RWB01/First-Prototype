@@ -93,8 +93,17 @@ class StatisticsController < ApplicationController
       user_results_matrix[user_id]['pi'] = right_answers.to_f/questions_count.to_f
       user_results_matrix[user_id]['qi'] = wrong_answers.to_f/questions_count.to_f
       #wrong_answers can be zero
-      user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi'] != 0 ?
-          user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi'] : user_results_matrix[user_id]['pi']
+      if user_results_matrix[user_id]['qi'] != 0 && user_results_matrix[user_id]['pi'] != 0
+        user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi']
+      else
+        if user_results_matrix[user_id]['qi'] == 0
+          user_results_matrix[user_id]['pi/qi'] = 1
+        else #user_results_matrix[user_id]['pi'] == 0
+          user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi']
+        end
+      end
+      # user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi'] != 0 ?
+      #     user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi'] : user_results_matrix[user_id]['pi']
       user_results_matrix[user_id]['Oi'] = Math.log(user_results_matrix[user_id]['pi/qi'], Math::E)
     end
 
@@ -111,7 +120,16 @@ class StatisticsController < ApplicationController
       question_data['pj'] = right_steps_answers[question_number].to_f/users_count.to_f
       question_data['qj'] = wrong_answers.to_f/users_count.to_f
       #wrong_answers can be zero
-      question_data['pj/qj'] = question_data['qj'] != 0 ? question_data['pj']/question_data['qj'] : question_data['pj']
+      if question_data['qj'] != 0 && question_data['pj'] != 0
+        question_data['pj/qj'] = question_data['pj']/question_data['qj']
+      else
+        if question_data['qj'] == 0
+          question_data['pj/qj'] = 1
+        else #question_data['pj'] == 0
+          question_data['pj/qj'] = question_data['qj']
+        end
+      end
+      # question_data['pj/qj'] = question_data['qj'] != 0 ? question_data['pj']/question_data['qj'] : question_data['pj']
       question_data['Bj'] = Math.log(question_data['pj/qj'], Math::E)
       question_data['step_number'] = question_info['current_step_id']
       if question_info['errors_count'] == 0
