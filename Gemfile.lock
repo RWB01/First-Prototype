@@ -58,6 +58,8 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    d3-rails (4.10.2)
+      railties (>= 3.1)
     debase (0.2.1)
       debase-ruby_core_source
     debase-ruby_core_source (0.9.9)
@@ -94,6 +96,10 @@ GEM
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
+    metrics-graphics-rails (2.10.1.2)
+      d3-rails (>= 4.3)
+      json (>= 1.8.3)
+      railties (>= 3.1)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -207,6 +213,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  metrics-graphics-rails (~> 2.9)
   paperclip (~> 5.0.0)
   puma (~> 3.0)
   rails (~> 5.0.2)

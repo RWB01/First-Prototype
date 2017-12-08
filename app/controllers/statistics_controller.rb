@@ -1,0 +1,133 @@
+class StatisticsController < ApplicationController
+
+  def show
+    disciplines_data = Array.new
+    current_user.disciplines.each do |discipline|
+      data = Hash.new
+      data[:id] = discipline.id
+      data[:title] = discipline.title
+
+      disciplines_data.push data
+    end
+
+    respond_to do |format|
+      format.html { render :show, :locals => {:disciplines_data => disciplines_data }}
+    end
+  end
+
+  def algorithm_statistic
+    algorithm = Algorithm.find params[:algorithm_id]
+
+    general_data = Hash.new
+
+    algorithm.tests.each do |test|
+      input_value_set_id = test.input_value_set_id
+
+      AlgorithmOutput.where(
+          algorithm_id: algorithm.id,
+          input_value_set_id: input_value_set_id
+      ).find_each do |algorithm_output|
+
+        logs = Array.new
+
+        InputLog.where(
+            user_id: test.user_id,
+            algorithm_id: algorithm.id,
+            input_value_set_id: input_value_set_id,
+            algorithm_output_data_id: algorithm_output.id
+        ).find_each do |log|
+          logs.push log
+
+          general_data['users_results'] ||= Hash.new
+          general_data['users_results'][test.user_id] ||= Hash.new
+          general_data['users_results'][test.user_id][log.question_number] = true
+
+          general_data['questions_info'] ||= Hash.new
+          general_data['questions_info'][log.question_number] ||= Hash.new
+          general_data['questions_info'][log.question_number]['errors_count'] = 0
+          general_data['questions_info'][log.question_number]['current_step_id'] = log.current_step_id
+        end
+
+        logs.each do |x|
+          if x.error
+            general_data['users_results'][test.user_id][x.question_number] = !x.error
+            general_data['questions_info'][x.question_number]['errors_count'] += 1
+          end
+        end
+
+      end
+    end
+
+
+    p general_data
+
+
+    right_steps_answers = Hash.new
+
+    user_results_matrix = Hash.new
+
+    users_count = 0
+
+    general_data['users_results'].each do |user_id, results|
+
+      users_count += 1
+
+      user_results_matrix[user_id] = Hash.new
+      right_answers = 0
+      wrong_answers = 0
+      questions_count = 0
+      results.each do |question_number, result|
+        user_results_matrix[user_id][question_number] = result
+
+        right_steps_answers[question_number] ||= 0
+
+        if result
+          right_answers += 1
+          right_steps_answers[question_number] += 1
+        else
+          wrong_answers += 1
+        end
+        questions_count += 1
+      end
+
+      user_results_matrix[user_id]['pi'] = right_answers.to_f/questions_count.to_f
+      user_results_matrix[user_id]['qi'] = wrong_answers.to_f/questions_count.to_f
+      #wrong_answers can be zero
+      user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi'] != 0 ?
+          user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi'] : user_results_matrix[user_id]['pi']
+      user_results_matrix[user_id]['Oi'] = Math.log(user_results_matrix[user_id]['pi/qi'], Math::E)
+    end
+
+
+    p user_results_matrix
+
+
+    questions_coefficients = Hash.new
+    general_data['questions_info'].each do |question_number, question_info|
+      question_data = Hash.new
+      question_data['Rj'] = right_steps_answers[question_number]
+      wrong_answers = users_count - right_steps_answers[question_number]
+      question_data['Wj'] = wrong_answers
+      question_data['pj'] = right_steps_answers[question_number].to_f/users_count.to_f
+      question_data['qj'] = wrong_answers.to_f/users_count.to_f
+      #wrong_answers can be zero
+      question_data['pj/qj'] = question_data['qj'] != 0 ? question_data['pj']/question_data['qj'] : question_data['pj']
+      question_data['Bj'] = Math.log(question_data['pj/qj'], Math::E)
+      question_data['step_number'] = question_info['current_step_id']
+      if question_info['errors_count'] == 0
+        aj = 0
+      else
+        aj = Math.log(question_info['errors_count'], Math::E)
+      end
+      question_data['aj'] = 1 + aj
+
+      questions_coefficients[question_number] = question_data
+    end
+
+
+    p questions_coefficients
+
+
+  end
+
+end

@@ -1,5 +1,5 @@
 class DisciplinesController < ApplicationController
-  before_action :set_discipline, only: [:show, :edit, :update, :destroy]
+  before_action :set_discipline, only: [:show, :edit, :update, :destroy, :get_themes_by_discipline_id]
 
   # GET /disciplines
   # GET /disciplines.json
@@ -58,6 +58,23 @@ class DisciplinesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to disciplines_url, notice: 'Discipline was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def get_themes_by_discipline_id
+
+    themes_data = Array.new
+
+    @discipline.themes.each do |theme|
+      data = Hash.new
+      data[:id] = theme.id
+      data[:title] = theme.title
+
+      themes_data.push data
+    end
+
+    respond_to do |format|
+      format.js {render json: themes_data.to_json}
     end
   end
 

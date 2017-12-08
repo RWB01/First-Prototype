@@ -59,3 +59,4 @@ gem 'annotate'
 gem "paperclip", "~> 5.0.0"
 gem 'gon'
 gem 'rails-erd'
+gem 'metrics-graphics-rails', '~> 2.9'

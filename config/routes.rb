@@ -27,14 +27,21 @@ Rails.application.routes.draw do
     post 'input_logs/add_log' => :add_log
   end
 
+  controller :statistics do
+    get 'statistics/show' => :show
+    get 'statistics/algorithm_statistic' => :algorithm_statistic
+  end
+
   resources :roles
+
+  resources :themes, shallow: true do
+    get :get_algorithms_by_theme_id, on: :collection
+    resources :algorithms
+  end
 
   resources :disciplines, shallow: true do
     resources :themes
-  end
-
-  resources :themes, shallow: true do
-    resources :algorithms
+    get :get_themes_by_discipline_id, on: :collection
   end
 
   resources :algorithms do

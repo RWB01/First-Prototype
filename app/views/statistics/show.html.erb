@@ -1,0 +1,20 @@
+<%= link_to 'Dashboard', dashboard_index_path %>
+<div class="statistics_wrapper">
+  <div class="left_column">
+    <div class="select_discipline_wrapper">
+      <select class="discipline_select">
+        <option value="0" selected hidden>Выберите дисциплину...</option>
+        <% disciplines_data.each do |discipline_data| %>
+            <option value="<%= discipline_data[:id] %>"><%= discipline_data[:title] %></option>
+        <% end %>
+      </select>
+      <select class="theme_select">
+        <option value="0" selected hidden>Выберите тему...</option>
+      </select>
+      <select class="algorithm_select">
+        <option value="0" selected hidden>Выберите алгоритм...</option>
+      </select>
+    </div>
+  </div>
+  <div class="right_column"></div>
+</div>

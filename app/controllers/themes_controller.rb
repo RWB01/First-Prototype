@@ -1,5 +1,5 @@
 class ThemesController < ApplicationController
-  before_action :set_theme, only: [:show, :edit, :update, :destroy]
+  before_action :set_theme, only: [:show, :edit, :update, :destroy, :get_algorithms_by_theme_id]
 
   # GET /themes
   # GET /themes.json
@@ -68,9 +68,27 @@ class ThemesController < ApplicationController
     end
   end
 
+  def get_algorithms_by_theme_id
+
+    algorithms_data = Array.new
+
+    @theme.algorithms.each do |algorithm|
+      data = Hash.new
+      data[:id] = algorithm.id
+      data[:title] = algorithm.title
+
+      algorithms_data.push data
+    end
+
+    respond_to do |format|
+      format.js {render json: algorithms_data.to_json}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_theme
+      p params
       @theme = Theme.find(params[:id])
     end
 

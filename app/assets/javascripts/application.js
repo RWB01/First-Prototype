@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require_tree .
 //= require turbolinks
+//= require metrics-graphics-rails
 
 
 jQuery.ajaxSetup({ 
