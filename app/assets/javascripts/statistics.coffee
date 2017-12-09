@@ -5,6 +5,10 @@ $(document).on "turbolinks:load", ->
 
   $(document).ready ->
 
+    algorithm_id = 0
+
+    $('.get_stats').hide()
+
     $('.discipline_select').bind 'change', () ->
       discipline_id = $(this).val()
       $.ajax({
@@ -36,19 +40,20 @@ $(document).on "turbolinks:load", ->
       );
 
     $('.algorithm_select').bind 'change', () ->
-      algprithm_id = $(this).val()
-      #
+      algorithm_id = $(this).val()
+
+      $('.get_stats').find('input[name=algorithm_id]').val(algorithm_id)
+
+      $('.get_stats').show()
+
       $.ajax({
         'url': '/statistics/algorithm_statistic'
         'data': {
-          algorithm_id: algprithm_id
+          algorithm_id: algorithm_id
         }
         'type': 'GET'
         'dataType': 'json'
       }).done((data) ->
-#        output_data['questions_difficulty'] = questions_difficulty
-#        output_data['algorithm_difficulty'] = algorithm_difficulty
-#        output_data['preparedness_level'] = preparedness_level
 
         ff = data['algorithm_difficulty']
         $('.general_difficulty').text(ff)
@@ -74,16 +79,5 @@ $(document).on "turbolinks:load", ->
           x_accessor: 'number',
           y_accessor: 'value'
         })
-
-#        MG.data_graphic({
-#          title: "Ответы студентов",
-#          data: data['answer_graph'],
-#          width: 295,
-#          height: 220,
-#          right: 10,
-#          target: '.answers_graphic',
-#          x_accessor: 'number',
-#          y_accessor: 'value'
-#        })
       );
 

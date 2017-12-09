@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   controller :statistics do
     get 'statistics/show' => :show
     get 'statistics/algorithm_statistic' => :algorithm_statistic
+    get 'statistics/get_stats' => :get_stats
   end
 
   resources :roles

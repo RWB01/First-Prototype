@@ -14,6 +14,9 @@
       <select class="algorithm_select">
         <option value="0" selected hidden>Выберите алгоритм...</option>
       </select>
+      <div class="get_stats">
+        <%= button_to "Выгрузить данные", statistics_get_stats_path,:method => :get, params: {:algorithm_id => 0} %>
+      </div>
     </div>
   </div>
   <div class="right_column">
