@@ -249,7 +249,7 @@ class StatisticsController < ApplicationController
 
     users_count = 0
 
-    questions_count = 0
+    damned_question_count = 0
 
     general_data['users_results'].each do |user_id, results|
 
@@ -258,6 +258,7 @@ class StatisticsController < ApplicationController
       user_results_matrix[user_id] = Hash.new
       right_answers = 0
       wrong_answers = 0
+      questions_count = 0
       results.each do |question_number, result|
         user_results_matrix[user_id][question_number] = result
 
@@ -271,6 +272,8 @@ class StatisticsController < ApplicationController
         end
         questions_count += 1
       end
+
+      damned_question_count = questions_count
 
       user_results_matrix[user_id]['pi'] = right_answers.to_f/questions_count.to_f
       user_results_matrix[user_id]['qi'] = wrong_answers.to_f/questions_count.to_f
@@ -323,7 +326,7 @@ class StatisticsController < ApplicationController
 
       title_data = Array.new
       title_data.push 'N N'
-      questions_count.times do |i|
+      damned_question_count.times do |i|
         title_data.push ('X' + (i + 1).to_s)
       end
       title_data.push 'pi'
