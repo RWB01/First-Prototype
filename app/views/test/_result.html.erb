@@ -12,17 +12,17 @@
   <% else %>
     <div>
       <h2>
-        Your result is: <%= result %>
+        Ваш результат: <%= result %>
       </h2>
-      <p>Result estimated by scale: <%= estimation_formula %></p>
+      <p>Шкала оценивания: <%= estimation_formula %></p>
     </div>
     <% if errors_count != 0%>
       <div>
-        You make <%= errors_count %> errors.
+        Вы сделали <%= errors_count %> ошибок.
         <% if errors_count == unique_errors && errors_count != 1 %>
-          All errors are unique!
+          Все ошибки уникальны!
         <% else %>
-          Unique errors count: <%= unique_errors %>.
+          Уникальных ошибок: <%= unique_errors %>.
         <% end %>
       </div>
     <% end %>
