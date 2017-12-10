@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.algorithm_description {
+  white-space: pre-wrap;
+}
+
 .test_process_wrapper {
 
   padding: 10px 15px 10px 15px;
@@ -92,6 +96,8 @@
 
         .description {
           display: none;
+
+          white-space: pre-wrap;
         }
       }
     }

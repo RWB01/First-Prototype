@@ -2,8 +2,7 @@
 
 <div class="matrix_type step_variable" data-variable-id="<%= matrix.id %>" data-variable-name="<%= matrix.name %>">
 
-  <h4>Имя переменной: <%= matrix_limitation[:name] %></h4>
-  <h4>Матрица <%= matrix_limitation[:rows] %>x<%= matrix_limitation[:columns] %></h4>
+  <h4>Имя переменной: <%= matrix_limitation[:name] %> (Матрица <%= matrix_limitation[:rows] %>x<%= matrix_limitation[:columns] %>) </h4>
 
   <!-- add row numbers-->
   <% matrix_limitation[:rows].times do |row| %>

@@ -2,9 +2,7 @@
 
 <div class="vector_type step_variable" data-variable-id="<%= vector.id %>" data-variable-name="<%= vector.name %>">
 
-  <h4>Имя переменной: <%= vector_limitation[:name] %></h4>
-  <h4>Вектор длины: <%= vector_limitation[:columns] %></h4>
-
+  <h4>Имя переменной: <%= vector_limitation[:name] %> (Вектор длины: <%= vector_limitation[:columns] %>)</h4>
   <!-- add row numbers-->
   <% vector_limitation[:rows].times do |row| %>
 

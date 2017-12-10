@@ -2,7 +2,9 @@
 
   <%= link_to "Вернуться к списку тестов", test_sessions_path %> <br/>
 
-  <%= @algorithm.description %>
+  <div class="algorithm_description">
+    <%= @algorithm.description %>
+  </div>
 
   <div class="test_process_wrapper">
 
