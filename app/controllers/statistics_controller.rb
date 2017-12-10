@@ -100,14 +100,14 @@ class StatisticsController < ApplicationController
         user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi']
       else
         if user_results_matrix[user_id]['qi'] == 0
-          user_results_matrix[user_id]['pi/qi'] = 1
+          user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['pi']
         else #user_results_matrix[user_id]['pi'] == 0
-          user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi']
+          user_results_matrix[user_id]['pi/qi'] = 0
         end
       end
       # user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi'] != 0 ?
       #     user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi'] : user_results_matrix[user_id]['pi']
-      user_results_matrix[user_id]['Oi'] = Math.log(user_results_matrix[user_id]['pi/qi'], Math::E)
+      user_results_matrix[user_id]['Oi'] = user_results_matrix[user_id]['pi/qi'] != 0 ? Math.log(user_results_matrix[user_id]['pi/qi'], Math::E) : 0
     end
 
 
@@ -127,20 +127,19 @@ class StatisticsController < ApplicationController
         question_data['pj/qj'] = question_data['pj']/question_data['qj']
       else
         if question_data['qj'] == 0
-          question_data['pj/qj'] = 1
+          question_data['pj/qj'] = 0
         else #question_data['pj'] == 0
           question_data['pj/qj'] = question_data['qj']
         end
       end
       # question_data['pj/qj'] = question_data['qj'] != 0 ? question_data['pj']/question_data['qj'] : question_data['pj']
-      question_data['Bj'] = Math.log(question_data['pj/qj'], Math::E)
+      question_data['Bj'] = question_data['pj/qj'] != 0 ? Math.log(question_data['pj/qj'], Math::E) : 0
       question_data['step_number'] = question_info['current_step_id']
       if question_info['errors_count'] == 0
-        aj = 0
+        question_data['aj'] = 0
       else
-        aj = Math.log(question_info['errors_count'], Math::E)
+        question_data['aj'] = Math.log(question_info['errors_count'], Math::E)
       end
-      question_data['aj'] = 1 + aj
 
       questions_coefficients[question_number] = question_data
     end
@@ -158,8 +157,8 @@ class StatisticsController < ApplicationController
     questions_coefficients.each do |key, value|
       graph_obj = Hash.new
       graph_obj['question'] = key
-      algorithm_difficulty += value['Bj'] * value['aj']
-      graph_obj['value'] = value['Bj'] * value['aj']
+      algorithm_difficulty += value['Bj'] + value['aj']
+      graph_obj['value'] = value['Bj'] + value['aj']
       questions_difficulty.push graph_obj
     end
 
@@ -198,6 +197,11 @@ class StatisticsController < ApplicationController
       format.js {render json: output_data.to_json}
     end
   end
+
+
+  ####################################
+  ####################################
+  ####################################
 
   def get_stats
     algorithm = Algorithm.find params[:algorithm_id]
@@ -282,12 +286,14 @@ class StatisticsController < ApplicationController
         user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi']
       else
         if user_results_matrix[user_id]['qi'] == 0
-          user_results_matrix[user_id]['pi/qi'] = 1
+          user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['pi']
         else #user_results_matrix[user_id]['pi'] == 0
-          user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi']
+          user_results_matrix[user_id]['pi/qi'] = 0
         end
       end
-      user_results_matrix[user_id]['Oi'] = Math.log(user_results_matrix[user_id]['pi/qi'], Math::E)
+      # user_results_matrix[user_id]['pi/qi'] = user_results_matrix[user_id]['qi'] != 0 ?
+      #     user_results_matrix[user_id]['pi']/user_results_matrix[user_id]['qi'] : user_results_matrix[user_id]['pi']
+      user_results_matrix[user_id]['Oi'] = user_results_matrix[user_id]['pi/qi'] != 0 ? Math.log(user_results_matrix[user_id]['pi/qi'], Math::E) : 0
     end
 
     questions_coefficients = Hash.new
@@ -303,19 +309,18 @@ class StatisticsController < ApplicationController
         question_data['pj/qj'] = question_data['pj']/question_data['qj']
       else
         if question_data['qj'] == 0
-          question_data['pj/qj'] = 1
+          question_data['pj/qj'] = 0
         else #question_data['pj'] == 0
           question_data['pj/qj'] = question_data['qj']
         end
       end
-      question_data['Bj'] = Math.log(question_data['pj/qj'], Math::E)
+      question_data['Bj'] = question_data['pj/qj'] != 0 ? Math.log(question_data['pj/qj'], Math::E) : 0
       question_data['step_number'] = question_info['current_step_id']
       if question_info['errors_count'] == 0
-        aj = 0
+        question_data['aj'] = 0
       else
-        aj = Math.log(question_info['errors_count'], Math::E)
+        question_data['aj'] = Math.log(question_info['errors_count'], Math::E)
       end
-      question_data['aj'] = 1 + aj
 
       questions_coefficients[question_number] = question_data
     end
@@ -340,7 +345,7 @@ class StatisticsController < ApplicationController
         user_array = Array.new
         user_array.push key
         value.each do |q_number, u_answer|
-          user_array.push (u_answer ? 1: 0)
+          user_array.push u_answer
         end
 
         csv << user_array
@@ -385,6 +390,13 @@ class StatisticsController < ApplicationController
       q_coef.push 'Bj'
       questions_coefficients.each do |key, value|
         q_coef.push value['Bj']
+      end
+      csv << q_coef
+      q_coef.clear
+
+      q_coef.push 'aj'
+      questions_coefficients.each do |key, value|
+        q_coef.push value['aj']
       end
       csv << q_coef
       q_coef.clear
